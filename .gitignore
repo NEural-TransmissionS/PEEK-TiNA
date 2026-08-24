@@ -13,7 +13,10 @@ weights/
 *.pt
 *.onnx
 
-# Vendored upstream checkouts (see .gitmodules for pinned commits/URLs);
-# not wired as real git submodules in this working copy, so ignore the
-# working files rather than committing 40MB+ of unpinned upstream code.
+# Vendored upstream checkouts (see .gitmodules for pinned commits/URLs).
+# third_party/PEEK is a real, pinned git submodule and is tracked.
+# ultralytics/yolov5 are not wired as real submodules in this working
+# copy, so ignore their working files rather than committing 40MB+ of
+# unpinned upstream code.
 third_party/*/
+!third_party/PEEK

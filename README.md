@@ -284,8 +284,31 @@ Capture validates the 128 frozen image hashes, reads only the train calibration 
 - [ ] Extend record-driven tables/figures to pruning and deployment results once those artifacts exist.
 - [ ] Replace every red/TBD statement in the draft only after its corresponding artifact exists.
 - [x] Add contributor guidance and a reproducibility release checklist.
-- [ ] Add a repository license and citation metadata after confirming distribution terms and the final author list.
+- [x] Add a repository license and citation metadata after confirming distribution terms and the final author list.
 
 ## Scope warning
 
 The manuscript is a useful hypothesis and work plan, but it currently mixes prior results, planned experiments, and architectural possibilities. This repository therefore favors traceability over filling gaps with assumptions. Until the unchecked protocol items above are resolved, outputs should be labeled exploratory and should not populate the final results table.
+
+## License
+
+Released under the [MIT License](LICENSE). Vendored upstream code under `third_party/` retains its own respective license.
+
+## Citation
+
+If you use this repository or its results, please cite:
+
+> B. J. Gisclair, M. Vaitkevicius, R. T. White, and M. Meni, "Topology-Guided PEEK-Based Pruning for Low-SWaP Spacecraft Component Detection," *AIAA SciTech 2027 Forum*, American Institute of Aeronautics and Astronautics, 2027 (to appear).
+
+```bibtex
+@inproceedings{gisclair2027topology,
+  title     = {Topology-Guided {PEEK}-Based Pruning for Low-{SWaP} Spacecraft Component Detection},
+  author    = {Gisclair, Blake J. and Vaitkevicius, Matas and White, Ryan T. and Meni, Mackenzie},
+  booktitle = {AIAA SciTech 2027 Forum},
+  publisher = {American Institute of Aeronautics and Astronautics},
+  year      = {2027},
+  note      = {To appear}
+}
+```
+
+Also see [`CITATION.cff`](CITATION.cff) for machine-readable citation metadata.

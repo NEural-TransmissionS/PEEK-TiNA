@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "This repository accompanies the paper below (to appear). If you use this software or its results, please cite it."
+title: "PEEK-TiNA: Topology-Guided PEEK Pruning"
+type: software
+license: MIT
+authors:
+  - family-names: Gisclair
+    given-names: "Blake J."
+    affiliation: "NEural TransmissionS (NETS) Lab, Florida Institute of Technology"
+  - family-names: Vaitkevicius
+    given-names: Matas
+    affiliation: "NEural TransmissionS (NETS) Lab, Florida Institute of Technology"
+  - family-names: White
+    given-names: "Ryan T."
+    affiliation: "NEural TransmissionS (NETS) Lab, Florida Institute of Technology"
+  - family-names: Meni
+    given-names: Mackenzie
+    affiliation: "RTX BBN Technologies"
+preferred-citation:
+  type: conference-paper
+  title: "Topology-Guided PEEK-Based Pruning for Low-SWaP Spacecraft Component Detection"
+  authors:
+    - family-names: Gisclair
+      given-names: "Blake J."
+      affiliation: "NEural TransmissionS (NETS) Lab, Florida Institute of Technology"
+    - family-names: Vaitkevicius
+      given-names: Matas
+      affiliation: "NEural TransmissionS (NETS) Lab, Florida Institute of Technology"
+    - family-names: White
+      given-names: "Ryan T."
+      affiliation: "NEural TransmissionS (NETS) Lab, Florida Institute of Technology"
+    - family-names: Meni
+      given-names: Mackenzie
+      affiliation: "RTX BBN Technologies"
+  collection-title: "AIAA SciTech 2027 Forum"
+  publisher:
+    name: "American Institute of Aeronautics and Astronautics"
+  year: 2027
