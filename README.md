@@ -15,30 +15,31 @@ This repository implements only the parts of the draft that are currently well s
 
 ## Setup
 
-Python 3.10+ is required.
+Requires Python 3.10+. One command:
 
 ```bash
-git clone --recurse-submodules <this-repository>
-cd topology-guided-pruning
-python -m venv .venv
-source .venv/bin/activate
-make setup
-make test
+git clone --recurse-submodules git@github.com:NEural-TransmissionS/PEEK-TiNA.git && cd PEEK-TiNA && python3.10 -m venv .venv && source .venv/bin/activate && make setup && make test
 ```
 
-If the repository was cloned without submodules:
+That clones with all three submodules, creates and activates a venv against a real system Python (not whatever `python`/`python3` happens to resolve to first on `PATH` — that can silently be a different project's venv), installs everything, and runs the test suite. If it was cloned without `--recurse-submodules`, fetch them after the fact with:
 
 ```bash
 git submodule update --init --recursive
 ```
 
-The pins are:
+All three `third_party/` dependencies are real, pinned git submodules — `git submodule status` shows the exact commit each one is checked out at:
 
 | Dependency | Location | Commit |
 |---|---|---|
 | Ultralytics YOLOv5 | `third_party/yolov5` | `84ef1e59e3ef0e35ae8e4fe8aef9e0ee16c852c1` |
 | Ultralytics / YOLO26 | `third_party/ultralytics` | `40eb41ac3032958ef54bece0d8b262e196af3259` |
-| Official PEEK | `third_party/PEEK` | `49d8531fdade2ebed425745d7928a2049f02c88e` |
+| Official PEEK | `third_party/PEEK` | `f4028e935077846112bf9dda4e821863c5f6609b` |
+
+Then point at the WSD dataset and generate `data/wsd.yaml` — see [WSD dataset mapping](#wsd-dataset-mapping) below:
+
+```bash
+make audit-wsd
+```
 
 ## WSD dataset mapping
 
