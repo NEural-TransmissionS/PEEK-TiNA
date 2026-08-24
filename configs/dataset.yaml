@@ -1,0 +1,7 @@
+# Location of the WSD Roboflow export (satellite_components v71).
+#
+# A relative path here is resolved against this repository's root, not the
+# current working directory -- so it's independent of where you invoke
+# scripts from. Override per-invocation with --source, or with the WSD_ROOT
+# environment variable (either takes priority over this file).
+wsd_root: ../datasets/satellite_components-71

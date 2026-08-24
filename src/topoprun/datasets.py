@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -11,6 +12,31 @@ import yaml
 
 CLASSES = ["antenna", "body", "solar", "thruster"]
 SPLITS = {"train": "train", "val": "valid", "test": "test"}
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_DATASET_CONFIG = REPO_ROOT / "configs/dataset.yaml"
+
+
+def resolve_wsd_root(explicit: Path | None = None, config: Path = DEFAULT_DATASET_CONFIG) -> Path:
+    """Resolve the WSD dataset root: --source, then WSD_ROOT, then configs/dataset.yaml.
+
+    A relative value from any of these is resolved against the repository
+    root, not the current working directory, so this behaves the same
+    regardless of where a script is invoked from.
+    """
+    if explicit is not None:
+        source = explicit
+    elif os.environ.get("WSD_ROOT"):
+        source = Path(os.environ["WSD_ROOT"])
+    else:
+        if not config.is_file():
+            raise SystemExit(
+                f"No dataset source given: pass --source, set WSD_ROOT, or add "
+                f"wsd_root to {config}"
+            )
+        source = Path(yaml.safe_load(config.read_text())["wsd_root"])
+    source = source.expanduser()
+    return source if source.is_absolute() else (REPO_ROOT / source).resolve()
 
 
 def audit_wsd(source: Path) -> dict:
@@ -48,10 +74,13 @@ def audit_wsd(source: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument(
+        "--source", type=Path, default=None,
+        help="Defaults to $WSD_ROOT, then configs/dataset.yaml's wsd_root",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    result = audit_wsd(args.source)
+    result = audit_wsd(resolve_wsd_root(args.source))
     counts = result.pop("counts")
     duplicate_groups = result.pop("exact_duplicate_groups")
     args.output.parent.mkdir(parents=True, exist_ok=True)

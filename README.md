@@ -48,13 +48,19 @@ WSD is distributed through Roboflow, not committed to this repository: project `
 Documents/
 ├── PEEK-TiNA/              (this repository)
 └── datasets/
-    └── satellite_components-71/   (the Roboflow export -- WSD_ROOT points here)
+    └── satellite_components-71/   (the Roboflow export)
 ```
 
-Set `WSD_ROOT` to that export containing `train/images`, `train/labels`, `valid/images`, and so on, then audit it and generate the machine-local Ultralytics YAML:
+That path is checked into [`configs/dataset.yaml`](configs/dataset.yaml) as `wsd_root: ../datasets/satellite_components-71` — relative entries there are resolved against this repository's root (not the current working directory or wherever a script happens to be invoked from), so no per-machine setup is needed if your export lives at the conventional sibling location. Audit it and generate the machine-local Ultralytics YAML:
 
 ```bash
-export WSD_ROOT=../datasets/satellite_components-71
+make audit-wsd
+```
+
+To point at a different export instead — a different machine, a different dataset version — override without touching the config: pass `--source` directly to the underlying script, or export `WSD_ROOT` first (either takes priority over `configs/dataset.yaml`):
+
+```bash
+export WSD_ROOT=/path/to/a/different/satellite_components-NN
 make audit-wsd
 ```
 
@@ -76,10 +82,9 @@ The source paper above is the authoritative reference for WSD acquisition and sy
 
 The accompanying [robustness metalabels](docs/wsd-v71-robustness-slices.csv) assign every image to one of three deterministic seed-42 clusters using standardized brightness, contrast, saturation, annotation count, normalized annotation area, and object extent. Box count is `log1p` transformed during clustering to prevent unusually dense images from forming a tiny outlier group. The resulting global slices are bright/large/many-part (389 images), bright/large/few-part (149), and dark/small/many-part (692). These are descriptive metadata slices—not spacecraft-identity labels—and must remain frozen before model comparisons. Per-split counts and centroids are recorded in the audit JSON.
 
-Recreate the review with:
+Recreate the review with (uses `configs/dataset.yaml`'s `wsd_root` by default, same as `make audit-wsd`):
 
 ```bash
-export WSD_ROOT=/path/to/satellite_components-71
 make review-wsd
 make audit-wsd-quality
 ```

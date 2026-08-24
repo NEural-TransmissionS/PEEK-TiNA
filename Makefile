@@ -13,14 +13,16 @@ test:
 lint:
 	ruff check src tests
 
+# Dataset source defaults to configs/dataset.yaml's wsd_root; override by
+# exporting WSD_ROOT first, or by passing --source directly to the script.
 audit-wsd:
-	wsd-audit --source "$${WSD_ROOT:?Set WSD_ROOT to the WSD dataset directory}" --output data/wsd.yaml
+	wsd-audit --output data/wsd.yaml
 
 review-wsd:
-	python scripts/review_wsd_duplicates.py --source "$${WSD_ROOT:?Set WSD_ROOT to the WSD dataset directory}" --output docs/wsd-v71-duplicate-review.json
+	python scripts/review_wsd_duplicates.py --output docs/wsd-v71-duplicate-review.json
 
 audit-wsd-quality:
-	python scripts/audit_wsd_quality.py --source "$${WSD_ROOT:?Set WSD_ROOT to the WSD dataset directory}"
+	python scripts/audit_wsd_quality.py
 
 collect-tuning:
 	python scripts/collect_tuning_results.py

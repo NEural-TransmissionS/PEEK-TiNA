@@ -7,11 +7,16 @@ import argparse
 import csv
 import hashlib
 import json
+import sys
 from collections import Counter
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageStat, UnidentifiedImageError
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from topoprun.datasets import resolve_wsd_root  # noqa: E402
 
 CLASSES = ["antenna", "body", "solar", "thruster"]
 SPLITS = {"train": "train", "val": "valid", "test": "test"}
@@ -107,13 +112,16 @@ def cluster_name(center: np.ndarray, medians: np.ndarray) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument(
+        "--source", type=Path, default=None,
+        help="Defaults to $WSD_ROOT, then configs/dataset.yaml's wsd_root",
+    )
     parser.add_argument("--output", type=Path, default=Path("docs/wsd-v71-quality-audit.json"))
     parser.add_argument("--metadata", type=Path, default=Path("docs/wsd-v71-robustness-slices.csv"))
     parser.add_argument("--clusters", type=int, default=3)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
-    source = args.source.expanduser().resolve()
+    source = resolve_wsd_root(args.source)
     rows, errors, class_counts = [], [], Counter()
     split_class_counts = {split: Counter() for split in SPLITS}
     split_counts = {}

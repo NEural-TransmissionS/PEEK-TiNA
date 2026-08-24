@@ -6,11 +6,16 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageOps
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from topoprun.datasets import resolve_wsd_root  # noqa: E402
 
 SPLITS = {"train": "train", "val": "valid", "test": "test"}
 
@@ -101,10 +106,13 @@ def review(source: Path, hash_distance: int = 2, correlation_threshold: float = 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument(
+        "--source", type=Path, default=None,
+        help="Defaults to $WSD_ROOT, then configs/dataset.yaml's wsd_root",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    report = review(args.source.expanduser().resolve())
+    report = review(resolve_wsd_root(args.source))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(
