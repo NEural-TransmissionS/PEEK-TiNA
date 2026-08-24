@@ -42,10 +42,19 @@ The pins are:
 
 ## WSD dataset mapping
 
-Set `WSD_ROOT` to a WSD export containing `train/images`, `train/labels`, `valid/images`, and so on, then audit it and generate the machine-local Ultralytics YAML:
+WSD is distributed through Roboflow, not committed to this repository: project `satellite_components`, version 71, private (`forairoboflow-gmail-com` workspace). Export it as "YOLOv5 PyTorch" (any YOLO TXT-annotation export — YOLOv5/YOLOv8/YOLO11 — produces the identical `train/valid/test` + `images/`/`labels/` directory structure this repo expects; the accompanying `data.yaml` each export bundles is ignored, since `make audit-wsd` below regenerates its own from the directory layout alone). The convention used throughout this README and every script default is that the export lives as a sibling of this repository, not inside it:
+
+```
+Documents/
+├── PEEK-TiNA/              (this repository)
+└── datasets/
+    └── satellite_components-71/   (the Roboflow export -- WSD_ROOT points here)
+```
+
+Set `WSD_ROOT` to that export containing `train/images`, `train/labels`, `valid/images`, and so on, then audit it and generate the machine-local Ultralytics YAML:
 
 ```bash
-export WSD_ROOT=/path/to/satellite_components-71
+export WSD_ROOT=../datasets/satellite_components-71
 make audit-wsd
 ```
 
