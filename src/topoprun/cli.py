@@ -8,6 +8,7 @@ import pickle
 from pathlib import Path
 
 import numpy as np
+from joblib import Parallel, delayed
 
 from .peek_adapter import to_peek_map
 from .topology import persistence_diagrams, summarize_diagrams
@@ -65,6 +66,12 @@ def main() -> None:
         help="Directory for filtration frames/heatmap (single-input mode), or a root "
              "mirroring the input tree per file (directory mode)",
     )
+    parser.add_argument(
+        "--jobs", type=int, default=-1,
+        help="Directory mode only: parallel workers (joblib convention: -1 = all "
+             "cores, 1 = sequential). GUDHI's C++ core releases the GIL, so this "
+             "uses threads, not processes.",
+    )
     args = parser.parse_args()
 
     if args.input.is_dir():
@@ -73,7 +80,8 @@ def main() -> None:
         paths = sorted(args.input.rglob("*.npy"))
         if not paths:
             raise SystemExit(f"No .npy PEEK maps found under {args.input}")
-        for path in paths:
+
+        def _process_and_write(path: Path) -> None:
             relative = path.relative_to(args.input)
             result = _run_one(
                 path,
@@ -85,6 +93,10 @@ def main() -> None:
             out_path = args.output / relative.with_suffix(".json")
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_text(json.dumps(result, indent=2) + "\n")
+
+        Parallel(n_jobs=args.jobs, prefer="threads")(
+            delayed(_process_and_write)(path) for path in paths
+        )
         print(f"Wrote TDA results for {len(paths)} PEEK maps to {args.output}")
         return
 
