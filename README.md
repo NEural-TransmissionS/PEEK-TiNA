@@ -195,6 +195,33 @@ python scripts/compare_peek_topology.py --reference-root artifacts/peek/referenc
 
 Capture validates the 128 frozen image hashes, reads only the train calibration set, and refuses to overwrite existing map groups. Comparison requires complete coverage for modules `[4, 6, 10, 16, 19, 22]` and dimensions 0/1, then reports image-level bootstrap intervals and equal-weight overall drift. The dependency rules, matched-compute ablations, acceptance gates, and record schema are frozen in [`configs/pruning_yolo26.yaml`](configs/pruning_yolo26.yaml) and [`docs/pruning-protocol.md`](docs/pruning-protocol.md). Checkpoint-dependent graph surgery remains pending the selected model checkpoint.
 
+### Full-dataset exploratory pipeline
+
+The pruning comparison above is deliberately narrow: 128 frozen train images, 6 frozen modules. For broader, exploratory topology analysis of a checkpoint — every image, every architecturally valid module — three small scripts run in sequence, each doing one job and handing off to the next through plain files on disk:
+
+```bash
+# 1. Extract raw post-activation latents (one pickle per image, all splits, all
+#    modules the architecture supports for PEEK by default)
+python scripts/capture_latents.py \
+  --weights runs/baseline_nano/yolo26n_pretrained_seed42/weights/best.pt \
+  --output-root artifacts/peek/yolo26n_pretrained/latents --device 0
+
+# 2. Convert those latents into PEEK maps (one .npy per image/module)
+python scripts/save_peek_maps.py \
+  --latents-root artifacts/peek/yolo26n_pretrained/latents \
+  --output-root artifacts/peek/yolo26n_pretrained/peek_maps
+
+# 3. Run topological data analysis (persistent homology) on every PEEK map
+topoprun artifacts/peek/yolo26n_pretrained/peek_maps \
+  --output artifacts/peek/yolo26n_pretrained/tda
+```
+
+Step 1 is a thin wrapper around PEEK's own `peek.extractors.ultralytics.extract_ultralytics_latents` — it doesn't reimplement hook management, only resolves which dataset split maps to which directory and makes sure the checkpoint runs through *this* project's pinned Ultralytics build rather than PEEK's own bundled copy (PEEK now prefers an already-imported `ultralytics` over its vendored one for exactly this reason). By default it captures every module `docs/yolo26n-peek-module-inventory.json` marks `peek_compatible` (23 of the architecture's 24 top-level modules — everything except the `Detect` head, whose decoded-prediction output isn't a spatial map). Pass an explicit `--modules` list to narrow it; requesting a non-spatial module there is not silently dropped — step 2 raises immediately, naming the module and its shape, rather than producing a meaningless PEEK map for it.
+
+Step 3's `topoprun` command accepts either one file (original usage, above) or a directory, in which case it recursively finds every PEEK map under it, computes persistence diagrams and summaries for each, mirrors the input tree into `--output` as JSON, and runs across all CPU cores in parallel via `joblib` (GUDHI's C++ core releases the Python GIL during computation, so this is thread-based, not multiprocessing — verified to produce byte-identical output to running it single-threaded). Pass `--jobs 1` to force sequential.
+
+One thing worth knowing when comparing results across modules: PEEK map resolution ranges from 15x20 (300 cells; several of the deepest modules, including two of the frozen six above) up to 240x320 (76,800 cells; the stem). Persistent homology is well-defined at every size, but raw feature counts in a persistence diagram scale with grid resolution — a 300-cell map simply cannot produce as many independent topological features as a 76,800-cell one, independent of how complex the underlying signal is. Compare the normalized summary statistics (`summarize_diagrams`'s mean/max persistence), not raw diagram sizes, across modules of different depth.
+
 ## Proposed experiment flow
 
 1. Freeze WSD splits and matched YOLOv5/YOLO26 baselines.
