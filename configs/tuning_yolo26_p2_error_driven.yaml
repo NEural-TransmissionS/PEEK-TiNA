@@ -1,0 +1,44 @@
+experiment: wsd_yolo26n_p2_pretrained_error_driven
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained]
+output: runs/tuning_yolo26_p2_error_driven
+
+# Official P2/4 head directly targets the observed sub-1%-area failure mode.
+# Native YOLO26n pretrained remains the reference candidate.
+trials:
+  - name: p2_native
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+  - name: p2_classification_mild
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      cls: 0.75
+  - name: p2_reduced_scale_jitter
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      scale: 0.25
+  - name: p2_moderate_multiscale
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      multi_scale: 0.25
+      scale: 0.30
+
+models:
+  - family: yolo26
+    name: yolo26n_p2
+    weights: yolo26n.pt
+    config: yolo26n-p2.yaml
+    initialize_architecture: true

@@ -1,0 +1,7 @@
+# Deployment measurement protocol
+
+Desktop measurements are explicitly proxy measurements and never occupy Jetson result columns. `profile_detector.py` reports raw model-forward parameter count, serialized checkpoint size, MACs/FLOPs, process RSS, CUDA allocated memory, and latency. It excludes decode, resize/letterbox, host-device transfer, NMS, and rendering. The frozen desktop setting is batch 1, 640 px, FP32, 50 warm-up forwards, and 200 measured forwards; report median, p90, p95, and p99.
+
+Physical Jetson Orin Nano measurements use batch 1 and 640 px with TensorRT FP16 engines generated from the same selected checkpoint and fixed input shape. Record JetPack, TensorRT, CUDA, cuDNN, ONNX opset, engine build command/hash, device serial class, storage medium, and ambient conditions. Use the highest supported fixed power mode, run `jetson_clocks`, allow a five-minute thermal stabilization period, perform 100 warm-up inferences, and measure 1,000 end-to-end trials including preprocessing, transfer, inference, and NMS. Report median/p90/p95/p99 latency, FPS from total elapsed time, peak CPU/GPU memory, temperature range, and power sampled with `tegrastats`. Repeat three trials after engine construction; do not include engine build time.
+
+Also report a raw-engine timing subsection so compute-only behavior can be separated from the end-to-end pipeline. Never compare PyTorch FP32 desktop latency directly with TensorRT FP16 Jetson latency without labeling the runtime and precision difference.

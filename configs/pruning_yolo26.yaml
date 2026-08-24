@@ -1,0 +1,60 @@
+experiment: yolo26n_topology_guided_structured_pruning_v1
+status: frozen_before_pruning_outcomes
+reference:
+  family: yolo26
+  architecture: yolo26n
+  initialization: pretrained
+  checkpoint: null  # Supplied after validation-only model selection is finalized.
+  selection_metric: validation_mAP50-95
+  calibration_manifest: docs/wsd-v71-peek-calibration.json
+
+pruning:
+  # Post-block PEEK modules frozen before pruning outcomes.
+  modules: [4, 6, 10, 16, 19, 22]
+  homology_dimensions: [0, 1]
+  target_flops_reductions: [0.10, 0.20, 0.30, 0.40, 0.50]
+  methods: [magnitude, random, peek_variance, topology]
+  matched_compute_unit: measured_raw_forward_flops
+  dependency_engine: pending_checkpoint_integration
+  structural_unit:
+    kind: dependency_grouped_output_channels
+    physically_remove_parameters: true
+    preserve_tensor_shapes_at_add: true
+    propagate_channel_indices_through_concat: true
+    couple_normalization_with_producer: true
+    forbidden:
+      - detect_prediction_outputs
+      - unmatched_residual_branches
+      - standalone_normalization_channels
+      - attention_embeddings_without_dependency_propagation
+  acceptance:
+    compute_tolerance: 0.01
+    maximum_map_drop: 0.02
+    maximum_bottleneck: 0.10
+    maximum_wasserstein_2: 0.15
+    minimum_peek_variance_retention: 0.80
+  # Lower is better. Terms are normalized by their corresponding gate.
+  score_weights:
+    accuracy: 0.40
+    bottleneck: 0.20
+    wasserstein_2: 0.15
+    peek_variance: 0.15
+    compute_match: 0.10
+  aggregation:
+    independent_unit: image
+    module_weighting: equal
+    bootstrap_resamples: 10000
+    bootstrap_seed: 42
+
+fine_tuning:
+  selection_split: val
+  test_split_used: false
+  seed: 42
+  deterministic: true
+  image_size: 640
+  batch_size: 16
+  workers: 8
+  maximum_epochs: 1000
+  patience: 100
+  optimizer: auto
+  schedule: native_yolo26_pretrained

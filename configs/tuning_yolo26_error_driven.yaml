@@ -1,0 +1,46 @@
+experiment: wsd_yolo26n_pretrained_error_driven
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained]
+output: runs/tuning_yolo26_error_driven
+
+# Frozen from validation-only error analysis. Native pretrained is candidate 0.
+# Test data was not read while defining these hypotheses.
+trials:
+  - name: classification_emphasis
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      cls: 1.0
+  - name: localization_emphasis
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      box: 10.0
+      dfl: 2.0
+  - name: multiscale_small_objects
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      multi_scale: 0.5
+      scale: 0.3
+  - name: multiscale_classification
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      multi_scale: 0.5
+      scale: 0.3
+      cls: 0.75
+
+models:
+  - family: yolo26
+    weights: yolo26n.pt
+    config: yolo26n.yaml

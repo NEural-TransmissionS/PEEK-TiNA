@@ -1,0 +1,81 @@
+experiment: wsd_nano_tuning
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained, scratch]
+output: runs/tuning_nano
+
+# The completed native-default baseline is candidate 0. These candidates are
+# evaluated on WSD validation only. The held-out test split is not read here.
+trials:
+  - name: low_lr_light_geometry
+    yolov5:
+      lr0: 0.005
+      lrf: 0.05
+      weight_decay: 0.0005
+      translate: 0.05
+      scale: 0.30
+      mosaic: 0.75
+      mixup: 0.0
+    yolo26:
+      optimizer: SGD
+      lr0: 0.005
+      lrf: 0.05
+      weight_decay: 0.0005
+      translate: 0.05
+      scale: 0.30
+      mosaic: 0.75
+      mixup: 0.0
+  - name: adamw_light_geometry
+    yolov5:
+      optimizer: AdamW
+      lr0: 0.001
+      lrf: 0.05
+      weight_decay: 0.001
+      translate: 0.05
+      scale: 0.30
+      mosaic: 0.75
+      mixup: 0.0
+    yolo26:
+      optimizer: AdamW
+      lr0: 0.001
+      lrf: 0.05
+      weight_decay: 0.001
+      translate: 0.05
+      scale: 0.30
+      mosaic: 0.75
+      mixup: 0.0
+  - name: sgd_strong_regularization
+    yolov5:
+      lr0: 0.01
+      lrf: 0.01
+      weight_decay: 0.001
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.05
+    yolo26:
+      optimizer: SGD
+      lr0: 0.01
+      lrf: 0.01
+      weight_decay: 0.001
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.05
+
+models:
+  - family: yolov5
+    weights: yolov5n.pt
+    config: third_party/yolov5/models/yolov5n.yaml
+    base_hyp: third_party/yolov5/data/hyps/hyp.scratch-low.yaml
+  - family: yolo26
+    weights: yolo26n.pt
+    config: yolo26n.yaml

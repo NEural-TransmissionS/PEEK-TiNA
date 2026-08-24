@@ -1,0 +1,32 @@
+experiment: wsd_yolo26n_cls075_confirmation
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained]
+output: runs/confirmation_yolo26_cls075
+
+# Paired confirmation of the native baseline and validation-selected winner.
+# Seeds 42-46 are frozen; test data remains untouched during confirmation.
+trials:
+  - name: native
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+  - name: cls075
+    yolov5: {}
+    yolo26:
+      optimizer: auto
+      cls: 0.75
+
+models:
+  - family: yolo26
+    name: yolo26n
+    weights: yolo26n.pt
+    config: yolo26n.yaml

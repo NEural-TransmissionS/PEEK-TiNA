@@ -1,0 +1,117 @@
+{
+  "method": {
+    "exact": "SHA-256 of encoded image bytes",
+    "perceptual_screen": "64-bit grayscale difference hash at 9x8",
+    "screen_max_hamming_distance": 2,
+    "confirmation": "normalized grayscale correlation after 128x128 resize",
+    "confirmation_min_correlation": 0.98,
+    "scope": "all cross-split image pairs"
+  },
+  "images": 1230,
+  "split_fingerprints_sha256": {
+    "train": "a3fe1fbe9e709609db9bfff84f763bf2d99d250c81d3594433c2550bda0363c9",
+    "val": "46c85688a32b0c5dedc88d520f2aea5d319a4e80472b0d5d79cd1d742978ff11",
+    "test": "4a1550c8f01c1101d912512e86e3fdf271cee11242f9573458c7a5047aecd03f"
+  },
+  "exact_duplicate_groups": [],
+  "perceptual_candidates": [
+    {
+      "first": "train/Antenna_217_jpg.rf.94c0bd8aaf0a64a25c956d12e86ed358.jpg",
+      "second": "val/Antenna_4_jpg.rf.6381d792ab4c98a96bdef656cc83a4f3.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.5719712376594543
+    },
+    {
+      "first": "train/Antenna_217_jpg.rf.94c0bd8aaf0a64a25c956d12e86ed358.jpg",
+      "second": "val/Body_30_jpg.rf.7b24acb861c89b7de7dc41fccf1df297.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.8620293736457825
+    },
+    {
+      "first": "train/Antenna_241_jpg.rf.122e5af592cca6d2a15bbf9f3341c8d4.jpg",
+      "second": "val/Body_13_jpg.rf.fd33a82089b92be7bcd4d98bb1fed4d2.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.43572211265563965
+    },
+    {
+      "first": "train/Antenna_248_jpg.rf.f7da12e71dfbc43130834994a0f573f6.jpg",
+      "second": "val/Body_7_jpg.rf.f92faba086a195d71fd6911a6fa85df8.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.7958865761756897
+    },
+    {
+      "first": "train/Body_83_jpg.rf.f8649ff837e260f2554158dfacbc1a57.jpg",
+      "second": "val/Antenna_4_jpg.rf.6381d792ab4c98a96bdef656cc83a4f3.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.759776771068573
+    },
+    {
+      "first": "train/Body_83_jpg.rf.f8649ff837e260f2554158dfacbc1a57.jpg",
+      "second": "val/Antenna_74_jpg.rf.a87b129db5729bd291aadc147c228be4.jpg",
+      "dhash_distance": 0,
+      "normalized_correlation": 0.5816484689712524
+    },
+    {
+      "first": "train/Thruster_136_jpg.rf.9d3dcd7306b1ece0309fb7dadef71f5d.jpg",
+      "second": "val/Antenna_25_jpg.rf.7b3c32583dd8a14e7449a2b3019bc912.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.558908998966217
+    },
+    {
+      "first": "train/Thruster_136_jpg.rf.9d3dcd7306b1ece0309fb7dadef71f5d.jpg",
+      "second": "val/Antenna_4_jpg.rf.6381d792ab4c98a96bdef656cc83a4f3.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.742882251739502
+    },
+    {
+      "first": "train/Thruster_136_jpg.rf.9d3dcd7306b1ece0309fb7dadef71f5d.jpg",
+      "second": "val/Antenna_74_jpg.rf.a87b129db5729bd291aadc147c228be4.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.7096956968307495
+    },
+    {
+      "first": "train/Thruster_176_jpg.rf.52482c04fe0bf1b0c3dd7d93d41bcd0e.jpg",
+      "second": "val/Antenna_74_jpg.rf.a87b129db5729bd291aadc147c228be4.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.612527072429657
+    },
+    {
+      "first": "train/Thruster_176_jpg.rf.52482c04fe0bf1b0c3dd7d93d41bcd0e.jpg",
+      "second": "val/Antenna_79_jpg.rf.104c1e911ca32d062f181258fc189054.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.38994652032852173
+    },
+    {
+      "first": "train/Thruster_19_jpg.rf.fb9a6de33536a2d362ddc6c9ba39fda7.jpg",
+      "second": "val/Antenna_25_jpg.rf.7b3c32583dd8a14e7449a2b3019bc912.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.7106494903564453
+    },
+    {
+      "first": "train/Thruster_19_jpg.rf.fb9a6de33536a2d362ddc6c9ba39fda7.jpg",
+      "second": "val/Antenna_60_jpg.rf.c9c8efa9588bd3b18c7e36fb09268fbf.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.8890877962112427
+    },
+    {
+      "first": "train/Thruster_210_jpg.rf.1d11c54b17e9e4b0b2df412bfa0ffb76.jpg",
+      "second": "val/Antenna_25_jpg.rf.7b3c32583dd8a14e7449a2b3019bc912.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.6641753315925598
+    },
+    {
+      "first": "train/Thruster_210_jpg.rf.1d11c54b17e9e4b0b2df412bfa0ffb76.jpg",
+      "second": "val/Antenna_59_jpg.rf.81222c4f6b7f0fc9e38bf6f8aa742741.jpg",
+      "dhash_distance": 2,
+      "normalized_correlation": 0.6737256050109863
+    },
+    {
+      "first": "train/Thruster_210_jpg.rf.1d11c54b17e9e4b0b2df412bfa0ffb76.jpg",
+      "second": "val/Antenna_60_jpg.rf.c9c8efa9588bd3b18c7e36fb09268fbf.jpg",
+      "dhash_distance": 1,
+      "normalized_correlation": 0.7960374355316162
+    }
+  ],
+  "confirmed_near_duplicate_pairs": [],
+  "conclusion": "No exact or confirmed near-duplicate cross-split pairs."
+}

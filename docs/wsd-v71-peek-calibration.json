@@ -1,0 +1,1186 @@
+{
+  "dataset": "WSD v71 train split",
+  "seed": 42,
+  "count": 128,
+  "selection": "round-robin over robustness-slice and rarest-present-class strata; SHA-256(seed:image) order within strata",
+  "correct_detections_only": false,
+  "empty_scene_policy": "background stratum retained when selected by round-robin",
+  "items": [
+    {
+      "image": "Antenna_201_jpg.rf.0fdb095f702017af6b2fbad5ed5e294f.jpg",
+      "sha256": "bf154aa051345c5d55224ae0b681ffe0bf12c3f80238ec7cbeee302d293a8ec6",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "antenna",
+        "body"
+      ]
+    },
+    {
+      "image": "Solar_Array_116_jpg.rf.f80b063f5db3039f391dd99b21806851.jpg",
+      "sha256": "5b589d8764d57b46454adc4d8922b441a2d8eaeae6e13543ec2ad80e3bdc34e5",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "body"
+      ]
+    },
+    {
+      "image": "Solar_Array_16_jpg.rf.53287bd61401b8150114452a44839d65.jpg",
+      "sha256": "2151f9d67761ad94a81a8489b83ad4afe1433a7a3e6cec86b854652cd9fe9551",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-14_jpg.rf.bbe5e4b0add602317c3364e869a63942.jpg",
+      "sha256": "42924a96681a37006b308b431f6b0e4b277a8cf2a8bec1098b96d03c7eeffccf",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_104_jpg.rf.3cb3ce5a2bfb9f434ebb788fcde8cb2c.jpg",
+      "sha256": "9a6daf62d643f780307c199b9882fdfa6c60dcaad0fcfb18986555fbf64aa39b",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_117_jpg.rf.776c5d480029304641a5ddeb645e1811.jpg",
+      "sha256": "2544802a27b3802f266b2e6fb1a14918d68c7c1c5f75f311ad550c52a7b09381",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_16_jpg.rf.e389ce3e6aba5abc12ff2c6085e76591.jpg",
+      "sha256": "0cbb901f72002a6c100bf74c87cc4d843f572ccb009d0a15705b3392a953f883",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_275_jpg.rf.6096a1e4962228d1728969a6bd9ed574.jpg",
+      "sha256": "e130cd29337459ec7f18d6d0c9fd41361f1b2200e8200385b271dd130228ac17",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "lg_plasma-thruster-mdash-smaller-cheaper-rocket_jpg.rf.32b6522a9a07ac21fb542e666e7b39f3.jpg",
+      "sha256": "2043c11f567ec1c242fb5db31b8e1edb3bb25b71f3adba6bfbdd1fb3349b64ad",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Thruster_73_jpg.rf.2516c450c7cf037acb3e695f5f09734e.jpg",
+      "sha256": "0fd881e1648fa5f019e4511493c04820f2d02c83635ef734ee3ac323ad820c8e",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body"
+      ]
+    },
+    {
+      "image": "Thruster_14_jpg.rf.d753ee870cd02c6a25b745a8cdafb20d.jpg",
+      "sha256": "d7452909cbb019f57fb28ba8af2186bd57adadb002f45645fb1b6ed9273112f9",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Antenna_148_jpg.rf.08f858cea831ad8f47476728d97cdc7c.jpg",
+      "sha256": "5f76742628acf6cadc842aeb4eca755d38b455904629225f9e80042c68ca513f",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Body_90_jpg.rf.0a9a14d1bf78dcda66177d6997970537.jpg",
+      "sha256": "024e9e6ebbceedfe76e4cac34b936eeccb5fd8618ac6cb5024994b80dd4f4692",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "body"
+      ]
+    },
+    {
+      "image": "Solar_Array_137_jpg.rf.34ba1f77ec4a8160a63abbaa26cac622.jpg",
+      "sha256": "80fbae0c05dc4bc37067f661e601208615c2fd7019a10e25a2dd3a7131e5fb20",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-41_jpg.rf.c2589d725750217957beec68a9f42d25.jpg",
+      "sha256": "e5b512479c6d80b14921ccfc15d5330f5d2fc2cae1de513a11febef38668ccaf",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_163_jpg.rf.fb5329479dadea12422dbc7ec11578ab.jpg",
+      "sha256": "c7552586c8d77c4b0061c6ecb0cdd30346ecbe1bb5ae49379d2a1faf3e03bbdc",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_153_jpg.rf.db015a73967129be27620866f530f4e9.jpg",
+      "sha256": "85a6ebdcd3fa0e89efa7d579a7aa884eac4051b41c5a75771fc062daf48903c2",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "NG7_jpg.rf.4a092cd1653e345ac677f44badf70ef3.jpg",
+      "sha256": "3ec9c5299a10ffc9341d0f1dfecef0123e7d1d42a43e01ff7ec7d168b57fdb9e",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "jD2SKkg_png.rf.fb314a99825ec17d5ec6f2ff904d74df.jpg",
+      "sha256": "14d083271f3ad2d0b8feb12ebad2efd5dedf7256142de8a5961f68ed4f50cfd9",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Gemini_RCS_thruster_600_jpg.rf.8c5cea22a0b173a22fdecc34d694dec4.jpg",
+      "sha256": "c865a8b27c69f1c66aa35b9c19285535ca1d6e39f524ae1e70cd482326326da9",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Thruster_170_jpg.rf.73a886ad603f4265a95847c6e05610ea.jpg",
+      "sha256": "05ec79e8679c4cb0d0b44543bfafdbc56b4ea4acfb7e118688048c08be3e5c0b",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_59_jpg.rf.3189a83c13ace6a2721410748d10a892.jpg",
+      "sha256": "ce1183a674021fcfc1dcb28eb87a27a595cfed6d3c1b1c8f0c3d565f0323a567",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_12_jpg.rf.9656f00441eb185e9a12c219d0b0a140.jpg",
+      "sha256": "5921f82210f63f57260580a593c9f095557d4984008a466bfea4d68476061888",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_275_jpg.rf.e05c0a6d030b9d298ee8c3db733336a0.jpg",
+      "sha256": "de998befda384deea369370619c20800b92f748b702ef54bb90a53816cf88e4e",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_169_jpg.rf.63a0df0b09ed8bc4056a3df73783cb27.jpg",
+      "sha256": "adde8918ab969bfbc00b4dd4df0e1807944ba02171d0a36ee1636cf935549ee9",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_142_jpg.rf.c21b3054c2a191f2fd6a6cd829a6cd75.jpg",
+      "sha256": "91a4d6a8351d8c746b81b75d23aee400748755b39c1cb7e37aec905979d64ad6",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "55c0ab50627fecec10f96a5477319cc3_jpg.rf.612c538ae30492d1a19817f9c600691c.jpg",
+      "sha256": "54b683d1befcdf7243ab78588e2e390eb3501120b021a88d14e97829f569ddcd",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "8737463b866d51defa7dbfb24c516dca_png.rf.ab41c3b9f7d230e11f1a6aea67c54fd5.jpg",
+      "sha256": "b78090049df04b217c350e174702d599b239a6ba66d479e31ebfa4ed2ccb87fc",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "30648777498_6b0074fdf4_o_jpg.rf.a6ce3339db4e559173cef7fe0614696f.jpg",
+      "sha256": "a74532aa8ace079d53df5489a78648f4f87e2e6f9ae925f9fc17c7191a759f13",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Solar_Array_151_jpg.rf.1a3b531430291b25dbbf52089f227dbd.jpg",
+      "sha256": "456e8bff58c16587ef094c3db93a570e3b3faedc8811ad28c7289c735fdea4aa",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_235_jpg.rf.68fec69f3d4f89ede250598a3aec799d.jpg",
+      "sha256": "ddeed463405f12add56dd37468d9030d11797d5073ee9ad296fe321fb1787f6e",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "OE17_jpg.rf.0004716d7c0249c8a8809b8dcdacdb77.jpg",
+      "sha256": "dc74678022895aefb647c7f868a256a4254344e5eb1cc1b4274628a8056e991a",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-6_jpg.rf.384d4c2c0061dde1066b0a2207a64d10.jpg",
+      "sha256": "1f3b8e74b7cc5f954cf70e998905a5e0edbce590a9d7c09e9ee41c4df5fa84a7",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_159_jpg.rf.f98242ec20c515c652fa527ef8e431d7.jpg",
+      "sha256": "7a90a14221e1111840afdebb3a8ffcf4a33657302e67b919c3df2a212cc4c463",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_128_jpg.rf.709ff73a1c35de17f246ec9080024b72.jpg",
+      "sha256": "b052f036ec9ba88b02eb89b1ce302f01ca7df06ea79857ca3000ae03d4728ecf",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "NG15_jpg.rf.bd72a642243ea6d29ba758d325d477b9.jpg",
+      "sha256": "a7c3231e7ddd710277608bebaea755c5b251abc5116534f4d84200aaf1238600",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_237_jpg.rf.54b0399c00544425be477a5642fe052b.jpg",
+      "sha256": "9cd79b25406fc16c0daadea45ec1e8409452f437daa2ad4ed5ddc7bf3764a5af",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Rc40c20ae66235b2c5926ffcae19046e2_jpeg.rf.aaee555b8caa1d72961e3f41ce02385f.jpg",
+      "sha256": "9ecdaf2e744bfd8dc6fa2b802ce11ec46588e236de1c0016268cbe687d9187bc",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Body_73_jpg.rf.d7a6bbb2a94245287e06e9df9961f4ef.jpg",
+      "sha256": "757a33599d1e7b248d9cbebb2d755fa5a5818a264373adbc89db3035120fdb9e",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_39_jpg.rf.5128d6e69deb8fc5f615718d49a9ddee.jpg",
+      "sha256": "11fb9a73d940aa51397e131944981d4fcff1e02a28ec97bc6407d9afcacdc5f5",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_174_jpg.rf.776cb4259fd9d26bf4ee360d22f2846a.jpg",
+      "sha256": "063c5af8dc788146f4e009a31dded69d4047b17e5897e89572c9d1a4a4194383",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "NG30_jpg.rf.910fe1fc372d19a89054ab09b7ace8d5.jpg",
+      "sha256": "98eac4f076a37349661595d62321470f373d344a9a8a54f044ca976af1eb3eb4",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "body",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_126_jpg.rf.02d45b8ea28186461308f5a10177dc32.jpg",
+      "sha256": "4c3c6c99de56e23c1c6d19940496db648f31878a4eca5a953bc659337114d539",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_118_jpg.rf.a5b2dbae6c322aea4ed4770b05607a13.jpg",
+      "sha256": "a7ce438c106d11cc2226b1dfcd50473a15cc14cb5ec3b8baee25afcdcb400009",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-56_jpg.rf.6d680f76958d071a71356ca461fda15d.jpg",
+      "sha256": "90353227994e907c7281cd727fa3c1060bf7a521c9cc1e55e60f4c522652a70e",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Thruster_1_jpg.rf.15d8b986a46b547f7a183a9ff8084219.jpg",
+      "sha256": "0d08ef160b323979cf2b5f5e921be5551e628fe050b3eea10def8c879add81d1",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "R5b906f33d29c7e0cfb81954a10b24eff_jpeg.rf.abd85971c4dd8e986d1f80e6df4c2a69.jpg",
+      "sha256": "9232aea8d9c6f518479fcd386df46ee42c5e5ea697ed325b393c264f3a4cf26c",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Thruster_234_jpg.rf.2d413605e7d2a7933c45a259142ba65b.jpg",
+      "sha256": "f29d2d09c58da147aa5a263669474660001249405b0e6544d012d6b617d4cf88",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "NG18_jpg.rf.060fbb1a785bf41ded2b02fc09ae129e.jpg",
+      "sha256": "c91d1fe1b4a8b535880ebe6c205b371fba3b188ee2f631d6153d186571ad62b3",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_148_jpg.rf.04fcd7d16233331ec411524b38b116f1.jpg",
+      "sha256": "ee9fe4866943e3e9db62565b21006964ef84cc89f81c45358049f42f8e103553",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-64_jpg.rf.dfb49fc3d82616960e7f9a4b03e9ac34.jpg",
+      "sha256": "75037d37bfcefe2b56bf645c32807ea660d4c83ad645284ef3e899aeb55a67da",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_133_jpg.rf.3225e70441beae1156335a14d215530e.jpg",
+      "sha256": "731a9e2e41b999ff14ad6df858dd757ecd221754555d522d0d720c841e9c16f5",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Body_108_jpg.rf.7d71122c3d4ce5a8563cb2257c3ccb7f.jpg",
+      "sha256": "8ddb6915b50854ba0c2e38d3352955569a9d7c29e4bbcba972eb7b6baef20cc7",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-31_jpg.rf.8954efcb15f5ee4cd2ab1ceb5c6abf66.jpg",
+      "sha256": "ea512cacceeea24a79977760b53c31fcc06cff3694e718c2fbfb6be7169933da",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_181_jpg.rf.c93d67187164c191e7127566cc023c49.jpg",
+      "sha256": "623e1402d352c8f639998712319ec6f114c1839d40894c66197c30dc79773a9e",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Rf56a89f6e8b4abd794f83d264c8d2ae0_jpeg.rf.2cec23413695f685400be1d2df40d8af.jpg",
+      "sha256": "7b3ba3ad3843d973681969be8144276ec2a550f2553ebf21030bf81d0c2aad41",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Solar_Array_17_jpg.rf.853f18617ab04ef9364b41e11c8f32c1.jpg",
+      "sha256": "46c9f5d5eafdc402cbd09a34891772f5debaead82961de70025920061f25591d",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_108_jpg.rf.4d3d9d224302ba885c93f94138b19821.jpg",
+      "sha256": "781a93a9fce66bbac8d214494765c9811d3a5d99f8909e91be93e9bff9b85b79",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Nozzle-12_jpg.rf.718fcf4644d3f730784a70a6ccad0f1a.jpg",
+      "sha256": "47b729bfa17e97133de06f4847f60b9fc0d046f7566e9be6d44b43acec7d1270",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "imagesqtbnANd9GcRwZL1NaAycep4TzcTfYmbMR8hN0WzkNo7rjwusqpCAU_jpg.rf.aaba54d1af1717b3a1fd882a7eeeaeaa.jpg",
+      "sha256": "ec4f1d846ee1172a1daf01705f5a37627f471a96b830fe9d988d87e451e4d129",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_150_jpg.rf.850fb38339994d85e079ca258b601610.jpg",
+      "sha256": "6e7a7689f7f82d389c30c7ba9ea3250afc15012f51e1f5b03c9a59ad92d550a0",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Apollo-Command-and-Service-Module-reaction-control-system-RCS-thrusters_JPG.rf.99b090fc89e0622a6b47aef324126959.jpg",
+      "sha256": "7461f7bd308277f33864b14132406f2bf628e8b3e0683968716638e5a90fe89c",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "screenshot77_png.rf.a5d8fac0d69ed6037b7c9aa448a3097d.jpg",
+      "sha256": "96e7b28bf8d4d8fde3803b4a94af99c28540ed07168d05be2f953f8952de89a8",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "A19731131000cp06_JPG.rf.654d2d20968ce711d276cf1424fbf275.jpg",
+      "sha256": "2b6fda6c75f7061e1ed5b2b7b24ea905d00b11a7fcdaea4411a65bfa1d04c312",
+      "slice": "dark_small_objects_many_parts",
+      "classes": []
+    },
+    {
+      "image": "Body_103_jpg.rf.fa0892096f0959135ab6e6691cc62b6c.jpg",
+      "sha256": "14a7911a6818ea5c2b7ac86e8e3d94bb7fa4b0dcd5c1ba2093ca99facac513b0",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_186_jpg.rf.1404fd8447a94d75a8f3d70b64ecca68.jpg",
+      "sha256": "4d11188d4b69b5ad21040f49342bbf54057e9e38fef7814244a8a7857c5a2c8d",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "R2c7c81810fae0bae3040d7968d465e5a_jpeg.rf.2486bc7c07b840b4daff9a32a8cb87e1.jpg",
+      "sha256": "a2b6b59788a7eb4ff0bfe803514ed209039d030c76d32d3a0289a6c920a04400",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_290_jpg.rf.32131759dc60156f9439111f4089aae7.jpg",
+      "sha256": "e68e97d8d18039988b9973a1068444488c9b5fb0bf24d666fcbf3be2c70bc942",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_115_jpg.rf.b7418fa084b2945608bd209f3d833a48.jpg",
+      "sha256": "2f1fb75c55b0cc549eb17771a7c75e338245a20856cd9e638a754576f0f5a3d5",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_190_jpg.rf.ff2985dbac191f628b3a9d4c06ec812b.jpg",
+      "sha256": "e2aa2ece326561fbabc9f68de8c31faf2f9e6e71a739a046b7f8ad9b7814b451",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Body_59_jpg.rf.c85fbcd2ad35e4067fe4fbdb58fd7514.jpg",
+      "sha256": "a78b28c82b5fc53c6bd52b5484615ae79b70c15eef3cf33112c4947be420c024",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Antenna_284_jpg.rf.28c1df75fc1de71c5875490579028579.jpg",
+      "sha256": "835c0c436f19367d42343455269f8f7bdb542c294652c1897f14ad507dfb567b",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_20_jpg.rf.e79867f1e1f853437427d8425e3853ef.jpg",
+      "sha256": "ff8a3212619a69ff8ca5c484ec00df9fac58eab6f6e47bc2a38d98949761ddc9",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Thruster_257_jpg.rf.0317776cf970bc08379ce00aa32df056.jpg",
+      "sha256": "19ca8134bf223c24a6bff75ed09540a4ee7fda00ae15774b6c58a1c10335c80e",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "OE27_jpg.rf.8fc38be2e7984efb8fedac3b90ac37c9.jpg",
+      "sha256": "b26af4dfc26569357f0f76c3d8cb2d8c4d14de7c17e7db77239782c4d2be3a56",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body"
+      ]
+    },
+    {
+      "image": "Solar_Array_199_jpg.rf.685765bfe0df6f18aea8f553c3c5350a.jpg",
+      "sha256": "252ebba21dd5f0e98235f69e1753efdd5b7f054208c1a07a2ba9f16a94a3b08e",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "EOVt4bWsAAcFk_jpg.rf.407669becca35e0ac6286d61e16a956a.jpg",
+      "sha256": "3627cff006bf7df4ac3e42e3f65c9d41b4642ab9c6fe2f9fd2bed1caeed6cbbe",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_127_jpg.rf.f3c9b0d86a40ef5902bacc6bed5bf95e.jpg",
+      "sha256": "f73c39273ff149c01de9aa4f96e5d911ca6692cd89d2e309fc412d63537ef566",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Body_81_jpg.rf.42651db23d140f29041fd4ad0444adad.jpg",
+      "sha256": "e66e45e12547d7b9bd6fa5d00099ca9b82a6201f2b4dfbc5b64bba7108c150f0",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "nasa_orion_spacecraft_1_jpg.rf.fa483d03add4e2c414217a14b40b14b2.jpg",
+      "sha256": "d092de68d17f058eba70c04c0ca3d9846d6474e077d27a9e78457f864797595f",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Thruster_299_jpg.rf.7a8e738a0d47d1c6b721fba7a53cf644.jpg",
+      "sha256": "2742b8ff6bab7f9ad752daf0db976b7e00bee1b663d71bfcffb278d836742703",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_176_jpg.rf.6b0687e4ae8be0a9be2401d9153c5213.jpg",
+      "sha256": "135309ba414b826c3dd43c5f196cb96f230a2078810121106fdaf89af4e37ba6",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_122_jpg.rf.f63560c362ada49af82eedc8225104be.jpg",
+      "sha256": "6210dd0a564c94b7e07ece368699949079c7eb6d34dd27705bf5e9ebb587d426",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_103_jpg.rf.c7c484cf9762f3262b8f36bedd1568d8.jpg",
+      "sha256": "afeadb6fd96df3712cd7bc346b2df6a266239c4d972240f31534b2cca5b823ad",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "NG5_jpg.rf.8ad4ef8d8530b07e0c4197b38f5991cd.jpg",
+      "sha256": "9e19db1c0adc287755249d3855f4e8342761c4c38c63fd9ed3f114acd660636d",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Antenna_264_jpg.rf.c1932036682a2e1efd9c4d6b85ec8b06.jpg",
+      "sha256": "89aa246b8f292ab71f339e2c8520559cf5b5debc211bb14334d0092f860d6e64",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_126_jpg.rf.9832eb6648ac5bc063d0c49d7765a00b.jpg",
+      "sha256": "b6b41d64466e819b116b1ffb13420bfd3e4b156c13c05d4298d8bf04a0645cae",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Nozzle-63_jpg.rf.ef3eb81a3a3cb36955e120c5e3bf14b1.jpg",
+      "sha256": "8d7b79c95833b1716d30d42d1e4821e0c1a721e1b35be3fb2e9c9bcaf7d1944a",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_97_jpg.rf.5d6740a25e42af260e6098baf0ad9248.jpg",
+      "sha256": "24d1e0bc1654a7d064fc7e63aa9bfb06696539739019af2f4eeb9a621b768cd6",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_121_jpg.rf.4c532f7fbe770ff21794cf49406364d5.jpg",
+      "sha256": "3efa06441ff610d5af3ba1afa51627add943469fe726e1d0af1d649b1f645f8f",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-5_jpg.rf.8d870d6bdf6fe703c41b6ca3c132a89c.jpg",
+      "sha256": "8375335cd20ea1daa70935229e9c955335931bd24fdb2a406c2d8c4be5486bd1",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_128_jpg.rf.649c314093b9b30f456da4fe9aba2d5c.jpg",
+      "sha256": "52a20ed99f75de5e0f84357846e50645312bec36aca8857f7db019efb575574a",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Body_102_jpg.rf.6c8feef0ef6c678e6f2cdfd8df87a4fc.jpg",
+      "sha256": "00e838f7fa534f15299dd011a60510df7377a53b9e9fb2d7276654b8b5da1cff",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_19_jpg.rf.fb9a6de33536a2d362ddc6c9ba39fda7.jpg",
+      "sha256": "22f2ccbff83d1b74001bae01c402a88f1767af61e7792670c894c74ae0807383",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Thruster_255_jpg.rf.525a2fab79eca9a220175d85f7b5339f.jpg",
+      "sha256": "35f92ebb4291871d0eca860d51e4b9e899d40c0c9c482b4ca17dd07a30db5704",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_297_jpg.rf.f2512ecf77ebc651d0e99bc582a7648c.jpg",
+      "sha256": "3ba014ec9402d016058517d61bd85294032b366d9b1be74540800a058a3a3e7d",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_180_jpg.rf.4a019bc00abae2886e033c6955b5828f.jpg",
+      "sha256": "4d1b042bfca09657c621c4411bc29a49cf80353dd6d0afafbe6f62af212c0ca5",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Nozzle-4_jpg.rf.7ef8da4a92b3621b9d2ba731e703c774.jpg",
+      "sha256": "40c67cb631c89119a15f8874333e53e7cd01500b4152a09e1a44517d234eff2a",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_121_jpg.rf.54d6448a9624423a321c5cd993f44172.jpg",
+      "sha256": "c2e3b86ec847a7e350c1ca41f7043f43d88732e4a43679cbad39f23e69480c6b",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "f0de6f6f9e60e4d62b8e527c374359d3_png.rf.afd4126ec753c90184855434b5ab1008.jpg",
+      "sha256": "a77801dee61dd6eb975c4262d6d7636dcd02922bdb7a44e5d9ad7f2c13d1f5a2",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_53_jpg.rf.de196142666ea34cdd35f3e5441e2595.jpg",
+      "sha256": "89d49ee1dadf98a7c42037a30bcccfab720f9eeff40769935e9fd86a304c1a21",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "3D-printed_platinum_thruster_chamber_and_nozzle_pillars_jpg.rf.75a470013a52cf40514ef7fd3225e84b.jpg",
+      "sha256": "66fa01ffdca1e8225f2cc2e489150e2a2c7bf721f85f2398b80574bf2ffe58e6",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Solar_Array_139_jpg.rf.852f5d5226c47edab9519592abc27b16.jpg",
+      "sha256": "04b2e8e1abb8013b8849e45262f133404842539e5d267942c94e0a239e27303a",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_138_jpg.rf.b6d95735e5c2b57e0178c8a483d8de16.jpg",
+      "sha256": "0093df6f468152911f218a858566a6399ad1de692bd7acec263e139d35af87cc",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "main-qimg-de0d1f7d7981a04988a3166f6739d9a4_jpeg.rf.ec395f6c0d98fdd120967de4bef98a96.jpg",
+      "sha256": "011d22f95b0c0305368df28baeee8980da36de48f8618d0292f05e2e8c6e4567",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Body_140_jpg.rf.acd851cd6c9d781fe8f16230d558fa20.jpg",
+      "sha256": "c39ec350038f5998a7835d2cbd3de2bc93982d0c3529931e9be3b349403b17fa",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_130_jpg.rf.8f026060e37469a27325bd17f9744a46.jpg",
+      "sha256": "e0964e070a3dff07257492cc4ae00d53c3e50e2423dae54b28bbcfb4906d2388",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "487090main_thrust_test_jpg.rf.9e9fce452fd5276217673efcd5f68bf3.jpg",
+      "sha256": "79cf68cd18d132d81cf639dd99cfdd56527c092cbc87e6900a9f7eed2c2a4227",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Nozzle-69_jpg.rf.52de0b8e214ff385d08e34a294e62d46.jpg",
+      "sha256": "c978a8f7bce73ebed995e77cfdd04560add0df4fb3ad76dca220008e08e57636",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Kerbin20Orbiting20Satellites20Small_zpsjozpcflm_png.rf.4e2736bf59a9ba77745e88b65931a2b4.jpg",
+      "sha256": "790402fcd92efba220257c028547944ef3840c996db3cab77b8e4aeb968a910e",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "OE5_jpeg.rf.cfcfea9af35101fb0c1a498534123a17.jpg",
+      "sha256": "dd8e919f7f4cb7ae5f5b819a51b0e1468d916ac7e9ef89326b486d1d6ae61a66",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_4_jpg.rf.ac8068ee1e00a82c0bd2eba4f6b04e82.jpg",
+      "sha256": "cb30d8c69e24e994f26c42bcdc87f5a548c0d96e178d5c0e95c3d2c313a1b162",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_106_jpg.rf.f626539dd541598020bf166a7863922b.jpg",
+      "sha256": "b8ef2c692ca659d4048e65a1f4e7410f496afbf80f1f4315e75724e1d19ef713",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Body_129_jpg.rf.76df418df53c3422468bb14bfa5da921.jpg",
+      "sha256": "e5da0ec7d922fade7a1b21a6b52a0779906d776a319cba0000389e55fb075d8d",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "mvlg2ox2uc631_jpg.rf.642297084742bbe2c763d3e598e5fd43.jpg",
+      "sha256": "c47a82ce664d6f066a40402ec5d85323437394c2bf2c7272b64c666ee30e750b",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "OIP-Qr23Axbd4Cj0hyZL2ZVumgHaEo_jpeg.rf.6446b9314d295f9d71e59f1be63319fa.jpg",
+      "sha256": "d9598db9fb3c9955eac33f5b50b6ef7b360513bf95e0974982e06bd1b57c587c",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_233_jpg.rf.59f7157def25e9fcfe478567d31a4d2a.jpg",
+      "sha256": "87d9dda6788835c5a5bcbf608f1d3793ae250af2171162cdd86ab48067ed0a28",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_152_jpg.rf.9e122c2cb752d33529ef77d2c378fa6b.jpg",
+      "sha256": "fc8bc7ee5bb38f0926b361818610ff58d376ab8f937ad5241e8c270f68cb4ca3",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "NG4_jpg.rf.d9ef35adebcfecfda8149d1616b2612f.jpg",
+      "sha256": "0e351afc66f93a664a7ee0393f193c6e915ec35d7331f0aede8269f755a753ee",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_144_jpg.rf.56a6a9b9ea46707c0909f8dece57eb18.jpg",
+      "sha256": "0601424f9a1a83f1e2ae7bc23bc4c0b6cb65f06accf8029935e38d21e2ac8a87",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Body_85_jpg.rf.1762c16c6221d16c086f6f0e41130c4f.jpg",
+      "sha256": "74ef3312e59f585bab1fa9a36badb2391b739ad45d048736ea8237a68d1bdd62",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_31_jpg.rf.5133ff2ac5762bc46c09078f8a419c76.jpg",
+      "sha256": "c2dfbd6352b6098db80816b1fb589fd4a6a4f522ba407344691f376c1ddd9cf6",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Thruster_289_jpg.rf.e1736793e17df94218e586366295b70d.jpg",
+      "sha256": "c622e5a98a5fb2296b99be56be6bc873fb1d869df9736039320058f48ac97574",
+      "slice": "bright_large_objects_few_parts",
+      "classes": [
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_296_jpg.rf.13b21244885fc4352f3fd07805a64c31.jpg",
+      "sha256": "3bb71b2abeb807590295307203fa47b56a90610cd700453e503acd0f61f90a5d",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Solar_Array_107_jpg.rf.edbb80454e59b63fa2d102681969ab70.jpg",
+      "sha256": "458a2f4ca207a3370b688ed82069f0d1e8bec1f1aa49c0e6607dec312db07afd",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    },
+    {
+      "image": "Thruster_163_jpg.rf.03329ae7012e05c814272e198913acc7.jpg",
+      "sha256": "de495a84061eb65320afbb2bbc2e76b446b6424ba3fced95e9f7c245072cf421",
+      "slice": "bright_large_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body",
+        "thruster"
+      ]
+    },
+    {
+      "image": "Antenna_259_jpg.rf.2c970fed7dd6b9611b525dd34f48f729.jpg",
+      "sha256": "17f0b3ff8eb144d42ffe3554dfa82e817e553ad367a19aa2c5dfac09fdf1463b",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "antenna",
+        "body"
+      ]
+    },
+    {
+      "image": "Thruster_143_jpg.rf.cda3cfe0b7842fa67201fb2344dfac8b.jpg",
+      "sha256": "363297b246cfc53c64b033f45f429704d26a3b3a8d74d6442d9000f27610dce7",
+      "slice": "dark_small_objects_many_parts",
+      "classes": [
+        "body",
+        "solar"
+      ]
+    }
+  ]
+}

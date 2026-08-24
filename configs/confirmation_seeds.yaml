@@ -1,0 +1,24 @@
+experiment: wsd_nano_tuned_confirmation
+seeds: [42, 43, 44, 45, 46]
+confidence_level: 0.95
+minimum_reportable_seeds: 3
+preferred_seeds: 5
+selection: configs/tuning_nano_selection.json
+train_output: runs/final_nano
+test_output: runs/final_nano_test
+
+# Architecture, initialization, and tuned hyperparameters come only from the
+# completed validation search. These settings remain matched to that search.
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+deterministic: true
+
+reporting:
+  metrics: [precision, recall, mAP50, mAP50-95]
+  interval: student_t_across_independent_seeds
+  include_per_class: true
+  test_policy: evaluate_each_frozen_seed_once_after_selection

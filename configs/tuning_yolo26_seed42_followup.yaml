@@ -1,0 +1,50 @@
+experiment: wsd_yolo26n_pretrained_seed42_followup
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained]
+output: runs/tuning_yolo26_seed42_followup
+
+# Exploratory validation-only follow-up around cls=0.75 and observed error modes.
+# Trial assignments are split across hosts; names must never overlap concurrently.
+trials:
+  # This machine, GPU 0: classification response curve.
+  - {name: cls0550, yolov5: {}, yolo26: {optimizer: auto, cls: 0.55}}
+  - {name: cls0625, yolov5: {}, yolo26: {optimizer: auto, cls: 0.625}}
+  - {name: cls0700, yolov5: {}, yolo26: {optimizer: auto, cls: 0.70}}
+  - {name: cls0800, yolov5: {}, yolo26: {optimizer: auto, cls: 0.80}}
+  - {name: cls0875, yolov5: {}, yolo26: {optimizer: auto, cls: 0.875}}
+
+  # This machine, GPU 1: error-mode interactions.
+  - {name: cls075_box85, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, box: 8.5}}
+  - {name: cls075_dfl175, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, dfl: 1.75}}
+  - {name: cls075_mosaic075, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, mosaic: 0.75}}
+  - {name: cls075_closemosaic50, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, close_mosaic: 50}}
+  - {name: cls075_multiscale025, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, multi_scale: 0.25, scale: 0.3}}
+
+  # Other machine, GPU 0: classification/localization interactions.
+  - {name: cls0625_box85, yolov5: {}, yolo26: {optimizer: auto, cls: 0.625, box: 8.5}}
+  - {name: cls0700_box85, yolov5: {}, yolo26: {optimizer: auto, cls: 0.70, box: 8.5}}
+  - {name: cls0800_box85, yolov5: {}, yolo26: {optimizer: auto, cls: 0.80, box: 8.5}}
+  - {name: cls0875_box85, yolov5: {}, yolo26: {optimizer: auto, cls: 0.875, box: 8.5}}
+  - {name: cls075_box9_dfl175, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, box: 9.0, dfl: 1.75}}
+
+  # Other machine, GPU 1: augmentation interactions.
+  - {name: cls075_scale025, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, scale: 0.25}}
+  - {name: cls075_translate005, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, translate: 0.05}}
+  - {name: cls075_hsv_mild, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, hsv_s: 0.5, hsv_v: 0.3}}
+  - {name: cls075_mosaic05, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, mosaic: 0.5}}
+  - {name: cls075_cutmix01, yolov5: {}, yolo26: {optimizer: auto, cls: 0.75, cutmix: 0.1}}
+
+models:
+  - family: yolo26
+    name: yolo26n
+    weights: yolo26n.pt
+    config: yolo26n.yaml

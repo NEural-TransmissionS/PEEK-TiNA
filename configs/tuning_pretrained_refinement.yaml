@@ -1,0 +1,101 @@
+experiment: wsd_nano_pretrained_refinement
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained]
+output: runs/tuning_pretrained_refinement
+
+# Stage-two local refinement. The native pretrained baseline remains candidate
+# zero and is reused rather than retrained. Test data remains untouched.
+trials:
+  - name: sgd_lr0075
+    yolov5:
+      lr0: 0.0075
+      lrf: 0.01
+      weight_decay: 0.0005
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+    yolo26:
+      optimizer: SGD
+      lr0: 0.0075
+      lrf: 0.01
+      weight_decay: 0.0005
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+  - name: sgd_lr0125_wd00075
+    yolov5:
+      lr0: 0.0125
+      lrf: 0.01
+      weight_decay: 0.00075
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+    yolo26:
+      optimizer: SGD
+      lr0: 0.0125
+      lrf: 0.01
+      weight_decay: 0.00075
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+  - name: sgd_cosine
+    yolov5:
+      lr0: 0.01
+      lrf: 0.01
+      weight_decay: 0.0005
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+      cos_lr: true
+    yolo26:
+      optimizer: SGD
+      lr0: 0.01
+      lrf: 0.01
+      weight_decay: 0.0005
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+      cos_lr: true
+  - name: adamw_lr0015_native_aug
+    yolov5:
+      optimizer: AdamW
+      lr0: 0.0015
+      lrf: 0.01
+      weight_decay: 0.0005
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+    yolo26:
+      optimizer: AdamW
+      lr0: 0.0015
+      lrf: 0.01
+      weight_decay: 0.0005
+      translate: 0.10
+      scale: 0.50
+      mosaic: 1.0
+      mixup: 0.0
+
+models:
+  - family: yolov5
+    weights: yolov5n.pt
+    config: third_party/yolov5/models/yolov5n.yaml
+    base_hyp: third_party/yolov5/data/hyps/hyp.scratch-low.yaml
+  - family: yolo26
+    weights: yolo26n.pt
+    config: yolo26n.yaml

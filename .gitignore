@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+*.egg-info/
+data/
+runs/
+artifacts/
+weights/
+*.pt
+*.onnx
+
+# Vendored upstream checkouts (see .gitmodules for pinned commits/URLs);
+# not wired as real git submodules in this working copy, so ignore the
+# working files rather than committing 40MB+ of unpinned upstream code.
+third_party/*/

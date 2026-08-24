@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topology-guided-pruning"
+version = "0.1.0"
+description = "Topology-preservation experiments for PEEK and YOLO26"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "gudhi>=3.10",
+  "numpy>=1.24,<3",
+  "pillow>=10",
+  "pyyaml>=6",
+  "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.9"]
+
+[project.scripts]
+topoprun = "topoprun.cli:main"
+wsd-audit = "topoprun.datasets:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

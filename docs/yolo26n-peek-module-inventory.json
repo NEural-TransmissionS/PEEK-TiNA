@@ -1,0 +1,296 @@
+{
+  "weights": "runs/baseline_nano/yolo26n_pretrained_seed42/weights/best.pt",
+  "image": "018af02b9d44a36dd403786a1b149b73_png.rf.96c09b6a655516f9f62e87c5be5db6d9.jpg",
+  "image_sha256": "01e182e6c75d21c59e4ae22c7c373f15c14b4a1762b911267f92576c02f6af5c",
+  "image_size": 640,
+  "hook_semantics": "output after top-level model.model[index]",
+  "modules": [
+    {
+      "index": 0,
+      "module": "Conv",
+      "parameters": 448,
+      "output_shape": [
+        1,
+        16,
+        240,
+        320
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 1,
+      "module": "Conv",
+      "parameters": 4640,
+      "output_shape": [
+        1,
+        32,
+        120,
+        160
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 2,
+      "module": "C3k2",
+      "parameters": 6520,
+      "output_shape": [
+        1,
+        64,
+        120,
+        160
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 3,
+      "module": "Conv",
+      "parameters": 36928,
+      "output_shape": [
+        1,
+        64,
+        60,
+        80
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 4,
+      "module": "C3k2",
+      "parameters": 25840,
+      "output_shape": [
+        1,
+        128,
+        60,
+        80
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 5,
+      "module": "Conv",
+      "parameters": 147584,
+      "output_shape": [
+        1,
+        128,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 6,
+      "module": "C3k2",
+      "parameters": 86528,
+      "output_shape": [
+        1,
+        128,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 7,
+      "module": "Conv",
+      "parameters": 295168,
+      "output_shape": [
+        1,
+        256,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 8,
+      "module": "C3k2",
+      "parameters": 345088,
+      "output_shape": [
+        1,
+        256,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 9,
+      "module": "SPPF",
+      "parameters": 164224,
+      "output_shape": [
+        1,
+        256,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 10,
+      "module": "C2PSA",
+      "parameters": 248320,
+      "output_shape": [
+        1,
+        256,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 11,
+      "module": "Upsample",
+      "parameters": 0,
+      "output_shape": [
+        1,
+        256,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 12,
+      "module": "Concat",
+      "parameters": 0,
+      "output_shape": [
+        1,
+        384,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 13,
+      "module": "C3k2",
+      "parameters": 119296,
+      "output_shape": [
+        1,
+        128,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 14,
+      "module": "Upsample",
+      "parameters": 0,
+      "output_shape": [
+        1,
+        128,
+        60,
+        80
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 15,
+      "module": "Concat",
+      "parameters": 0,
+      "output_shape": [
+        1,
+        256,
+        60,
+        80
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 16,
+      "module": "C3k2",
+      "parameters": 34048,
+      "output_shape": [
+        1,
+        64,
+        60,
+        80
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 17,
+      "module": "Conv",
+      "parameters": 36928,
+      "output_shape": [
+        1,
+        64,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 18,
+      "module": "Concat",
+      "parameters": 0,
+      "output_shape": [
+        1,
+        192,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 19,
+      "module": "C3k2",
+      "parameters": 94720,
+      "output_shape": [
+        1,
+        128,
+        30,
+        40
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 20,
+      "module": "Conv",
+      "parameters": 147584,
+      "output_shape": [
+        1,
+        128,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 21,
+      "module": "Concat",
+      "parameters": 0,
+      "output_shape": [
+        1,
+        384,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 22,
+      "module": "C3k2",
+      "parameters": 461504,
+      "output_shape": [
+        1,
+        256,
+        15,
+        20
+      ],
+      "peek_compatible": true
+    },
+    {
+      "index": 23,
+      "module": "Detect",
+      "parameters": 120248,
+      "output_shape": [
+        1,
+        300,
+        6
+      ],
+      "peek_compatible": false
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[submodule "third_party/ultralytics"]
+	path = third_party/ultralytics
+	url = https://github.com/ultralytics/ultralytics.git
+[submodule "third_party/PEEK"]
+	path = third_party/PEEK
+	url = https://github.com/Kenzie-Meni/PEEK.git
+[submodule "third_party/yolov5"]
+	path = third_party/yolov5
+	url = https://github.com/ultralytics/yolov5.git

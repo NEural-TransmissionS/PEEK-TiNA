@@ -1,0 +1,119 @@
+{
+  "dataset": "WSD v71",
+  "source": "/home/rwhite/NFS/All_Team/Blake/YOLO_Testing/satellite_components-71",
+  "seed": 42,
+  "robustness_method": "deterministic k-means on standardized image and annotation metadata; log1p transform applied to box_count for clustering",
+  "feature_names": [
+    "brightness",
+    "contrast",
+    "saturation",
+    "box_count",
+    "box_area_total",
+    "box_area_median",
+    "box_area_min",
+    "object_extent"
+  ],
+  "split_counts": {
+    "train": {
+      "images": 1004,
+      "background_images": 7
+    },
+    "val": {
+      "images": 186,
+      "background_images": 0
+    },
+    "test": {
+      "images": 40,
+      "background_images": 0
+    }
+  },
+  "class_instance_counts": {
+    "antenna": 2507,
+    "body": 1028,
+    "solar": 2481,
+    "thruster": 1954
+  },
+  "class_instance_counts_by_split": {
+    "train": {
+      "antenna": 2130,
+      "body": 815,
+      "solar": 1921,
+      "thruster": 1812
+    },
+    "val": {
+      "antenna": 289,
+      "body": 169,
+      "solar": 434,
+      "thruster": 117
+    },
+    "test": {
+      "antenna": 88,
+      "body": 44,
+      "solar": 126,
+      "thruster": 25
+    }
+  },
+  "class_max_to_min_ratio": 2.438715953307393,
+  "errors": [],
+  "valid": true,
+  "slices": [
+    {
+      "id": 0,
+      "name": "bright_large_objects_many_parts",
+      "centroid": {
+        "brightness": 0.3761289055040285,
+        "contrast": 0.2528564671009203,
+        "saturation": 0.2374901908582917,
+        "box_count": 8.501285347043702,
+        "box_area_total": 0.4759663569079481,
+        "box_area_median": 0.06046285053163838,
+        "box_area_min": 0.019750509195798627,
+        "object_extent": 0.6692049251113059
+      },
+      "counts": {
+        "train": 321,
+        "val": 40,
+        "test": 28
+      }
+    },
+    {
+      "id": 1,
+      "name": "bright_large_objects_few_parts",
+      "centroid": {
+        "brightness": 0.5992954664117812,
+        "contrast": 0.24245965581575282,
+        "saturation": 0.15528638574979484,
+        "box_count": 1.174496644295302,
+        "box_area_total": 0.2964437709930034,
+        "box_area_median": 0.2522235788551183,
+        "box_area_min": 0.2371001254979835,
+        "object_extent": 0.3024569805198116
+      },
+      "counts": {
+        "train": 141,
+        "val": 4,
+        "test": 4
+      }
+    },
+    {
+      "id": 2,
+      "name": "dark_small_objects_many_parts",
+      "centroid": {
+        "brightness": 0.09262433802726068,
+        "contrast": 0.15710691659036163,
+        "saturation": 0.10409530881023006,
+        "box_count": 6.485549132947977,
+        "box_area_total": 0.18834972646259085,
+        "box_area_median": 0.025226640497708112,
+        "box_area_min": 0.008470758232718409,
+        "object_extent": 0.29440225023941113
+      },
+      "counts": {
+        "train": 542,
+        "val": 142,
+        "test": 8
+      }
+    }
+  ],
+  "metadata_csv": "docs/wsd-v71-robustness-slices.csv"
+}

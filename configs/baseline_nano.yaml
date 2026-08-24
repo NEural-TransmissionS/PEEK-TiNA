@@ -1,0 +1,24 @@
+experiment: wsd_nano_baselines
+seed: 42
+deterministic: true
+
+data: data/wsd.yaml
+image_size: 640
+epochs: 1000
+batch_size: 16
+workers: 8
+patience: 100
+device: "0"
+initializations: [pretrained, scratch]
+
+# Optimizer and augmentation defaults remain native to each detector family.
+# They are recorded in each run's args/config artifact; they are not assumed equal.
+models:
+  - family: yolov5
+    weights: yolov5n.pt
+    config: third_party/yolov5/models/yolov5n.yaml
+  - family: yolo26
+    weights: yolo26n.pt
+    config: yolo26n.yaml
+
+output: runs/baseline_nano
