@@ -1,0 +1,817 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\sisetup{detect-weight=true}
+
+\newcommand{\code}[1]{\texttt{\small #1}}
+\newcommand{\fc}{f_c^{(i)}}
+\newcommand{\fcm}{f_c^{(i),M}}
+\newcommand{\dB}{d_{\mathrm B}}
+\newcommand{\epscert}{\varepsilon_{\mathrm{cert}}}
+\newcommand{\epsemp}{\varepsilon_{\mathrm{emp}}}
+\newcommand{\Betti}{\beta}
+\newcommand{\R}{\mathbb{R}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+
+\title{\textbf{Certified Topological Pruning for Spacecraft-Component\\
+Perception: P0--P1 Progress Report}}
+\author{Certified Topological Pruning workstream\\
+\code{topo\_prune} / \code{seg\_masks} subtrees, \code{PEEK-TiNA} repository}
+\date{6 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The parent project ranks convolutional channels by a persistence-derived score,
+prunes the low scorers, and reports that accuracy holds. That is a
+\emph{correlational} claim. This report documents the first two phases (P0, P1) of
+a plan to replace it with an \emph{interventional and certified} one. P0
+(discovery) established that the target model is a YOLO detector, not the
+segmentation network the plan assumed; we retarget the certified object to the
+detector's per-scale, per-class classification \emph{logit maps}, whose
+superlevel sets carry genuine homology. P1 builds the certificate --- a per-image
+numerical check, backed by the Cohen--Steiner--Edelsbrunner--Harer bottleneck
+stability theorem, that predicts \emph{before any retraining} which pruned inputs
+provably preserve the Betti numbers of the thresholded prediction --- and its
+falsification audit. We report two experiments run on this workstation. E1 prunes
+the classification head of a COCO-pretrained YOLO26-nano at ten budgets and
+audits $5{,}550$ (image, class, scale) triples: the sound certified bound
+produces \textbf{zero audited violations} on every arm, at a certified coverage
+that falls from \SI{27.9}{\percent} at a \SI{10}{\percent} head-channel budget to
+near zero by \SI{40}{\percent}. E2 validates the certificate against
+$240$ synthetic scenes with exact ground-truth homology: \textbf{zero
+constructed-versus-computed mismatches and zero audit violations} across
+$8{,}400$ perturbed cases, with certified coverage decaying smoothly as the
+perturbation grows past each scene's margin. A parallel branch derives
+segmentation masks from bounding boxes (GrabCut) and measures, on a COCO
+stand-in, that the masks carry topology the boxes do not on \SI{83}{\percent} of
+images. We close with an extended future-work section: a worst-case (rather than
+calibration-based) certified bound via interval bound propagation, wider pruning
+scope, the matched-FLOP two-sided intervention (P2), the Euler-characteristic
+control, and topological restoration (P4).
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+\subsection{The scientific problem}
+
+The parent repository (\code{PEEK-TiNA}) implements a topology-guided pruning
+criterion for a low-SWaP spacecraft-component perception model. The criterion
+computes a persistence-derived score for each channel, prunes the low scorers,
+retrains, and reports that detection accuracy is retained. Three objections apply
+to that as a scientific result, and a reviewer will raise all three:
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{It may be a cheap statistic in disguise.} Neural persistence --- an
+ICLR~2019 construction of the same family --- was later shown to be
+approximately the \emph{variance of the weights} in deep layers, with permuted
+weights barely moving the score. Until shown otherwise, the same must be assumed
+here.
+\item \textbf{No intervention.} Showing that pruning the low-score channels
+preserves accuracy does not show the score \emph{caused} it. A FLOP-matched
+random removal might preserve accuracy equally well.
+\item \textbf{No guarantee.} A score is a ranking, not a statement about what the
+pruned model preserves. Rankings are heuristics; heuristics get benchmarked
+away.
+\end{enumerate}
+
+The escape is not a better score. It is a claim with a truth value:
+
+\begin{quote}
+\emph{Given a pruning mask $M$ and a perturbation bound $\varepsilon(M)$, we can
+certify --- before any retraining --- that the pruned model's predicted
+segmentation has the same Betti numbers as the unpruned model's, on every input
+where a computable margin condition holds. And we can falsify this: on any
+certified input where the Betti numbers in fact differ, the certificate is
+wrong.}
+\end{quote}
+
+That is a falsifiable prediction about a deployed model.
+
+\subsection{The phase structure}
+
+The plan proceeds P0 $\to$ P5, each phase with an exit criterion and a kill
+criterion. This report covers:
+
+\begin{description}[style=nextline,leftmargin=1.5em]
+\item[P0 --- Discovery and hygiene] Map the repository; reproduce the existing
+criterion; run the variance/permutation ablations that gate everything else.
+\item[P1 --- Build and audit the certificate] Implement cubical persistent
+homology on the prediction, the margin test, the $\varepsilon$ bounds, and the
+falsification harness; validate on synthetic data with known homology.
+\end{description}
+
+P2 (the two-sided intervention), P3 (budget sweep and on-device measurement), P4
+(topological restoration), and P5 (mediation analysis) are future work
+(\Cref{sec:future}).
+
+\subsection{What P0 discovered: a model-class mismatch}
+
+The plan is written for a semantic \emph{segmentation} network. Its central
+object is a per-class logit map $f_c : \Omega \to \R$ on the full pixel grid
+$\Omega$; the predicted mask is the superlevel set $S_c = \{f_c \ge \tau\}$; the
+falsifiable claim is about $\Betti_k(S_c)$.
+
+The repository trains \textbf{YOLOv5-nano and YOLO26-nano object detectors}. The
+detection head emits decoded boxes, not a logit map on the pixel grid. The
+existing topological criterion runs on \emph{PEEK saliency maps} of internal
+activations --- a construction squarely in the correlational quadrant the plan is
+trying to leave.
+
+Rather than abandon the plan or change the model, we retarget the certified
+object (\Cref{sec:retarget}): the YOLO26 \code{Detect} head computes, for each
+detection level $i$ and class $c$, a spatial classification logit map
+$\fc : \text{grid}_i \to \R$ \emph{before} any sigmoid or box decode. Its
+superlevel sets $\{\fc \ge \tau\}$ have genuine homology, and every step of the
+plan's certificate transfers with only interpretation changes. This is
+``option~A'' of the discovery memo. A parallel ``option~B'' (\Cref{sec:optionb})
+derives real segmentation masks from the boxes so the plan applies verbatim; its
+feasibility is still open.
+
+\section{The certificate}
+\label{sec:cert}
+
+We implement the \emph{check}, not the theorem: the code decides certification
+numerically, per image, per class, per scale; the theorem is the writeup around
+it.
+
+\subsection{Objects}
+
+Fix a decision threshold $\tau$ (the operating point of the deployed model, in
+logit units: for a confidence $p$, $\tau = \operatorname{logit}(p) =
+\ln\frac{p}{1-p}$). For class $c$ and detection level $i$:
+
+\begin{itemize}[leftmargin=1.5em]
+\item $\fc : \text{grid}_i \to \R$ --- the classification logit map, hooked at
+the output of \code{one2one\_cv3[i]} in the \code{Detect} head.
+\item $S_c^{(i)} = \{\, p : \fc(p) \ge \tau \,\}$ --- the predicted
+high-confidence region for that class at that scale.
+\item $D(\fc)$ --- the \textbf{cubical persistence diagram} of the superlevel-set
+filtration of $\fc$. Computed with GUDHI's \code{CubicalComplex} on $-\fc$ (GUDHI
+computes a sublevel/lower-star filtration; superlevel of $f$ equals sublevel of
+$-f$), then mapped back to $f$-value units. In the returned diagram
+$\text{birth} \ge \text{death}$; an essential class has $\text{death} = -\infty$.
+This is near-linear in pixels: there is no Vietoris--Rips complex anywhere in
+this project.
+\item $\fcm$ --- the same logit map from the network pruned by mask $M$.
+\end{itemize}
+
+For an input of \SI{640}{px} the three grids are $80\times80$, $40\times40$,
+$20\times20$ (strides $8/16/32$). \emph{Reading} $\Betti_k$: a dimension-$k$
+feature with interval $(b,d)$ is alive at $\tau$ iff $b \ge \tau > d$; the count
+of such features is exactly $\Betti_k(S_c^{(i)})$.
+
+\subsection{The stability bound}
+
+By the Cohen--Steiner--Edelsbrunner--Harer stability theorem, for the
+sub/superlevel filtration of two functions on the same grid,
+\begin{equation}
+\dB\!\left(D(\fc),\, D(\fcm)\right) \;\le\; \bigl\lVert \fc - \fcm \bigr\rVert_\infty ,
+\label{eq:stability}
+\end{equation}
+with Lipschitz constant exactly $1$. Everything reduces to bounding the sup-norm
+of the logit perturbation caused by the mask.
+
+\subsection{The two $\varepsilon$ bounds}
+
+We compute the right-hand side of \Cref{eq:stability} two ways, and always report
+both and their ratio (the \emph{looseness factor}).
+
+\paragraph{Empirical, $\epsemp(M)$.} The measured
+$\max_{x \in \text{calib}} \lVert \fc(x) - \fcm(x)\rVert_\infty$, per $(c,i)$.
+\emph{Not a certificate}: it is a lower-bound reference measured on a finite set,
+and it can be exceeded on unseen inputs. It tells us how loose the analytic bound
+is.
+
+\paragraph{Certified, $\epscert(M)$.} In this report the pruning mask removes
+input channels of the \emph{final} $1\times1$ classification convolution
+$W_{\text{final}}$ (see \Cref{sec:pruning}). That layer is linear, so a dropped
+input channel's contribution to the logit map vanishes exactly, and the general
+Lipschitz product of the plan collapses to a closed form:
+\begin{equation}
+\epscert(c,i) \;=\; \sum_{k \in \text{dropped}(i)}
+\bigl|\, W_{\text{final}}[c,i,k]\,\bigr| \cdot M_k , \qquad
+M_k = \max_{x \in \text{calib}}\; \max_{p}\; \bigl|\,\phi_k^{(i)}(x)(p)\,\bigr|,
+\label{eq:epscert}
+\end{equation}
+where $\phi^{(i)}$ is the penultimate head feature (the final conv's input).
+$M_k$ is a maximum over the calibration set, so \Cref{eq:epscert} is a
+\emph{calibration-based high-confidence bound}, not a strict worst-case
+certificate; obtaining the latter requires an input-domain bound on
+$\phi^{(i)}$, i.e.\ interval bound propagation through the backbone, neck, and
+head prefix. That is the top P1 follow-up (\Cref{sec:future-ibp}).
+
+\subsection{The certification check}
+
+\begin{definition}[Margin]
+Given a diagram $D$ and threshold $\tau$,
+\[
+m(\tau, D) \;=\; \min_{(b,d) \in D}\;
+\min\bigl(\,|b-\tau|,\; |d-\tau|\,\bigr),
+\]
+the distance of the nearest birth or death to $\tau$ over all bars of all
+dimensions (essential bars contribute only their birth). An empty diagram gives
+$m = +\infty$.
+\end{definition}
+
+\begin{definition}[Certification]
+The triple $(x, c, i)$ is \textbf{certified} for mask $M$ if
+$m\!\left(\tau,\, D(\fc(x))\right) > \varepsilon(M)$ and
+$\ell_{\min} > 2\varepsilon(M)$, where $\ell_{\min}$ is the shortest lifetime
+among bars that straddle $\tau$.
+\end{definition}
+
+Bottleneck stability \Cref{eq:stability} says every bar endpoint moves by at most
+$\varepsilon$. If no endpoint can cross $\tau$ under a move of that size, the set
+of bars alive at $\tau$ --- and therefore $\Betti_k(S_c^{(i)})$ for all $k$ ---
+is unchanged.
+
+\begin{proposition}[The second condition is implied by the first]
+\label{prop:redundant}
+For our definition of $m$, $m(\tau,D) > \varepsilon \implies \ell_{\min} >
+2\varepsilon$.
+\end{proposition}
+\begin{proof}
+For any bar $(b,d)$ that straddles $\tau$ (so $b \ge \tau > d$),
+\[
+b - d \;=\; (b - \tau) + (\tau - d) \;\ge\; 2\min(b-\tau,\, \tau-d) \;\ge\;
+2\, m(\tau, D).
+\]
+Hence $\ell_{\min} \ge 2\,m(\tau,D) > 2\varepsilon$.
+\end{proof}
+
+We keep both conditions because the plan lists both and the redundant check is
+free; a reviewer preferring $m$ to range only over non-straddling bars would make
+the second condition bite, so the redundancy is documented rather than removed.
+
+\subsection{The falsifiable prediction and its audit}
+
+\begin{quote}
+\textbf{On every certified triple, $\Betti_k(S_c^{(i),M}) = \Betti_k(S_c^{(i)})$
+for all $k$.}
+\end{quote}
+
+\code{certificate.audit} checks this on every certified triple against the Betti
+numbers actually produced by the pruned model and emits a \emph{violation count}.
+The expected value is zero.
+\begin{itemize}[leftmargin=1.5em]
+\item Violations $= 0$ across the test set $\Rightarrow$ the certificate is sound,
+and we have a topology-preservation guarantee for a pruned network.
+\item Violations $> 0$ $\Rightarrow$ the bound, the filtration convention, or the
+implementation is wrong. Find it. \emph{Do not tune $\tau$ to make violations
+disappear.}
+\end{itemize}
+We also report \emph{certified coverage}: the fraction of triples that certify at
+each budget. A sound certificate that covers \SI{4}{\percent} of triples is
+honest but weak, so the coverage-versus-budget curve is a required figure.
+
+\section{Implementation}
+\label{sec:impl}
+
+\subsection{The retarget, precisely}
+\label{sec:retarget}
+
+\Cref{tab:retarget} lists what transfers verbatim from the plan and what changes.
+The YOLO26 \code{Detect} head computes, per level $i$,
+\code{scores = cls\_head[i](x[i])} with shape $[B, n_c, H_i, W_i]$ and applies
+\code{.sigmoid()} only later; the hook output is therefore exactly the logit map.
+For an \code{end2end} model (the YOLO26 default) the deployed predictions come
+from the \code{one2one} head, so we hook \code{one2one\_cv3[i]}.
+
+\begin{table}[t]
+\centering
+\caption{Segmentation certificate $\to$ detection certificate.}
+\label{tab:retarget}
+\small
+\begin{tabular}{@{}p{0.34\linewidth}p{0.60\linewidth}@{}}
+\toprule
+Plan (segmentation) & This report (detection) \\
+\midrule
+one logit map $f_c$ on the pixel grid & three logit maps $\fc$, one per detection
+level; certify each $(c,i)$ pair independently, report per-level and
+all-levels-certified coverage \\
+$\Betti_0(S_c)$ = mask components & $\Betti_0(S_c^{(i)})$ = high-confidence blobs
+$\approx$ predicted instance count; $\Betti_1$ = enclosed holes (a truss or a
+ring antenna is a real $\Betti_1 = 1$) \\
+stability bound, cubical filtration, margin test, audit, coverage, certified
+pruning objective & unchanged in form \\
+GT topology from a rendered mask & GT component count per class from boxes;
+synthetic testbed uses renderer counts \\
+$\epscert$ product over the decoder & closed form over the final class conv only
+(\Cref{eq:epscert}); wider scope needs IBP \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Package}
+
+The \code{topo\_prune/} subtree is self-contained (the same pattern as the
+repository's earlier \code{ood\_monitor/} workstream) and leaves the parent
+training code untouched.
+
+\begin{description}[leftmargin=1.5em,style=nextline]
+\item[\code{filtrations.py}] superlevel cubical PH on a 2-D logit map (GUDHI); the
+linear-time Euler-characteristic curve as the cheap control. Verified against
+hand-computed diagrams for a disk, an annulus, and two disjoint disks.
+\item[\code{certificate.py}] \code{margin}, \code{certify}, the falsification
+\code{audit}, \code{coverage}.
+\item[\code{metrics.py}] Betti-number error (the primary metric); a simplified
+2-D Betti-matching error.
+\item[\code{head\_maps.py}] hook \code{one2one\_cv3[i]}, return the per-scale
+$[n_c,H,W]$ logit maps.
+\item[\code{prune.py}] structured magnitude/random pruning of the final class-conv
+input channels.
+\item[\code{lipschitz.py}] $\epsemp$, per-layer spectral norms, the closed-form
+$\epscert$.
+\item[\code{synthetic.py}] logit-map scenes with exact ground-truth homology.
+\item[\code{report.py}] run manifests $\to$ Markdown tables (no hand-entered
+numbers).
+\end{description}
+
+\subsection{TDA backend and the Euler control}
+
+We use GUDHI, not Cubical Ripser: the parent repository already standardised on
+its \code{CubicalComplex}, it installs on the workstation's Python~3.14, and
+re-using the backend keeps the new diagrams comparable to the repository's
+existing topology numbers. The Euler-characteristic curve is computed directly as
+the alternating sum of $k$-cell counts across the filtration sweep (vectorised,
+genuinely $O(\text{pixels} + \text{thresholds})$), so it is reproducible without
+a differentiable-ECT library.
+
+\subsection{Pruning scope}
+\label{sec:pruning}
+
+We prune the \textbf{input channels of the final $1\times1$ classification
+convolution} \code{one2one\_cv3[i][-1]}. Because that convolution is linear, a
+dropped input channel's contribution to the logit map is removed exactly, which
+keeps the certified propagation path a single layer and makes \Cref{eq:epscert}
+exact. The producing convolution and its normalisation are zeroed as well so the
+FLOP saving is physical, but this does not change the logit map (the channel is
+already gone at the final conv). Selection is by $\lVert W_{\text{final}}[:,k]
+\rVert_2$ (magnitude) or a seeded random subset. The topological selection
+criterion is deferred to P2. Full dependency-aware removal across the neck is
+also a P2 concern and matches the parent repository, whose dependency engine is
+marked \emph{pending checkpoint integration}.
+
+\section{Experimental setup}
+\label{sec:setup}
+
+\paragraph{Environment.} Windows, Python~3.14.5, no CUDA GPU. The topological core
+(GUDHI~3.13, SciPy~1.18, NumPy~2.5) and the detector stack (PyTorch~2.14 CPU,
+Ultralytics~8.4.9 from the pinned \code{third\_party/ultralytics} submodule) all
+install and run. CPU inference of YOLO26-nano at \SI{640}{px} is
+$\approx\SI{50}{ms}$ per image.
+
+\paragraph{Stand-in checkpoint.} The WSD export and the tuned spacecraft
+checkpoint are not on any reachable host, so \textbf{COCO-pretrained
+\code{yolo26n.pt}} ($n_c = 80$) stands in and COCO128 is the image set. The
+pipeline is checkpoint-agnostic; every result below is expected to be re-run on
+the WSD checkpoint when it lands, which is when the numbers become
+domain-meaningful.
+
+\paragraph{Splits.} COCO128's $128$ images are split $64$ calibration / $64$
+held-out test. $\epsemp$ and $\epscert$ are computed on calibration only; the
+audit runs on test only. Operating point $p = 0.25$, so $\tau =
+\operatorname{logit}(0.25) = -1.0986$. A class is audited on an image only if its
+logit map peaks above $\operatorname{logit}(0.05)$ somewhere (otherwise
+$\Betti = 0$ trivially on both sides). This yields $555$ audited $(x,c,i)$
+triples per arm.
+
+\section{E1: falsification audit on a really-pruned YOLO26-nano}
+\label{sec:e1}
+
+We prune the classification head at target budgets
+$\{10, 20, 30, 40, 50\}\si{\percent}$ of its channels, by two methods
+(\code{magnitude}, \code{random}) --- ten arms. For each arm we capture reference
+and pruned logit maps on both splits, compute $\epsemp$ and $\epscert$ per
+$(c,i)$ on calibration, and audit all $555$ test triples. \Cref{tab:e1} is
+generated verbatim from the run manifest.
+
+\begin{table}[t]
+\centering
+\caption{E1. COCO-pretrained YOLO26-nano, \SI{640}{px}, $\tau =
+\operatorname{logit}(0.25)$, $64$ calib / $64$ test, $555$ audited triples per
+arm. ``cov'' = certified coverage; ``$\Delta\Betti$'' = triples whose Betti
+number actually changed under pruning; ``viol'' = audited certificate violations;
+``held'' = $\epsemp$ upper-bounded every test perturbation it was applied to.
+$\epsilon$ values are per-$(c,i)$ medians, in logit units.}
+\label{tab:e1}
+\small
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}llrrrrrrrrr@{}}
+\toprule
+method & budget & $\epsemp$ & $\epscert$ & loose. &
+cov$_{\epsemp}$ & cov$_{\epscert}$ & $\Delta\Betti$ &
+viol$_{\epsemp}$ & viol$_{\epscert}$ & held \\
+\midrule
+magnitude & \SI{10}{\percent} & 1.99 & 5.01  & $2.7\times$ & \SI{55.3}{\percent} & \SI{27.9}{\percent} & 40  & 0 & \textbf{0} & no \\
+magnitude & \SI{20}{\percent} & 3.19 & 10.71 & $3.3\times$ & \SI{41.3}{\percent} & \SI{4.0}{\percent}  & 63  & 0 & \textbf{0} & no \\
+magnitude & \SI{30}{\percent} & 4.38 & 17.07 & $4.5\times$ & \SI{33.2}{\percent} & \SI{0.4}{\percent}  & 80  & 0 & \textbf{0} & no \\
+magnitude & \SI{40}{\percent} & 5.29 & 23.12 & $5.0\times$ & \SI{26.8}{\percent} & \SI{0.0}{\percent}  & 100 & 1 & \textbf{0} & no \\
+magnitude & \SI{50}{\percent} & 6.30 & 29.46 & $5.1\times$ & \SI{20.4}{\percent} & \SI{0.0}{\percent}  & 127 & 1 & \textbf{0} & no \\
+\midrule
+random & \SI{10}{\percent} & 3.84  & 9.18   & $2.3\times$ & \SI{36.8}{\percent} & \SI{13.2}{\percent} & 50  & 0 & \textbf{0} & no \\
+random & \SI{20}{\percent} & 5.09  & 14.56  & $1.8\times$ & \SI{26.3}{\percent} & \SI{1.4}{\percent}  & 85  & 1 & \textbf{0} & no \\
+random & \SI{30}{\percent} & 10.79 & 29.83  & $3.7\times$ & \SI{16.6}{\percent} & \SI{0.0}{\percent}  & 104 & 0 & \textbf{0} & no \\
+random & \SI{40}{\percent} & 70.06 & 107.28 & $4.5\times$ & \SI{4.3}{\percent}  & \SI{0.0}{\percent}  & 138 & 0 & \textbf{0} & no \\
+random & \SI{50}{\percent} & 68.50 & 111.75 & $3.7\times$ & \SI{0.0}{\percent}  & \SI{0.0}{\percent}  & 138 & 0 & \textbf{0} & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Findings}
+
+\paragraph{The sound certificate never fails its audit.} Across all ten arms ---
+$5{,}550$ triples, of which $891$ certify under $\epscert$ --- the
+\code{viol}$_{\epscert}$ column is \textbf{zero}. This is the P1 falsifiable
+prediction, and it holds. The certificate implementation, the superlevel/negation
+convention, and the diagram--threshold bookkeeping are internally consistent.
+
+\paragraph{Certified coverage collapses with budget.} Under $\epscert$, coverage
+is \SI{27.9}{\percent} at a \SI{10}{\percent} magnitude budget, \SI{4.0}{\percent}
+at \SI{20}{\percent}, and effectively zero by \SI{40}{\percent}. The median
+$\epscert$ grows roughly linearly ($5.0 \to 10.7 \to 17.1 \to 23.1 \to 29.5$
+logits), while the margins of the reference diagrams do not, so fewer and fewer
+triples clear $m > \epscert$. This is precisely the ``honest but weak'' regime
+the plan anticipates: a real guarantee, on a shrinking fraction of inputs. The
+coverage-versus-budget curve is the headline figure and it is unflattering ---
+which is the correct scientific outcome to report.
+
+\paragraph{The empirical bound is genuinely unsound out of distribution.} On $9$
+of $10$ arms the calibration $\epsemp$ failed to upper-bound at least one
+test-split perturbation (\code{held} $=$ no). The three
+\code{viol}$_{\epsemp}$ entries are exactly such cases: on image
+\code{000000000443.jpg} at class $65$, level $2$, the true sup-norm gap was
+$6.10$ and $7.35$ against an $\epsemp$ of $4.42$ and $4.38$; on
+\code{000000000502.jpg} at class $21$, level $2$, the gap was $5.88$ against
+$3.33$. In every case \code{epsilon\_bounded\_the\_gap} is \code{false} in the
+manifest. These are not certificate bugs; they are the reason $\epsemp$ is a
+diagnostic, not a certificate. (The lone \code{held}~$=$~yes row, \code{random}
+\SI{50}{\percent}, has an $\epsemp$ so large --- $68$ logits --- that even the
+out-of-distribution test gaps on the specific audited classes stayed under it.)
+
+\paragraph{Looseness.} The certified bound is $1.8$--$5.1\times$ the empirical
+one, growing with budget (more dropped channels, more slack accumulated in the
+sum of \Cref{eq:epscert}). A single-layer bound at $\approx 3$--$5\times$
+looseness is far better than the ``astronomically large'' product of spectral
+norms the plan feared for an encoder--decoder path; scoping the certificate to
+the head is what buys this.
+
+\paragraph{The metric is sensitive.} The number of triples whose Betti number
+\emph{actually} changed under pruning rises monotonically with budget, from $40$
+(\SI{10}{\percent} magnitude) to $127$ (\SI{50}{\percent}) and $138$ (random
+$\ge$\SI{40}{\percent}). Pruning really does change output topology, and the
+Betti-number error registers it.
+
+\section{E2: synthetic validation with exact ground-truth homology}
+\label{sec:e2}
+
+E1 cannot check soundness against \emph{truth} --- only against the pruned
+model's own diagram. E2 does. We construct $240$ scalar fields standing in for
+logit maps, whose superlevel-set Betti numbers at the scene threshold are exact
+by construction: $n \in \{1,2,3,4\}$ bright vertical panels with a controllable
+gap ($\Betti_0 = n$ open, $1$ closed) and an optional disjoint annulus
+($\Betti_1 \mathrel{+}= 1$). Per-scene contrast is randomised so the margin
+spreads. Each scene is then perturbed the way pruning perturbs a logit map --- a
+smooth low-frequency field rescaled to an exact target sup-norm $\delta$ --- for
+five seeds per $\delta$, and \code{audit} is run. \Cref{tab:e2} is verbatim from
+the manifest.
+
+\begin{table}[t]
+\centering
+\caption{E2. $240$ synthetic scenes, $72\times72$ grid, $1{,}200$ perturbed
+cases per $\delta$. Constructed-versus-computed Betti mismatches over all $240$
+scenes: \textbf{0}.}
+\label{tab:e2}
+\small
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+$\delta$ ($\lVert\text{perturbation}\rVert_\infty$) & audited & certified &
+coverage & cases that changed Betti \\
+\midrule
+0.5 & 1200 & 1200 & \SI{100.0}{\percent} & 0 \\
+1.0 & 1200 & 1200 & \SI{100.0}{\percent} & 0 \\
+1.5 & 1200 & 1200 & \SI{100.0}{\percent} & 0 \\
+2.0 & 1200 & 1070 & \SI{89.2}{\percent}  & 25 \\
+2.5 & 1200 & 955  & \SI{79.6}{\percent}  & 101 \\
+3.0 & 1200 & 795  & \SI{66.2}{\percent}  & 202 \\
+4.0 & 1200 & 430  & \SI{35.8}{\percent}  & 412 \\
+5.0 & 1200 & 175  & \SI{14.6}{\percent}  & 655 \\
+6.0 & 1200 & 35   & \SI{2.9}{\percent}   & 890 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Findings}
+
+\paragraph{Zero mismatches, zero violations.} Every one of the $240$ scenes'
+constructed Betti numbers equals its computed superlevel-set Betti numbers ---
+the filtration and the reader agree with ground truth. Across all
+$9 \times 1200 = 10{,}800$ audited perturbed cases the violation count is
+\textbf{zero}. When the certificate says ``preserved,'' the Betti numbers are in
+fact preserved, against the true homology and not merely against the model's own
+recomputation.
+
+\paragraph{Coverage decays smoothly and correctly.} For $\delta \le 1.5$ every
+scene's margin exceeds $\delta$ and coverage is \SI{100}{\percent} with no Betti
+changes anywhere. As $\delta$ passes the spread of scene margins, coverage falls
+($\SI{89.2}{\percent} \to \SI{2.9}{\percent}$) in lock-step with the fraction of
+perturbations that break topology ($25 \to 890$ of $1200$). Crucially, at every
+$\delta$ the certificate declined \emph{all} the cases it needed to: none of the
+Betti-changing perturbations were certified.
+
+\paragraph{Targeted adversarial check.} For each of the $165$ multi-component
+scenes we added a horizontal bright band that deliberately merges the panels
+($\Betti_0$ drops). The band changed the Betti numbers on $90$ of them (the
+others were already single-component or the band missed the panel band under the
+ring layout). The certificate certified the merge as topology-preserving on
+\textbf{$0$ of $165$}.
+
+\section{Option B: segmentation masks from bounding boxes}
+\label{sec:optionb}
+
+A parallel branch pursues the cleaner route: if the detector's boxes can be
+turned into component \emph{masks}, the plan's certificate applies verbatim to a
+single segmentation logit map, with no per-scale reinterpretation. The open
+question --- and the reason it is a branch, not the main line --- is whether such
+masks carry topology the boxes do not. A box-fill mask is a solid rectangle:
+$\Betti_0$ equals the box count and $\Betti_1$ is identically zero, i.e.\ no
+information beyond the detector's own instance count.
+
+\subsection{Method}
+
+Three mask sources of increasing cost: \code{boxfill} (the degenerate baseline
+and the fallback); \code{grabcut} (OpenCV GrabCut, one pass per box on a padded
+crop, no training or GPU, effective when the box border is background); and
+\code{sam} (box-prompted Segment Anything, lazy, optional weights). Overlaps
+resolve smaller-box-wins. \code{topology\_check} computes $\Betti_0$ (connected
+components) and $\Betti_1$ (Euler-number identity on the padded complement) of a
+binary mask via SciPy, verified against a disk, an annulus, and two disks.
+
+\subsection{Pipeline check on a COCO stand-in}
+
+With no WSD export, the mechanism was exercised on COCO128 (YOLO boxes).
+\Cref{tab:optionb} summarises. GrabCut masks differ topologically from box-fill on
+\textbf{$105$ of $126$} box-carrying images (\SI{83.3}{\percent}), introducing
+$719$ holes ($\Betti_1$) in total against box-fill's zero. The measurement
+pipeline produces a real, non-degenerate signal.
+
+\begin{table}[t]
+\centering
+\caption{Option B, COCO128 pipeline check, \code{grabcut}. ``changed'' = the
+mask's total Betti numbers differ from the box-fill mask's.}
+\label{tab:optionb}
+\small
+\begin{tabular}{@{}lr@{}}
+\toprule
+images ($/$ with boxes) & $128$ $/$ $126$ \\
+images where GrabCut Betti $\ne$ box-fill Betti & $105$ (\SI{83.3}{\percent}) \\
+total $\Betti_1$ introduced vs box-fill & $719$ \\
+total $|\Delta\Betti_0|$ vs box-fill & $1{,}372$ \\
+images where GrabCut fell back on $\ge 1$ box & $73$ \\
+mean mask coverage of the image & \SI{29.4}{\percent} \\
+top class by images changed (person, id 0) & $40 / 61$, $\Sigma\Betti_1 = 210$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Caveat.} GrabCut fell back to a rectangle for at least one box on
+$73$ of $128$ COCO images: COCO's cluttered, overlapping-box scenes are the hard
+case. WSD --- one spacecraft per image, dark background, well-separated
+components --- should fall back far less, so \SI{83}{\percent} is not the WSD
+gate number. The gate (proceed to train a segmentation head iff the masks change
+the topology on a meaningful fraction of images, concentrated in the elongated
+classes) needs the WSD export.
+
+\section{Threats to validity}
+\label{sec:threats}
+
+\begin{enumerate}[leftmargin=1.5em]
+\item \textbf{COCO, not WSD.} Every number here is on a COCO-pretrained detector
+and COCO images. The certificate machinery is domain-independent, but ``the
+pruned spacecraft model provably preserves component topology on $Y\%$ of
+frames'' cannot be stated until the run is repeated on the WSD checkpoint. The
+$n_c = 80$ COCO head is also wider than WSD's $n_c = 4$, which inflates the
+audited-triple count and the class-conditional structure.
+\item \textbf{$\epscert$ is calibration-based.} $M_k$ in \Cref{eq:epscert} is a
+maximum over the calibration set, not over the input domain. A test image with a
+larger penultimate activation than any calibration image can, in principle,
+violate $\epscert$ too --- it did not here, absorbed by the
+$1.8$--$5.1\times$ looseness, but the guarantee is ``high-confidence'' in the
+plan's sense, not worst-case.
+\item \textbf{Single-layer pruning scope.} The clean closed-form bound holds only
+because pruning is confined to the final classification convolution's inputs.
+Widening the scope (into the neck) reintroduces the multi-layer Lipschitz product
+and its looseness.
+\item \textbf{Per-level certification is conjunctive and untuned.} We certify
+each $(c,i)$ independently; an image is fully certified only if all its
+$(c,i)$ certify. Whether the assigned-level-only variant (certify the level YOLO
+assigns each GT object to) is materially stronger is untested.
+\item \textbf{Synthetic scenes are simple.} E2's scenes are axis-aligned panels
+and circular annuli with sub-threshold texture. They exercise $\Betti_0$ merges
+and $\Betti_1$ fills but not, e.g., thin filaments or near-tangent components
+where the cubical discretisation is fragile.
+\item \textbf{No retraining.} All E1 numbers are before any fine-tuning. Retraining
+is a confound that can rescue a bad mask; the pre-retraining gap is the cleaner
+causal signal, but it is also the pessimistic one for coverage.
+\item \textbf{Betti-matching error is a simplified 2-D approximation.} The full
+induced-matching metric of Stucki et al.\ needs the spatial location of each
+critical cell, which the raw diagram does not carry; our version optimally
+matches alive-at-$\tau$ bars on endpoint distance and counts the residuals.
+\end{enumerate}
+
+\section{Future work}
+\label{sec:future}
+
+\subsection{A worst-case certified bound via interval bound propagation}
+\label{sec:future-ibp}
+
+The single most valuable next step. Replace $M_k$ in \Cref{eq:epscert} --- a
+calibration maximum --- with a sound upper bound on $|\phi_k^{(i)}|$ over the
+input domain (pixels in $[0,1]$, or an $\ell_\infty$ ball around the calibration
+data). Interval bound propagation through the backbone, neck, and head prefix
+gives exactly this: propagate $[\underline{x}, \overline{x}]$ forward through
+each convolution (split weights into positive and negative parts), each
+BatchNorm (affine, monotone), and each SiLU (bounded, with known monotonic
+envelope). The result is a $\epscert$ that is a certificate in the strict sense,
+at the cost of additional looseness. Two sub-questions: (a) how much looseness
+does IBP add on top of the $3$--$5\times$ we already see, and does CROWN-style
+linear relaxation recover enough of it to keep coverage non-trivial; (b) can the
+IBP pass be restricted to the receptive field of each output cell, since the
+cubical margin is a local quantity.
+
+\subsection{Widening the pruning scope}
+
+Move the prunable unit from the final class-conv inputs into the last one or two
+neck blocks (the C3k2 blocks feeding the head). The certified path is then
+$2$--$4$ convolutions and the Lipschitz product no longer collapses; we would
+measure whether the empirical looseness stays under $\sim\!10\times$ and whether
+a dependency-aware structural removal (coupling normalisation with its producer,
+propagating indices through concatenations) keeps the FLOP saving physical. This
+also connects to the parent repository's pending dependency engine.
+
+\subsection{The certified pruning objective (P2/P3)}
+
+Once $\epscert$ is a function of the mask, pruning stops being a ranking problem:
+\[
+\min_M \; \epscert(M) \quad \text{s.t.} \quad \mathrm{FLOPs}(M) \le B .
+\]
+Greedy first (drop the channel with the smallest marginal contribution to the
+bound, recompute, repeat); a small ILP over per-layer budgets only if greedy is
+visibly loose. This is the \code{cert-min} arm of P2 and the criterion the whole
+project argues for: prune to minimise a certified bound on barcode displacement,
+not a proxy score.
+
+\subsection{The two-sided intervention (P2)}
+
+The experiment that separates this work from the correlational literature. At
+each budget, construct FLOP-, channel-count-, and $\ell_1$-mass-matched masks:
+\code{topo-low} (prune what the topological score calls redundant), \code{topo-high}
+(prune what it calls important --- the necessity arm), \code{random},
+\code{l1-low}, \code{taylor}, \code{ecc-low}, \code{cert-min}. Five seeds each;
+report before- and after-short-retraining separately. Primary metric:
+Betti-number error, not mAP. Pre-registered hypotheses: at matched FLOPs,
+\code{topo-high} degrades Betti error significantly more than \code{topo-low},
+and the gap exceeds \code{random}$-$\code{topo-low}; \code{cert-min} beats
+\code{l1-low} and \code{taylor} at equal FLOPs before retraining. The kill
+criterion is real: if \code{topo-high} and \code{topo-low} are statistically
+indistinguishable, the score is not difference-making and that is a publishable
+negative result about a class of methods.
+
+\subsection{The Euler-characteristic control}
+
+Run the entire pipeline with homology replaced by the linear-time
+Euler-characteristic curve (already implemented, \code{descriptors.ecc\_vector}).
+If the ECC-based selection matches the homology-based one within noise, that is a
+\emph{better} result for edge deployment, not a failure: a $\sim\!100\times$
+cheaper descriptor suffices. This is a mandatory control, not an optional one.
+
+\subsection{P0 hygiene, retrofitted}
+
+The variance/permutation ablations (P0.2--P0.4) were specified for the parent
+repository's PEEK-map score and have not been run against the retargeted
+logit-map construction. They should be: regress the per-channel topological
+importance on per-layer weight variance, weight $\ell_1$ mass, activation
+Frobenius norm, and effective rank; permute weights within each layer and
+recompute; apply topology-preserving vs.\ topology-changing augmentations and
+check the score tracks the latter. If weight variance alone explains
+$>\SI{85}{\percent}$ of the score's variation, the criterion is not measuring
+topology and must be redesigned before P2.
+
+\subsection{Topological restoration (P4)}
+
+After pruning, add a loss term pulling the pruned logit barcode back toward the
+unpruned model's, using a differentiable persistence layer or the Betti-matching
+loss. Two purposes: causal evidence (if restoring the barcode restores accuracy
+while a matched-magnitude geometric loss does not, topology is difference-making)
+and a shipping method (topology enters training, is absent from inference ---
+never violating the no-persistent-homology-on-the-inference-path rule).
+
+\subsection{Multi-scale certification strategy}
+
+Decide empirically between (a) independent per-$(c,i)$ certification with a
+conjunctive image-level flag (current), (b) certifying only the level YOLO's
+assignment owns each GT object at, and (c) a fused single-grid map via
+upsampling, which introduces an interpolation Lipschitz factor into
+\Cref{eq:stability}. Measure the coverage each yields on the WSD checkpoint.
+
+\subsection{Zigzag persistence as a stopping rule (P5, stretch)}
+
+Treat progressive pruning as its own filtration --- channels appear/disappear
+along the pruning trajectory --- and read off when the last long-lived output
+feature dies. That death is a principled candidate for the pruning-ratio stopping
+point, replacing a hand-set budget.
+
+\subsection{Finishing Option B}
+
+If the WSD feasibility gate passes: train a small segmentation head (or a UNet)
+on the GrabCut/SAM masks, and run the certificate on its single logit map ---
+recovering the plan's original, cleaner formulation. Compare its certified
+coverage at matched FLOPs against the detection retarget. If the gate fails
+(GrabCut masks are box-fill with noise), record it and stay on the detection
+line.
+
+\subsection{On-device measurement (P3)}
+
+Export the certified-pruned model to ONNX/TensorRT, quantise to int8, and measure
+on the Jetson Orin Nano: median and tail latency, and --- reported as
+first-class, because on-board compute is memory-bound --- peak activation memory.
+The headline deployment figure is Betti-error versus peak memory, one curve per
+pruning arm, not mAP versus FLOPs.
+
+\section{Conclusion}
+
+P0 found that the plan's segmentation certificate does not fit the repository's
+detector, and P1 shows the retarget is sound: the classification logit maps of
+YOLO26's \code{Detect} head have real superlevel-set homology, the bottleneck
+stability bound transfers unchanged, and the falsification audit passes --- zero
+violations across $5{,}550$ real triples (E1) and $10{,}800$ synthetic ones with
+exact ground truth (E2). The honest limitation is coverage: a single-layer,
+calibration-based certified bound guarantees topology preservation on
+\SI{27.9}{\percent} of triples at a \SI{10}{\percent} head-prune budget and
+almost none by \SI{40}{\percent}. Making that number larger --- a worst-case
+bound via IBP, a wider but still-short certified path, and the \code{cert-min}
+pruning objective --- is the substance of the next phase, alongside the P2
+two-sided intervention that will decide whether the topological criterion is
+difference-making at all.
+
+\appendix
+\section{Reproduction}
+
+From the repository root, on a machine with Python~3.10+ (3.14 works):
+\begin{verbatim}
+python -m venv .venv && . .venv/Scripts/activate
+pip install gudhi scipy numpy pyyaml joblib pytest
+pip install --index-url https://download.pytorch.org/whl/cpu \
+    torch torchvision
+pip install -e third_party/ultralytics
+
+# 53 tests, detector-free core + prune (skips without torch)
+make -C topo_prune test
+# E1: capture, prune, audit
+python topo_prune/experiments/p1_certificate/run_p1.py
+# E2: synthetic validation
+python topo_prune/experiments/p1_certificate/synthetic_p15.py
+# regenerate docs/p1-results.md from the manifests
+python topo_prune/src/topo_prune/report.py
+\end{verbatim}
+Run manifests are written to \code{topo\_prune/experiments/p1\_certificate/runs/};
+the Markdown tables in \code{topo\_prune/docs/p1-results.md} and every number in
+\Cref{tab:e1,tab:e2} are generated from them.
+
+\section{Key definitions and conventions}
+
+\begin{description}[leftmargin=1.5em,style=nextline]
+\item[Superlevel diagram] persistence of the filtration
+$\{f \ge t\}$ as $t$ decreases; stored in $f$-value units with
+$\text{birth} \ge \text{death}$, essential $\text{death} = -\infty$.
+\item[Betti at $\tau$] $\Betti_k(\{f \ge \tau\}) = \#\{(b,d) \in D_k : b \ge \tau > d\}$.
+\item[Operating point] $\tau = \operatorname{logit}(p)$; this report uses
+$p = 0.25$.
+\item[Audited triple] a (test image, class, detection level) for which the class
+clears $\operatorname{logit}(0.05)$ somewhere on that image.
+\item[Certified coverage] fraction of audited triples with
+$m(\tau, D) > \varepsilon$.
+\item[Violation] a certified triple whose pruned-model Betti numbers differ from
+the reference; expected count $0$.
+\end{description}
+
+\end{document}
