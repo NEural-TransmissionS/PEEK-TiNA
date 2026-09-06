@@ -1,0 +1,51 @@
+experiment: yolo26n_certified_topological_pruning_detection_v1
+status: scaffold_pre_data
+plan: ../../TDA/TOPO_PRUNE_SAT_PLAN.md
+deviation: DEVIATIONS.md#D1  # segmentation certificate -> detector class-logit maps
+
+reference:
+  family: yolo26
+  architecture: yolo26n
+  initialization: pretrained
+  # Supplied after validation-only selection (parent configs/pruning_yolo26.yaml).
+  checkpoint: null
+  end2end_head: one2one          # deployed path for YOLO26; hook one2one_cv3[i]
+
+certified_object:
+  tensor: "Detect.one2one_cv3[level](neck_feature[level])  # pre-sigmoid"
+  levels: [0, 1, 2]              # strides 8 / 16 / 32
+  classes: [antenna, body, solar, thruster]
+  homology_dimensions: [0, 1]
+  filtration: superlevel         # {f_c >= tau}; cubical, GUDHI
+  operating_point_conf: 0.25     # tau = logit(0.25); calibration-split only, never tuned on test
+  certification_scope: per_level # per (class, level); see DEVIATIONS.md#D1.1
+
+certificate:
+  epsilon:
+    empirical: true              # measured max ||f - f_M||_inf on calibration split
+    certified: true              # Lipschitz product, head + last neck block only
+    report_looseness: true       # ε_cert / ε_emp, always
+  pruning_scope: [detection_head, last_neck_block]   # DEVIATIONS.md#D1.4
+  audit:
+    expected_violations: 0
+    on_violation: halt_and_debug # never tune tau (CLAUDE.md)
+
+pruning_objective:                # plan §3.5
+  minimize: epsilon_certified
+  subject_to:
+    measured_flops_reduction: [0.10, 0.20, 0.30, 0.40, 0.50]
+    tolerance: 0.01
+  search: greedy                  # ILP only if greedy is visibly loose
+
+calibration:
+  split: train
+  manifest: ../../docs/wsd-v71-peek-calibration.json   # reuse the frozen 128-image set
+  test_split_used: false
+
+euler_control:                    # plan §2 route 4 / P0.5, DEVIATIONS.md#D3
+  enabled: true
+  thresholds: 64                  # evenly spaced over the observed logit range per (class, level)
+
+seeds: [42, 43, 44, 45, 46]
+determinism: true
+image_size: 640
