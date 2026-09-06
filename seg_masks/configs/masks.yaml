@@ -1,0 +1,35 @@
+experiment: wsd_pseudo_segmentation_masks_v1
+status: scaffold_pre_data
+purpose: >
+  Option B from REPO_MAP.md B1 -- derive component masks from WSD boxes so the
+  plan's segmentation certificate applies verbatim. Feasibility gated: see
+  docs/feasibility.md.
+
+classes: [antenna, body, solar, thruster]      # label = class_id + 1
+label_convention: "0 = background, class_id + 1 = foreground"
+
+method:
+  default: grabcut
+  grabcut:
+    iterations: 5
+    margin: 8                    # px of context around each box fed to GrabCut
+    min_foreground_fraction: 0.02  # below this -> per-box box-fill fallback
+  sam:
+    weights: null                # e.g. mobile_sam.pt; needs the detector stack
+    device: cpu
+
+overlap_resolution: smaller_box_wins
+
+feasibility_gate:                 # docs/feasibility.md
+  metric: fraction_of_images_where_grabcut_betti_differs_from_boxfill
+  proceed_if: "> 0.20, concentrated in solar/antenna"
+  else: "stay on branch topo-prune/certified-detection; record the negative result"
+
+downstream:
+  segmentation_head: not_selected   # YOLO26n-seg vs small UNet -- decide after the gate
+  certificate: ../topo_prune        # reused unchanged on the seg logit map
+
+splits:
+  calibration: train
+  test_used: false
+seed: 42
