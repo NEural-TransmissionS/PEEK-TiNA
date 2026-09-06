@@ -16,16 +16,34 @@ interpretation changes. Full rationale and the open sign-off questions:
 
 ## Status
 
+**P1 ran locally** on a COCO-pretrained `yolo26n.pt` stand-in (no WSD checkpoint
+yet — `../REPO_MAP.md` B2). Numbers: [`docs/p1-results.md`](docs/p1-results.md).
+Headline: **0 audit violations under the sound certificate across all 10
+prune arms** (E1) and **0 across 240 synthetic scenes with exact ground-truth
+homology** (E2); certified coverage 28% → ~0 as the head-prune budget goes
+10% → 50%.
+
 | | State |
 |---|---|
-| Detector-free core — `filtrations`, `descriptors`, `certificate`, `metrics` | **done, 28 tests pass** on Python 3.14 |
-| `head_maps` (hook the one2one class-logit head), `lipschitz` (ε bounds) | written against pinned `third_party/ultralytics`, **not yet run** — no torch / checkpoint here |
-| `lipschitz.epsilon_certified` (Δφ from a pruning mask) | **not implemented** — needs the checkpoint + a mask spec |
-| P1.5 synthetic audit, coverage-vs-budget, all of P2–P5 | **blocked** on the WSD export + tuned checkpoint (`../REPO_MAP.md` B2) |
+| Detector-free core — `filtrations`, `descriptors`, `certificate`, `metrics`, `synthetic` | **done, 53 tests pass** on Python 3.14 |
+| `head_maps`, `prune`, `lipschitz` (empirical ε + single-layer certified ε) | **run** on `yolo26n.pt` CPU |
+| `lipschitz.epsilon_certified` general mask→Δφ (spectral-norm product) | **`NotImplementedError`** — E1 uses the closed-form single-layer bound (`DEVIATIONS.md` D6) |
+| E1 audit, E2 synthetic validation, `report.py` | **done** — `experiments/p1_certificate/` |
+| Run on the real WSD checkpoint + identity-disjoint split; P2–P5 | pending the checkpoint (`../REPO_MAP.md` B2) |
 
-Same wall the `ood-monitor-phase1` branch hit: capture needs a GPU host with the
-checkpoint and WSD. The detector-free science is built and tested; the rest is
-ready to run there.
+## Reproduce the P1 experiments
+
+```bash
+# one-time: a venv with the topo core + CPU detector stack
+python -m venv .venv && . .venv/Scripts/activate
+pip install gudhi scipy numpy pyyaml joblib pytest
+pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
+pip install -e third_party/ultralytics
+
+python topo_prune/experiments/p1_certificate/run_p1.py         # E1: capture, prune, audit
+python topo_prune/experiments/p1_certificate/synthetic_p15.py  # E2: synthetic validation
+python topo_prune/src/topo_prune/report.py                     # regenerate docs/p1-results.md
+```
 
 ## Layout
 
@@ -37,11 +55,15 @@ topo_prune/
     certificate.py    margin test (§3.3), certify, falsification audit (§3.4), coverage
     metrics.py        Betti-number error (primary metric), simplified Betti-matching error
     head_maps.py      hook Detect.one2one_cv3[i] -> f_c^(i)               [needs detector]
-    lipschitz.py      epsilon_empirical / epsilon_certified (plan §3.2)   [needs checkpoint]
+    prune.py          structured magnitude/random pruning of the class head [needs detector]
+    lipschitz.py      epsilon_empirical / spectral norms / head bounds     [needs checkpoint]
+    capture.py        run a detector over images -> class-logit maps       [needs detector]
+    synthetic.py      logit-map scenes with exact ground-truth homology (P1.5)
+    report.py         run.json manifests -> docs/p1-results.md
   configs/certificate_yolo26.yaml
-  docs/certificate-detection.md
-  tests/               toy_fields.py + 4 test modules, all detector-free
-  experiments/p1_certificate/
+  docs/certificate-detection.md   docs/p1-results.md   (generated)
+  tests/               toy_fields.py + 6 test modules
+  experiments/p1_certificate/    run_p1.py (E1), synthetic_p15.py (E2), runs/*.json
   DEVIATIONS.md  HYPOTHESES.md  RESULTS.md
 ```
 

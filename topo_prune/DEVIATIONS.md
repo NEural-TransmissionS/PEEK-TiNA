@@ -113,6 +113,14 @@ a meaningful output topology and we fall back to option B (segmentation head, se
 branch) or option C (representation topology, no certificate). Record the negative result;
 do not tune `τ` to manufacture structure.
 
+**D1 status update (2026-09-06, local run on COCO-pretrained `yolo26n.pt`).** The kill
+criterion did **not** fire on the stand-in checkpoint: the one2one class-logit maps are
+non-degenerate (superlevel sets have varied `β₀`/`β₁`; pruning changes them on 40–127 of
+555 audited triples depending on budget — `docs/p1-results.md` E1). Still must be re-checked
+on the real WSD checkpoint against GT component counts. The **`ε_cert` propagation path
+(D1.4)** was implemented as a single-layer closed form (final classification conv only),
+not the full spectral-norm product through the neck — see D6.
+
 ---
 
 ## D2 — TDA backend: GUDHI, not `cripser` · PROPOSED
@@ -149,15 +157,18 @@ DECT / `torch-topological` are only needed if the ECC ever has to be *differenti
 
 **Reality:** the only interpreter on this workstation is 3.14.5. The **topological core**
 (numpy 2.5, scipy 1.18, gudhi 3.13, pytest 9) installs and runs cleanly on 3.14 in an
-isolated venv — 14/14 existing topology tests pass. The **detector stack** (torch,
-ultralytics, PEEK) is *not* installable/runnable here and, per `REPO_MAP.md` §B2, needs a
-GPU host with the WSD export and the tuned checkpoint anyway.
+isolated venv.
 
-**What we do:** `topo_prune/` declares its own minimal deps (gudhi/numpy/scipy/pyyaml) and
-its detector-free parts are developed and CI-tested on 3.14. Anything importing torch is
-isolated behind a lazy import and a `requires_detector` pytest marker, exactly as
-`src/topoprun/peek_adapter.py` already does. The detector-coupled steps (`ε_empirical`,
-`ε_certified`, real capture) are written but validated later on the GPU host.
+**Update (2026-09-06).** The **detector stack also runs on 3.14 CPU**: `torch 2.14.0+cpu`,
+`torchvision`, and `ultralytics 8.4.9` install from the pinned `third_party/ultralytics`
+submodule, and `yolo26n.pt` (COCO) + COCO128 download fine. So E1 (capture → prune → audit)
+ran here after all — on the COCO stand-in, not WSD. No CUDA GPU on this box; CPU inference
+of `yolo26n` at 640 px is ~50 ms/image, fine for the 128-image experiments. `PEEK` is still
+not installed (option A doesn't need it — it hooks the head directly, not PEEK maps).
+
+**What we do:** `topo_prune/` declares its own minimal deps. `test_prune` uses
+`pytest.importorskip` for torch/ultralytics; the rest of the suite is detector-free and
+runs anywhere.
 
 ---
 
@@ -168,6 +179,38 @@ host" stance and `CLAUDE.md` ("A recorded negative/blocked result is a deliverab
 tune until the result looks better"). Functions that need the checkpoint or WSD raise with
 a message naming exactly what is missing. `RESULTS.md` carries a BLOCKED row, not a fake
 number.
+
+---
+
+## D6 — `ε_cert` is a single-layer, calibration-based bound (not the full §3.2a product) · IMPLEMENTED
+
+**Plan §3.2a:** `ε_cert(M) = (∏_{k>ℓ} L_k) · ‖Δφ_ℓ‖_∞` — a product of per-layer Lipschitz
+constants from the pruned layer to the output.
+
+**What E1 actually computes:** we prune the **input channels of the final 1×1
+classification conv** (`DEVIATIONS.md` D1.4), so the propagation path is that one linear
+layer and the product collapses to a closed form:
+
+```
+ε_cert(c, level) = Σ_{k ∈ dropped} |W_final[c, level, k]| · M_k ,
+   M_k = max over the calibration set and space of |penultimate_feature_k|
+```
+
+Two honesty points, both required by the plan (§3.2, §7 "Report `ε_cert` looseness
+honestly"), stated in `docs/p1-results.md` and the run manifest:
+
+1. **It is calibration-based, not worst-case.** `M_k` is a max over the calibration split.
+   A true worst-case bound needs an input-domain bound on the penultimate activation
+   (interval bound propagation from the image through the backbone+neck+head-prefix) — not
+   done. So `ε_cert` here is the plan's §3.2 *mitigation 2* ("high-confidence bound"), not a
+   certificate in the strict sense. Measured looseness vs `ε_emp`: ~2–5×.
+2. **`lipschitz.epsilon_certified(model, mask, ...)`** (the general form that turns an
+   arbitrary `mask` into `‖Δφ‖_∞` and propagates a spectral-norm product) still raises
+   `NotImplementedError`. E1 bypasses it with the closed form above, which only covers
+   final-conv-input pruning.
+
+Widening the prune scope (into neck blocks) or claiming a strict certificate both require
+finishing the general `epsilon_certified` with IBP. Tracked as the top P1 follow-up.
 
 ---
 
