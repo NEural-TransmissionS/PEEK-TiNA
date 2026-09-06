@@ -18,13 +18,18 @@ Needs the WSD export — not on any reachable host yet (`../REPO_MAP.md` B2).
 
 | Piece | State |
 |---|---|
-| `wsd_labels` — YOLO txt → pixel boxes | done, tested |
+| `wsd_labels` — YOLO txt → boxes (WSD + COCO layouts) | done, tested |
 | `box_to_mask` — GrabCut / box-fill / SAM(box-prompted) | GrabCut + box-fill done & tested; SAM path lazy (needs weights) |
 | `topology_check` — β0/β1 of a binary mask (scipy) | done, tested vs disk / annulus / two-disks |
-| `scripts/generate_masks.py` — split → label PNGs + feasibility manifest | written, unrun |
-| segmentation head on the masks | not started — gated on the feasibility number |
+| `scripts/generate_masks.py` + `feasibility_report.py` | **run on COCO128** — [`docs/feasibility-results.md`](docs/feasibility-results.md) |
+| segmentation head on the masks | not started — gated on the WSD feasibility number |
 
-`make -C seg_masks test` → **12 passed** (Python 3.14, opencv 5.0, scipy 1.18).
+`make -C seg_masks test` → **13 passed** (Python 3.14, opencv 5.0, scipy 1.18).
+
+**Pipeline check (COCO128 stand-in):** GrabCut masks differ topologically from
+box-fill on **83%** of images (105/126), 719 β₁ holes total. Real signal; not the
+WSD gate number (needs the WSD export — `../REPO_MAP.md` B2). Details +
+fallback-rate caveat: [`docs/feasibility-results.md`](docs/feasibility-results.md).
 
 ## Layout
 

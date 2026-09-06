@@ -41,13 +41,24 @@ which is not on any reachable host yet (`REPO_MAP.md` B2).
 
 | Piece | State |
 |---|---|
-| `wsd_labels.parse_label_file` | done, tested |
+| `wsd_labels` — YOLO txt → boxes, `labels_dir_for` (WSD + COCO layouts) | done, tested |
 | `box_to_mask.{boxfill,grabcut,sam}_mask` | done; GrabCut + boxfill tested (SAM path lazy, needs weights) |
 | `topology_check.betti_numbers` (scipy, no GUDHI needed for binary masks) | done, tested against disk/annulus/two-disks |
-| `scripts/generate_masks.py` | written; unrun (no WSD) |
-| segmentation head training on the masks | **not started** — gated on the feasibility number above |
+| `scripts/generate_masks.py` + `feasibility_report.py` | **run on COCO128** (pipeline check) — [`feasibility-results.md`](feasibility-results.md) |
+| segmentation head training on the masks | **not started** — gated on the WSD feasibility number |
 | certificate on the seg logit map | reuses `../topo_prune/` unchanged once a seg checkpoint exists |
 
-Test: `make -C seg_masks test` → 12 passed (Python 3.14, opencv 5.0, scipy 1.18).
-The GrabCut test demonstrates the mechanism: on a synthetic bright ring it keeps
-the central hole (`beta1 = 1`) that box-fill destroys (`beta1 = 0`).
+`make -C seg_masks test` → 13 passed (Python 3.14, opencv 5.0, scipy 1.18).
+
+## Pipeline check on COCO128 (stand-in — [`feasibility-results.md`](feasibility-results.md))
+
+No WSD yet (`../REPO_MAP.md` B2), so the mechanism was exercised on COCO128
+(`third_party/datasets/coco128`, YOLO boxes). GrabCut masks differ topologically
+from box-fill on **83% of images** (105/126), introducing **719** holes (β₁) in
+total — the measurement pipeline produces a real, non-degenerate signal.
+
+Caveat: GrabCut fell back to box-fill on ≥1 box on **73/128** COCO images —
+COCO's overlapping-box clutter is the hard case. WSD (one spacecraft, dark
+background, well-separated components) should fall back far less. The 83% is not
+the WSD gate number; it shows the pipeline works and that GrabCut *can* recover
+topology boxes lack.

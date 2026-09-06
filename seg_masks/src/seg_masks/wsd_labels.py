@@ -34,6 +34,19 @@ class Box:
         return self.x0, self.y0, self.width, self.height
 
 
+def labels_dir_for(images_dir: Path) -> Path:
+    """The YOLO labels tree that mirrors ``images_dir`` with the last ``images``
+    path segment swapped for ``labels`` -- handles WSD's ``train/images`` +
+    ``train/labels`` and COCO's ``images/<split>`` + ``labels/<split>``.
+    """
+    parts = list(Path(images_dir).parts)
+    for i in range(len(parts) - 1, -1, -1):
+        if parts[i] == "images":
+            parts[i] = "labels"
+            return Path(*parts)
+    raise ValueError(f"no 'images' segment in {images_dir}")
+
+
 def parse_label_file(path: Path, image_width: int, image_height: int) -> list[Box]:
     """Parse one YOLO ``.txt`` into pixel-space :class:`Box` objects.
 

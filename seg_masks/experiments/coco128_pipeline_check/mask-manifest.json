@@ -1,0 +1,1654 @@
+{
+  "images_dir": "third_party\\datasets\\coco128\\images\\train2017",
+  "method": "grabcut",
+  "wsd_classes": [
+    "antenna",
+    "body",
+    "solar",
+    "thruster"
+  ],
+  "label_convention": "0 = background, class_id + 1 = foreground",
+  "images": 128,
+  "images_with_boxes": 126,
+  "images_where_method_changed_topology_vs_boxfill": 105,
+  "fraction_changed": 0.8333333333333334,
+  "per_class_drift": {
+    "0": {
+      "images": 61,
+      "changed": 40,
+      "d_beta1": 210
+    },
+    "1": {
+      "images": 3,
+      "changed": 2,
+      "d_beta1": 2
+    },
+    "2": {
+      "images": 12,
+      "changed": 3,
+      "d_beta1": 1
+    },
+    "3": {
+      "images": 4,
+      "changed": 2,
+      "d_beta1": 9
+    },
+    "4": {
+      "images": 5,
+      "changed": 4,
+      "d_beta1": 38
+    },
+    "5": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 19
+    },
+    "6": {
+      "images": 3,
+      "changed": 2,
+      "d_beta1": 3
+    },
+    "7": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 2
+    },
+    "8": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 5
+    },
+    "9": {
+      "images": 4,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "11": {
+      "images": 2,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "13": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 1
+    },
+    "14": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 4
+    },
+    "15": {
+      "images": 4,
+      "changed": 3,
+      "d_beta1": 11
+    },
+    "16": {
+      "images": 9,
+      "changed": 6,
+      "d_beta1": 6
+    },
+    "17": {
+      "images": 1,
+      "changed": 1,
+      "d_beta1": 4
+    },
+    "20": {
+      "images": 4,
+      "changed": 2,
+      "d_beta1": 23
+    },
+    "21": {
+      "images": 1,
+      "changed": 1,
+      "d_beta1": 2
+    },
+    "22": {
+      "images": 2,
+      "changed": 2,
+      "d_beta1": 0
+    },
+    "23": {
+      "images": 4,
+      "changed": 3,
+      "d_beta1": 5
+    },
+    "24": {
+      "images": 4,
+      "changed": 1,
+      "d_beta1": 1
+    },
+    "25": {
+      "images": 4,
+      "changed": 2,
+      "d_beta1": 0
+    },
+    "26": {
+      "images": 9,
+      "changed": 3,
+      "d_beta1": 2
+    },
+    "27": {
+      "images": 6,
+      "changed": 3,
+      "d_beta1": 7
+    },
+    "28": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 3
+    },
+    "29": {
+      "images": 5,
+      "changed": 2,
+      "d_beta1": 3
+    },
+    "30": {
+      "images": 1,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "31": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 8
+    },
+    "32": {
+      "images": 6,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "33": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 0
+    },
+    "34": {
+      "images": 4,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "35": {
+      "images": 4,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "36": {
+      "images": 3,
+      "changed": 1,
+      "d_beta1": 2
+    },
+    "38": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 2
+    },
+    "39": {
+      "images": 6,
+      "changed": 2,
+      "d_beta1": 9
+    },
+    "40": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 2
+    },
+    "41": {
+      "images": 10,
+      "changed": 4,
+      "d_beta1": 3
+    },
+    "42": {
+      "images": 6,
+      "changed": 2,
+      "d_beta1": 9
+    },
+    "43": {
+      "images": 7,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "44": {
+      "images": 5,
+      "changed": 2,
+      "d_beta1": 1
+    },
+    "45": {
+      "images": 9,
+      "changed": 6,
+      "d_beta1": 50
+    },
+    "46": {
+      "images": 1,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "48": {
+      "images": 2,
+      "changed": 2,
+      "d_beta1": 9
+    },
+    "49": {
+      "images": 1,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "50": {
+      "images": 4,
+      "changed": 2,
+      "d_beta1": 8
+    },
+    "51": {
+      "images": 3,
+      "changed": 2,
+      "d_beta1": 10
+    },
+    "52": {
+      "images": 1,
+      "changed": 1,
+      "d_beta1": 30
+    },
+    "53": {
+      "images": 5,
+      "changed": 4,
+      "d_beta1": 74
+    },
+    "54": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 6
+    },
+    "55": {
+      "images": 4,
+      "changed": 2,
+      "d_beta1": 8
+    },
+    "56": {
+      "images": 9,
+      "changed": 5,
+      "d_beta1": 12
+    },
+    "57": {
+      "images": 5,
+      "changed": 4,
+      "d_beta1": 8
+    },
+    "58": {
+      "images": 9,
+      "changed": 4,
+      "d_beta1": 0
+    },
+    "59": {
+      "images": 3,
+      "changed": 3,
+      "d_beta1": 19
+    },
+    "60": {
+      "images": 10,
+      "changed": 9,
+      "d_beta1": 21
+    },
+    "61": {
+      "images": 2,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "62": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 1
+    },
+    "63": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 12
+    },
+    "64": {
+      "images": 2,
+      "changed": 0,
+      "d_beta1": 0
+    },
+    "65": {
+      "images": 5,
+      "changed": 2,
+      "d_beta1": 2
+    },
+    "67": {
+      "images": 5,
+      "changed": 1,
+      "d_beta1": 0
+    },
+    "68": {
+      "images": 3,
+      "changed": 2,
+      "d_beta1": 5
+    },
+    "69": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 6
+    },
+    "71": {
+      "images": 4,
+      "changed": 1,
+      "d_beta1": 3
+    },
+    "72": {
+      "images": 5,
+      "changed": 3,
+      "d_beta1": 9
+    },
+    "73": {
+      "images": 6,
+      "changed": 3,
+      "d_beta1": 1
+    },
+    "74": {
+      "images": 8,
+      "changed": 2,
+      "d_beta1": 1
+    },
+    "75": {
+      "images": 2,
+      "changed": 1,
+      "d_beta1": 1
+    },
+    "76": {
+      "images": 1,
+      "changed": 1,
+      "d_beta1": 4
+    },
+    "77": {
+      "images": 6,
+      "changed": 4,
+      "d_beta1": 21
+    },
+    "79": {
+      "images": 2,
+      "changed": 2,
+      "d_beta1": 1
+    }
+  },
+  "records": [
+    {
+      "image": "000000000009.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.7290299479166666,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 10,
+        "d_beta1": 21
+      }
+    },
+    {
+      "image": "000000000025.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.09254328051643193,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000030.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.16072941004672897,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 26,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000034.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.29290808823529413,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000036.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.5505392411642411,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 14,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000042.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.18243985355648534,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000049.jpg",
+      "boxes": 9,
+      "method": "grabcut+boxfill",
+      "coverage": 0.046241469816272966,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000061.jpg",
+      "boxes": 5,
+      "method": "grabcut+boxfill",
+      "coverage": 0.060082607581967214,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000064.jpg",
+      "boxes": 4,
+      "method": "grabcut+boxfill",
+      "coverage": 0.10954427083333333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000071.jpg",
+      "boxes": 16,
+      "method": "grabcut+boxfill",
+      "coverage": 0.21365170187793428,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000072.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.6204588700234192,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000073.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.5277129424778761,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000074.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.17688160211267606,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000077.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.2032,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000078.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.08933796830278952,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000081.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.23044852941176472,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 5
+      }
+    },
+    {
+      "image": "000000000086.jpg",
+      "boxes": 3,
+      "method": "grabcut+boxfill",
+      "coverage": 0.341845703125,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000089.jpg",
+      "boxes": 10,
+      "method": "grabcut+boxfill",
+      "coverage": 0.319775390625,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 5
+      }
+    },
+    {
+      "image": "000000000092.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.2903688524590164,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 8,
+        "d_beta1": 17
+      }
+    },
+    {
+      "image": "000000000094.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.011120462529274004,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000109.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.005491286057692307,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000110.jpg",
+      "boxes": 24,
+      "method": "grabcut+boxfill",
+      "coverage": 0.9799283854166667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 13,
+        "d_beta1": 13
+      }
+    },
+    {
+      "image": "000000000113.jpg",
+      "boxes": 18,
+      "method": "grabcut+boxfill",
+      "coverage": 0.7012394831730769,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 5,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000127.jpg",
+      "boxes": 17,
+      "method": "grabcut+boxfill",
+      "coverage": 0.38590176715176716,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 27,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000133.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.5351497395833333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 9,
+        "d_beta1": 9
+      }
+    },
+    {
+      "image": "000000000136.jpg",
+      "boxes": 4,
+      "method": "grabcut+boxfill",
+      "coverage": 0.27746524064171124,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 5,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000138.jpg",
+      "boxes": 7,
+      "method": "grabcut",
+      "coverage": 0.17201134380453753,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000142.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.4555078125,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 10,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000143.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.27062,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 16,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000144.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.4350944010416667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000149.jpg",
+      "boxes": 22,
+      "method": "grabcut+boxfill",
+      "coverage": 0.006111273364485982,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 7,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000151.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.23407552083333333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000154.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.16894394028103044,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000164.jpg",
+      "boxes": 40,
+      "method": "grabcut+boxfill",
+      "coverage": 0.11161783854166667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000165.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.7051714085820896,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 39,
+        "d_beta1": 13
+      }
+    },
+    {
+      "image": "000000000192.jpg",
+      "boxes": 5,
+      "method": "grabcut+boxfill",
+      "coverage": 0.11403971354166667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000194.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.727568359375,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 7,
+        "d_beta1": 51
+      }
+    },
+    {
+      "image": "000000000196.jpg",
+      "boxes": 42,
+      "method": "grabcut+boxfill",
+      "coverage": 0.8081282552083333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 18,
+        "d_beta1": 7
+      }
+    },
+    {
+      "image": "000000000201.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.22634710864485982,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 8
+      }
+    },
+    {
+      "image": "000000000208.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.463603515625,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 40,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000241.jpg",
+      "boxes": 14,
+      "method": "grabcut",
+      "coverage": 0.5950911458333333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 13,
+        "d_beta1": 24
+      }
+    },
+    {
+      "image": "000000000247.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.6983822228773585,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 16
+      }
+    },
+    {
+      "image": "000000000250.jpg",
+      "boxes": 0,
+      "method": "grabcut",
+      "coverage": 0.0,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000257.jpg",
+      "boxes": 33,
+      "method": "grabcut+boxfill",
+      "coverage": 0.16212239583333332,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000260.jpg",
+      "boxes": 7,
+      "method": "grabcut+boxfill",
+      "coverage": 0.15327927927927928,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000263.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.6967243020304569,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 10,
+        "d_beta1": 23
+      }
+    },
+    {
+      "image": "000000000283.jpg",
+      "boxes": 5,
+      "method": "grabcut",
+      "coverage": 0.6540924357476635,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 29,
+        "d_beta1": 24
+      }
+    },
+    {
+      "image": "000000000294.jpg",
+      "boxes": 20,
+      "method": "grabcut+boxfill",
+      "coverage": 0.2959382318501171,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 65,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000307.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.08993815104166666,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000308.jpg",
+      "boxes": 13,
+      "method": "grabcut+boxfill",
+      "coverage": 0.4040713028169014,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 10,
+        "d_beta1": 8
+      }
+    },
+    {
+      "image": "000000000309.jpg",
+      "boxes": 4,
+      "method": "grabcut+boxfill",
+      "coverage": 0.12581111111111112,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000312.jpg",
+      "boxes": 6,
+      "method": "grabcut+boxfill",
+      "coverage": 0.32077722482435594,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 5,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000315.jpg",
+      "boxes": 38,
+      "method": "grabcut+boxfill",
+      "coverage": 0.4093164519906323,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 5,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000321.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.369931640625,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 37
+      }
+    },
+    {
+      "image": "000000000322.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.06737590956340957,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000326.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.14671399297423887,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 159,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000328.jpg",
+      "boxes": 11,
+      "method": "grabcut+boxfill",
+      "coverage": 0.5795411150712831,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 13,
+        "d_beta1": 6
+      }
+    },
+    {
+      "image": "000000000332.jpg",
+      "boxes": 7,
+      "method": "grabcut+boxfill",
+      "coverage": 0.79796875,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 13,
+        "d_beta1": 15
+      }
+    },
+    {
+      "image": "000000000338.jpg",
+      "boxes": 6,
+      "method": "grabcut+boxfill",
+      "coverage": 0.14560875382262997,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000349.jpg",
+      "boxes": 4,
+      "method": "grabcut+boxfill",
+      "coverage": 0.15944010416666668,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 5,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000357.jpg",
+      "boxes": 17,
+      "method": "grabcut+boxfill",
+      "coverage": 0.04992832568807339,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000359.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.02574698795180723,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000360.jpg",
+      "boxes": 3,
+      "method": "grabcut+boxfill",
+      "coverage": 0.021434666666666668,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000368.jpg",
+      "boxes": 13,
+      "method": "grabcut+boxfill",
+      "coverage": 0.18258463541666667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000370.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.5515950520833334,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 24,
+        "d_beta1": 14
+      }
+    },
+    {
+      "image": "000000000382.jpg",
+      "boxes": 3,
+      "method": "grabcut+boxfill",
+      "coverage": 0.011337890625,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000384.jpg",
+      "boxes": 11,
+      "method": "grabcut+boxfill",
+      "coverage": 0.08226247197309416,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000387.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.42042643229166665,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 6,
+        "d_beta1": 12
+      }
+    },
+    {
+      "image": "000000000389.jpg",
+      "boxes": 14,
+      "method": "grabcut+boxfill",
+      "coverage": 0.47652018229166665,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 15,
+        "d_beta1": 28
+      }
+    },
+    {
+      "image": "000000000394.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.5462612520458265,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 102,
+        "d_beta1": 7
+      }
+    },
+    {
+      "image": "000000000395.jpg",
+      "boxes": 13,
+      "method": "grabcut+boxfill",
+      "coverage": 0.432734375,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 12,
+        "d_beta1": 27
+      }
+    },
+    {
+      "image": "000000000397.jpg",
+      "boxes": 7,
+      "method": "grabcut+boxfill",
+      "coverage": 0.8573958333333334,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 4
+      }
+    },
+    {
+      "image": "000000000400.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.28787470611285265,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 6,
+        "d_beta1": 5
+      }
+    },
+    {
+      "image": "000000000404.jpg",
+      "boxes": 5,
+      "method": "grabcut+boxfill",
+      "coverage": 0.06959727112676056,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000415.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.05964484679665738,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000419.jpg",
+      "boxes": 7,
+      "method": "grabcut+boxfill",
+      "coverage": 0.06511067708333333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000428.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.29163628472222225,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 29,
+        "d_beta1": 29
+      }
+    },
+    {
+      "image": "000000000431.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.056603470437017994,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000436.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.5845543032786885,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 19,
+        "d_beta1": 8
+      }
+    },
+    {
+      "image": "000000000438.jpg",
+      "boxes": 13,
+      "method": "grabcut+boxfill",
+      "coverage": 0.3463053385416667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 10,
+        "d_beta1": 6
+      }
+    },
+    {
+      "image": "000000000443.jpg",
+      "boxes": 6,
+      "method": "grabcut",
+      "coverage": 0.8341829427083334,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 95,
+        "d_beta1": 16
+      }
+    },
+    {
+      "image": "000000000446.jpg",
+      "boxes": 13,
+      "method": "grabcut+boxfill",
+      "coverage": 0.32561848958333334,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 13,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000450.jpg",
+      "boxes": 4,
+      "method": "grabcut+boxfill",
+      "coverage": 0.7086588541666666,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 35,
+        "d_beta1": 21
+      }
+    },
+    {
+      "image": "000000000459.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.5330062984496124,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 14,
+        "d_beta1": 29
+      }
+    },
+    {
+      "image": "000000000471.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.22725043911007026,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 16
+      }
+    },
+    {
+      "image": "000000000472.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.006160121681415929,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000474.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.31376576576576576,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 41,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000486.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.10544496487119438,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000488.jpg",
+      "boxes": 10,
+      "method": "grabcut+boxfill",
+      "coverage": 0.08072275246305419,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000490.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.048197979797979795,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 14,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000491.jpg",
+      "boxes": 4,
+      "method": "grabcut+boxfill",
+      "coverage": 0.639629392971246,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 8,
+        "d_beta1": 9
+      }
+    },
+    {
+      "image": "000000000502.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.1533482142857143,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000508.jpg",
+      "boxes": 0,
+      "method": "grabcut",
+      "coverage": 0.0,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000510.jpg",
+      "boxes": 3,
+      "method": "grabcut+boxfill",
+      "coverage": 0.36303385416666667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000514.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.36706163194444447,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 15,
+        "d_beta1": 8
+      }
+    },
+    {
+      "image": "000000000520.jpg",
+      "boxes": 11,
+      "method": "grabcut+boxfill",
+      "coverage": 0.006585286458333333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000529.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.27177254098360654,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 7,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000531.jpg",
+      "boxes": 15,
+      "method": "grabcut+boxfill",
+      "coverage": 0.035130208333333336,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000532.jpg",
+      "boxes": 8,
+      "method": "grabcut+boxfill",
+      "coverage": 0.245009765625,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 7,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000536.jpg",
+      "boxes": 11,
+      "method": "grabcut+boxfill",
+      "coverage": 0.3974941539115646,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 23,
+        "d_beta1": 7
+      }
+    },
+    {
+      "image": "000000000540.jpg",
+      "boxes": 20,
+      "method": "grabcut+boxfill",
+      "coverage": 0.033165441176470585,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 7
+      }
+    },
+    {
+      "image": "000000000542.jpg",
+      "boxes": 17,
+      "method": "grabcut+boxfill",
+      "coverage": 0.29059594524793386,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 15,
+        "d_beta1": 10
+      }
+    },
+    {
+      "image": "000000000544.jpg",
+      "boxes": 16,
+      "method": "grabcut+boxfill",
+      "coverage": 0.11251097775175645,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000560.jpg",
+      "boxes": 5,
+      "method": "grabcut+boxfill",
+      "coverage": 0.07886705685618729,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000562.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.26053486997635933,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 21,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000564.jpg",
+      "boxes": 16,
+      "method": "grabcut+boxfill",
+      "coverage": 0.11413762019230769,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 9,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000569.jpg",
+      "boxes": 5,
+      "method": "grabcut+boxfill",
+      "coverage": 0.011751302083333333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 4,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000572.jpg",
+      "boxes": 3,
+      "method": "grabcut",
+      "coverage": 0.4066012880562061,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 12
+      }
+    },
+    {
+      "image": "000000000575.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.11836013645224172,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000581.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.10857505285412263,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 2,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000584.jpg",
+      "boxes": 14,
+      "method": "grabcut+boxfill",
+      "coverage": 0.557093603286385,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 8,
+        "d_beta1": 23
+      }
+    },
+    {
+      "image": "000000000589.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.029899088541666667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 5,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000590.jpg",
+      "boxes": 2,
+      "method": "grabcut+boxfill",
+      "coverage": 0.009271393643031785,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 1,
+        "d_beta1": 1
+      }
+    },
+    {
+      "image": "000000000595.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.041790364583333336,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000597.jpg",
+      "boxes": 7,
+      "method": "grabcut+boxfill",
+      "coverage": 0.0967741935483871,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000599.jpg",
+      "boxes": 5,
+      "method": "grabcut+boxfill",
+      "coverage": 0.29540079852579854,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 24,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000605.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.7854654947916667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 15,
+        "d_beta1": 2
+      }
+    },
+    {
+      "image": "000000000612.jpg",
+      "boxes": 11,
+      "method": "grabcut+boxfill",
+      "coverage": 0.15180338541666666,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 27,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000620.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.34369466145833333,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 6,
+        "d_beta1": 7
+      }
+    },
+    {
+      "image": "000000000623.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.7441066666666667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 34,
+        "d_beta1": 14
+      }
+    },
+    {
+      "image": "000000000625.jpg",
+      "boxes": 4,
+      "method": "grabcut",
+      "coverage": 0.09262542040358744,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 7,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000626.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.0055501302083333336,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 3,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000629.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.09247658079625293,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 9,
+        "d_beta1": 9
+      }
+    },
+    {
+      "image": "000000000634.jpg",
+      "boxes": 6,
+      "method": "grabcut+boxfill",
+      "coverage": 0.28170740632318503,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000636.jpg",
+      "boxes": 1,
+      "method": "grabcut",
+      "coverage": 0.32069986979166665,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 0
+      }
+    },
+    {
+      "image": "000000000641.jpg",
+      "boxes": 12,
+      "method": "grabcut+boxfill",
+      "coverage": 0.2070495035046729,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 0,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000643.jpg",
+      "boxes": 20,
+      "method": "grabcut+boxfill",
+      "coverage": 0.2576906666666667,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 7,
+        "d_beta1": 3
+      }
+    },
+    {
+      "image": "000000000650.jpg",
+      "boxes": 2,
+      "method": "grabcut",
+      "coverage": 0.24948038641686182,
+      "betti_drift_vs_boxfill": {
+        "d_beta0": 21,
+        "d_beta1": 1
+      }
+    }
+  ]
+}

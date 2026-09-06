@@ -25,15 +25,15 @@ sys.path.insert(0, str(ROOT / "seg_masks" / "src"))
 
 from seg_masks.box_to_mask import boxfill_mask, grabcut_mask, sam_mask, to_binary
 from seg_masks.topology_check import betti_numbers
-from seg_masks.wsd_labels import WSD_CLASSES, parse_label_file
+from seg_masks.wsd_labels import WSD_CLASSES, labels_dir_for, parse_label_file
 
 
 def _iter_split(images_dir: Path):
+    labels_dir = labels_dir_for(images_dir)
     for image_path in sorted(images_dir.glob("*")):
         if image_path.suffix.lower() not in {".jpg", ".jpeg", ".png"}:
             continue
-        label_path = image_path.parent.parent / "labels" / f"{image_path.stem}.txt"
-        yield image_path, label_path
+        yield image_path, labels_dir / f"{image_path.stem}.txt"
 
 
 def main() -> None:
@@ -54,6 +54,7 @@ def main() -> None:
     if args.limit:
         pairs = pairs[: args.limit]
 
+    per_class_drift: dict[int, dict[str, int]] = {}
     for image_path, label_path in pairs:
         image = np.array(Image.open(image_path).convert("RGB"))
         h, w = image.shape[:2]
@@ -68,11 +69,17 @@ def main() -> None:
         fill = boxfill_mask((h, w), boxes)
 
         drift = {"d_beta0": 0, "d_beta1": 0}
-        for class_id in range(len(WSD_CLASSES)):
+        present = sorted({b.class_id for b in boxes})
+        for class_id in present:
             a = betti_numbers(to_binary(result.label_map, class_id))
             b = betti_numbers(to_binary(fill.label_map, class_id))
-            drift["d_beta0"] += abs(a["beta0"] - b["beta0"])
-            drift["d_beta1"] += abs(a["beta1"] - b["beta1"])
+            db0, db1 = abs(a["beta0"] - b["beta0"]), abs(a["beta1"] - b["beta1"])
+            drift["d_beta0"] += db0
+            drift["d_beta1"] += db1
+            pc = per_class_drift.setdefault(class_id, {"images": 0, "changed": 0, "d_beta1": 0})
+            pc["images"] += 1
+            pc["changed"] += int(bool(db0 or db1))
+            pc["d_beta1"] += db1
 
         Image.fromarray(result.label_map).save(args.output_root / f"{image_path.stem}.png")
         records.append({
@@ -83,22 +90,27 @@ def main() -> None:
             "betti_drift_vs_boxfill": drift,
         })
 
+    changed = sum(
+        1 for r in records
+        if r["betti_drift_vs_boxfill"]["d_beta0"] or r["betti_drift_vs_boxfill"]["d_beta1"]
+    )
     manifest = {
         "images_dir": str(args.images_dir),
         "method": args.method,
-        "classes": list(WSD_CLASSES),
+        "wsd_classes": list(WSD_CLASSES),
         "label_convention": "0 = background, class_id + 1 = foreground",
         "images": len(records),
-        "images_where_grabcut_changed_topology": sum(
-            1 for r in records
-            if r["betti_drift_vs_boxfill"]["d_beta0"] or r["betti_drift_vs_boxfill"]["d_beta1"]
-        ),
+        "images_with_boxes": sum(1 for r in records if r["boxes"]),
+        "images_where_method_changed_topology_vs_boxfill": changed,
+        "fraction_changed": changed / max(1, sum(1 for r in records if r["boxes"])),
+        "per_class_drift": {str(k): v for k, v in sorted(per_class_drift.items())},
         "records": records,
     }
     (args.output_root / "mask-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"Wrote {len(records)} masks + manifest to {args.output_root}")
-    print(f"GrabCut changed the topology vs box-fill on "
-          f"{manifest['images_where_grabcut_changed_topology']}/{len(records)} images")
+    print(f"{args.method} changed the topology vs box-fill on "
+          f"{changed}/{manifest['images_with_boxes']} images with boxes "
+          f"({manifest['fraction_changed']:.1%})")
 
 
 if __name__ == "__main__":

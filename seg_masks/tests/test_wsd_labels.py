@@ -1,7 +1,18 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
-from seg_masks.wsd_labels import parse_label_file
+from seg_masks.wsd_labels import labels_dir_for, parse_label_file
+
+
+def test_labels_dir_for_wsd_and_coco_layouts():
+    assert labels_dir_for(Path("d/satellite_components-71/train/images")) == Path(
+        "d/satellite_components-71/train/labels"
+    )
+    assert labels_dir_for(Path("d/coco128/images/train2017")) == Path("d/coco128/labels/train2017")
+    with pytest.raises(ValueError):
+        labels_dir_for(Path("d/pics/train"))
 
 
 def test_parse_label_file_converts_to_pixels(tmp_path):

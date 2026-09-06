@@ -15,3 +15,7 @@ weights/
 
 # Vendored upstream checkouts (see .gitmodules for pinned commits/URLs).
 # All three are real, pinned git submodules.
+
+# experiment inputs (large; not results)
+third_party/datasets/
+/yolo26n.pt
