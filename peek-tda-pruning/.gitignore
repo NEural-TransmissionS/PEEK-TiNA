@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+.ultralytics/
+slurm_logs/
+# run outputs (published summaries live in results/)
+structural_pruning/outputs/
+block_pruning/data/
+block_pruning/runs/
+block_pruning/ranking/
+block_pruning/ranking_peek/
+block_pruning/results/
+block_pruning/results.csv
+block_pruning/summary.png
+block_pruning/slurm/logs/
+# WSD is private: never commit its images, labels, or checkpoints trained on it
+*.pt

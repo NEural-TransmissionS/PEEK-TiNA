@@ -1,0 +1,28 @@
+{
+  "criterion": "l2",
+  "ratio": 0.3,
+  "seed": 42,
+  "epochs": 20,
+  "warmup_epochs": 1.0,
+  "protect_layers": 6,
+  "dense": {
+    "params": 9950186,
+    "gflops": 22.3562032
+  },
+  "pruned": {
+    "params": 7342102,
+    "gflops": 18.1057816
+  },
+  "before_finetune": {
+    "map50_95": 0.2273494912320667,
+    "map50": 0.40151405648307986
+  },
+  "after_bn_recal": {
+    "map50_95": 0.5745773164480252,
+    "map50": 0.8861830676755832
+  },
+  "after_finetune": {
+    "map50_95": 0.9780369444672151,
+    "map50": 0.9919710803787797
+  }
+}

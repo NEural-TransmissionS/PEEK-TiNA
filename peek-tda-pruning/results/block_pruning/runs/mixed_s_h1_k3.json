@@ -1,0 +1,22 @@
+{
+  "dataset": "mixed",
+  "size": "s",
+  "criterion": "h1",
+  "k": 3,
+  "layers_cut": [
+    19,
+    22,
+    13
+  ],
+  "cut_persistence": [
+    0.0081,
+    0.0081,
+    0.0379
+  ],
+  "mAP50-95": 0.9792,
+  "mAP50": 0.993,
+  "epochs": 60,
+  "epochs_run": 60,
+  "params": 8000184,
+  "gflops": 19.872
+}

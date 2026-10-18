@@ -1,0 +1,13 @@
+# generated at run time
+data/
+runs/
+ranking/
+results/
+results.csv
+summary.png
+slurm/logs/
+__pycache__/
+*.pyc
+.venv/
+# weights/ is intentionally committed -- the baselines are part of the package
+weights/wsd_*.pt

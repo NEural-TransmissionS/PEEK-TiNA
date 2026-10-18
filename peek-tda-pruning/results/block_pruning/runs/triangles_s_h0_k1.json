@@ -1,0 +1,17 @@
+{
+  "dataset": "triangles",
+  "size": "s",
+  "criterion": "h0",
+  "k": 1,
+  "layers_cut": [
+    19
+  ],
+  "cut_persistence": [
+    0.038
+  ],
+  "mAP50-95": 0.9826,
+  "mAP50": 0.9915,
+  "epochs": 60,
+  "params": 9729720,
+  "gflops": 21.937
+}

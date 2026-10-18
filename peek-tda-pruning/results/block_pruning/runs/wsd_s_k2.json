@@ -1,0 +1,20 @@
+{
+  "dataset": "wsd",
+  "size": "s",
+  "criterion": "combined",
+  "k": 2,
+  "layers_cut": [
+    22,
+    13
+  ],
+  "cut_persistence": [
+    0.0,
+    0.1074
+  ],
+  "mAP50-95": 0.3715,
+  "mAP50": 0.5157,
+  "epochs": 1000,
+  "epochs_run": 391,
+  "params": 8280248,
+  "gflops": 20.773
+}

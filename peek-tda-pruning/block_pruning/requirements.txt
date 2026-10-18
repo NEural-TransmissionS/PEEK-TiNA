@@ -1,0 +1,11 @@
+# Matches the pinned working environment. The repo's ultralytics submodule is
+# commit 40eb41ac3032958ef54bece0d8b262e196af3259; PyPI 8.4.9 tracks it.
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.6.0
+ultralytics==8.4.9
+gudhi==3.13.0
+numpy<2
+opencv-python-headless>=4.9
+scipy>=1.11
+matplotlib>=3.8
+pyyaml>=6

@@ -1,0 +1,16 @@
+{
+  "dataset": "circles",
+  "size": "n",
+  "k": 1,
+  "layers_cut": [
+    22
+  ],
+  "cut_persistence": [
+    0.0363
+  ],
+  "mAP50-95": 0.9939,
+  "mAP50": 0.9947,
+  "epochs": 60,
+  "params": 2207992,
+  "gflops": 5.826
+}

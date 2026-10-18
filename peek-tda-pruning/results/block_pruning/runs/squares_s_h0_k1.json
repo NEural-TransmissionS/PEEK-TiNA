@@ -1,0 +1,17 @@
+{
+  "dataset": "squares",
+  "size": "s",
+  "criterion": "h0",
+  "k": 1,
+  "layers_cut": [
+    22
+  ],
+  "cut_persistence": [
+    0.0708
+  ],
+  "mAP50-95": 0.9865,
+  "mAP50": 0.9919,
+  "epochs": 60,
+  "params": 8560312,
+  "gflops": 21.675
+}

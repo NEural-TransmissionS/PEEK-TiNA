@@ -1,0 +1,13 @@
+# Versions used for every result in this repo (Python 3.12, CUDA 13.0, A100).
+# Install a torch build matching your CUDA driver first, e.g.
+#   pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cu130
+torch>=2.6
+ultralytics==8.4.9          # = github.com/ultralytics/ultralytics @ 40eb41ac
+torch-pruning==1.6.1        # VainF/Torch-Pruning, structural channel removal
+gudhi==3.13.0               # cubical persistent homology
+numpy==1.26.4
+opencv-python-headless==4.11.0.86
+scipy==1.17.1
+matplotlib==3.11.1
+pyyaml==6.0.3
+peek @ git+https://github.com/Kenzie-Meni/PEEK.git@f4028e935077846112bf9dda4e821863c5f6609b  # canonical PEEK map
