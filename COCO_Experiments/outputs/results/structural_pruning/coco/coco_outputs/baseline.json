@@ -1,0 +1,9 @@
+{
+  "weights": "yolo26n.pt",
+  "data": "/shared/projects/tina/PEEK-TiNA/COCO_Experiments/configs/coco.yaml",
+  "imgsz": 640,
+  "map50_95": 39.94,
+  "map50": 55.33,
+  "published_map50_95": 40.1,
+  "verified": true
+}
