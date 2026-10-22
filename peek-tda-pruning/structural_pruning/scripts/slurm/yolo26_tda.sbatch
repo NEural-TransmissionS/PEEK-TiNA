@@ -32,7 +32,8 @@ case "$STAGE" in
     # shellcheck disable=SC2086
     run_py prune --grid-index "$SLURM_ARRAY_TASK_ID" --ratios $RATIOS --criteria $CRITERIA --seed "${SEED:-0}" \
       --calib-images "$CALIB_IMAGES" --protect-layers "$PROTECT_LAYERS" \
-      --epochs "$EPOCHS" --warmup-epochs "${WARMUP_EPOCHS:-3}" --batch "$BATCH" --workers "${WORKERS:-${SLURM_CPUS_PER_TASK:-8}}" --device 0
+      --epochs "$EPOCHS" --warmup-epochs "${WARMUP_EPOCHS:-3}" --optimizer "${OPTIMIZER:-auto}" \
+      ${LR0:+--lr0 "$LR0"} ${MOMENTUM:+--momentum "$MOMENTUM"} ${FT_DATA:+--finetune-data "$FT_DATA"} --batch "$BATCH" --workers "${WORKERS:-${SLURM_CPUS_PER_TASK:-8}}" --device 0
     ;;
   aggregate)
     run_py aggregate

@@ -91,10 +91,20 @@ def evaluate(weights: str, net: torch.nn.Module, args, run_dir: Path, name: str)
     return {"map50_95": float(m.box.map), "map50": float(m.box.map50)}
 
 
-def make_trainer(net: torch.nn.Module):
+def make_trainer(net: torch.nn.Module, seed: int = 42):
     class PrunedTrainer(DetectionTrainer):
         def get_model(self, cfg=None, weights=None, verbose=True):
             return net  # keep the pruned graph; the default rebuilds from yaml
+
+        def get_dataloader(self, dataset_path, batch_size=16, rank=0, mode="train"):
+            loader = super().get_dataloader(dataset_path, batch_size, rank, mode)
+            if mode == "train" and seed != 42:
+                # Ultralytics seeds the train loader's shuffle + augmentation stream with a fixed
+                # constant, so --seed alone gives identical fine-tunes. Offset it by the run seed;
+                # seed 42 keeps the original stream, so earlier runs stay reproducible.
+                loader.generator.manual_seed(loader.generator.initial_seed() + seed - 42)
+                loader.reset()
+            return loader
 
     return PrunedTrainer
 
@@ -176,7 +186,8 @@ def cmd_prune(args) -> None:
     net = load_prunable(args.weights)
     result = {
         "criterion": criterion, "ratio": ratio, "seed": args.seed, "epochs": args.epochs,
-        "warmup_epochs": args.warmup_epochs,
+        "warmup_epochs": args.warmup_epochs, "optimizer": args.optimizer, "lr0": args.lr0, "momentum": args.momentum,
+        "finetune_data": Path(args.finetune_data).name if args.finetune_data else None,
         "protect_layers": args.protect_layers,
     }
     result["dense"] = model_cost(net, args.imgsz)
@@ -198,10 +209,14 @@ def cmd_prune(args) -> None:
     if args.epochs > 0:
         yolo = YOLO(args.weights)
         yolo.train(
-            trainer=make_trainer(net),
-            data=args.data,
+            trainer=make_trainer(net, args.seed),
+            data=args.finetune_data or args.data,  # e.g. a fixed COCO train subset; val stays the same
             epochs=args.epochs,
             warmup_epochs=args.warmup_epochs,
+            optimizer=args.optimizer,
+            # auto picks its own lr/momentum by run length (AdamW 0.00125 on WSD, MuSGD 0.01 on
+            # COCO); pin them to compare datasets on one recipe
+            **{k: v for k, v in (("lr0", args.lr0), ("momentum", args.momentum)) if v is not None},
             imgsz=args.imgsz,
             batch=args.batch,
             device=args.device,
@@ -282,6 +297,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("stage", choices=["baseline", "score", "score-field", "prune", "aggregate", "grid"])
     p.add_argument("--weights", default="yolo26n.pt")
     p.add_argument("--data", default="coco.yaml")
+    p.add_argument("--finetune-data", default=None,
+                   help="dataset yaml for the fine-tune only (default --data); scoring, BN re-estimation "
+                        "and evaluation always use --data")
     p.add_argument("--output-dir", type=Path, default=ROOT / "outputs" / "yolo26_tda")
     p.add_argument("--imgsz", type=int, default=640)
     p.add_argument("--device", default="0")
@@ -308,6 +326,9 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--epochs", type=int, default=10, help="fine-tune epochs after pruning (0 = none)")
     p.add_argument("--warmup-epochs", type=float, default=3.0, help="Ultralytics LR warmup (default 3)")
+    p.add_argument("--optimizer", default="auto", help="Ultralytics optimizer for the fine-tune (auto, AdamW, SGD, ...)")
+    p.add_argument("--lr0", type=float, default=None, help="fine-tune lr; needed when --optimizer is not auto")
+    p.add_argument("--momentum", type=float, default=None, help="fine-tune momentum / AdamW beta1")
     p.add_argument("--batch", type=int, default=32)
     return p.parse_args()
 
