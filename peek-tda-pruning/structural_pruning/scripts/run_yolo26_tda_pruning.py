@@ -40,7 +40,7 @@ from ultralytics.data.augment import LetterBox  # noqa: E402
 from ultralytics.data.utils import IMG_FORMATS, check_det_dataset  # noqa: E402
 from ultralytics.models.yolo.detect import DetectionTrainer  # noqa: E402
 
-from peek_rvc_pruning import yolo_tda  # noqa: E402
+from peek_rvc_pruning import iter_probe, yolo_tda  # noqa: E402
 
 CRITERIA = (*yolo_tda.TDA_CRITERIA, *yolo_tda.BASELINE_CRITERIA)  # default grid (keeps old indices)
 ALL_CRITERIA = (*CRITERIA, *yolo_tda.FIELD_CRITERIA)
@@ -189,6 +189,8 @@ def cmd_prune(args) -> None:
         "warmup_epochs": args.warmup_epochs, "optimizer": args.optimizer, "lr0": args.lr0, "momentum": args.momentum,
         "finetune_data": Path(args.finetune_data).name if args.finetune_data else None,
         "protect_layers": args.protect_layers,
+        **{k: getattr(args, k) for k in ("fraction", "close_mosaic", "warmup_bias_lr", "probe_every", "probe_max_batches")
+           if getattr(args, k) is not None},
     }
     result["dense"] = model_cost(net, args.imgsz)
     if criterion != "none":
@@ -208,27 +210,35 @@ def cmd_prune(args) -> None:
 
     if args.epochs > 0:
         yolo = YOLO(args.weights)
-        yolo.train(
-            trainer=make_trainer(net, args.seed),
-            data=args.finetune_data or args.data,  # e.g. a fixed COCO train subset; val stays the same
-            epochs=args.epochs,
-            warmup_epochs=args.warmup_epochs,
-            optimizer=args.optimizer,
-            # auto picks its own lr/momentum by run length (AdamW 0.00125 on WSD, MuSGD 0.01 on
-            # COCO); pin them to compare datasets on one recipe
-            **{k: v for k, v in (("lr0", args.lr0), ("momentum", args.momentum)) if v is not None},
-            imgsz=args.imgsz,
-            batch=args.batch,
-            device=args.device,
-            workers=args.workers,
-            seed=args.seed,
-            project=str(run_dir.resolve()),
-            name="finetune",
-            exist_ok=True,
-            plots=False,
-        )
-        best = run_dir / "finetune" / "weights" / "best.pt"
-        result["after_finetune"] = evaluate(args.weights, YOLO(best).model.float(), args, run_dir, "val_after_finetune")
+        if args.probe_every:
+            iter_probe.attach(yolo, run_dir / "probe.csv", args.probe_every, args.probe_max_batches)
+        budget = {k: v for k, v in (("fraction", args.fraction), ("close_mosaic", args.close_mosaic), ("warmup_bias_lr", args.warmup_bias_lr)) if v is not None}
+        try:
+            yolo.train(
+                trainer=make_trainer(net, args.seed),
+                data=args.finetune_data or args.data,  # e.g. a fixed COCO train subset; val stays the same
+                epochs=args.epochs,
+                warmup_epochs=args.warmup_epochs,
+                optimizer=args.optimizer,
+                # auto picks its own lr/momentum by run length (AdamW 0.00125 on WSD, MuSGD 0.01 on
+                # COCO); pin them to compare datasets on one recipe
+                **{k: v for k, v in (("lr0", args.lr0), ("momentum", args.momentum)) if v is not None},
+                imgsz=args.imgsz,
+                batch=args.batch,
+                device=args.device,
+                workers=args.workers,
+                seed=args.seed,
+                project=str(run_dir.resolve()),
+                name="finetune",
+                exist_ok=True,
+                plots=False,
+                **budget,
+            )
+        except iter_probe.StopProbe as stop:  # probe run cut short on purpose: the curve is the result
+            result["probe_stopped"] = str(stop)
+        else:
+            best = run_dir / "finetune" / "weights" / "best.pt"
+            result["after_finetune"] = evaluate(args.weights, YOLO(best).model.float(), args, run_dir, "val_after_finetune")
     result_path.write_text(json.dumps(result, indent=2))
     print(json.dumps(result, indent=2))
 
@@ -330,6 +340,13 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr0", type=float, default=None, help="fine-tune lr; needed when --optimizer is not auto")
     p.add_argument("--momentum", type=float, default=None, help="fine-tune momentum / AdamW beta1")
     p.add_argument("--batch", type=int, default=32)
+    # recovery studies
+    p.add_argument("--fraction", type=float, default=None, help="fraction of the fine-tune train set per epoch")
+    p.add_argument("--close-mosaic", type=int, default=None, help="epochs at the end without mosaic (default 10)")
+    p.add_argument("--warmup-bias-lr", type=float, default=None,
+                   help="starting lr of the bias group during warmup (Ultralytics default 0.1, whatever lr0 is)")
+    p.add_argument("--probe-every", type=int, default=None, help="evaluate every N training batches (probe.csv)")
+    p.add_argument("--probe-max-batches", type=int, default=None, help="stop the fine-tune after N batches")
     return p.parse_args()
 
 

@@ -26,6 +26,23 @@ three independent seeds (42/43/44) throughout.
 
 ## Key findings
 
+- **How fast pruned models recover depends on the dataset more than the method.** WSD
+  is back within ~0.01 mAP50-95 of its best after 500–1,000 training batches (8–16
+  epochs); the 20-epoch recipe is ample. On COCO the 10k-image fine-tune subset was much
+  of the ceiling: fine-tuned on all of train2017, 10% channel pruning reaches 95–97% of
+  the unpruned model given the same fine-tune and the best single-block cut 96%, while
+  50% pruning stays at 64–83% and is still climbing after 7 epochs. PEEK field H1
+  recovers fastest; with full data its lead at 50% is still about +0.02 over L2, while L2
+  is within ±0.013 of random there. See *How fast pruned models recover*.
+- **Ultralytics' default warmup crashes every COCO model.** It starts the bias learning
+  rate at 0.1 (800× COCO's lr0): within 50 batches the unpruned YOLO26n falls from 0.38
+  to 0.02 mAP50-95 and needs ~500 batches to come back. Starting it at lr0 removes the
+  crash and ends as high or higher at nearly every budget; this *matched warmup* is our standard from the
+  recovery study on (the 20-epoch tables predate it).
+- **Fewer GFLOPs is not faster.** On an A100, channel pruning changes batch-1 latency by
+  only −5% to +4% at any ratio and *lowers* batch-32 throughput by 8–10% at 10–20%;
+  replacing a block cuts latency by 8–14% per block (−21% to −28% at three). On CPU,
+  channel pruning helps only from 30% (−13% to −17% at 50%) and blocks save 6–11% each.
 - **On COCO, PEEK field topology beats L2 magnitude and random pruning at every
   ratio, on both models, over 3 seeds.** PEEK field H1 vs L2 after the 20-epoch
   fine-tune: 0.341 vs 0.336 at 10% rising to 0.189 vs 0.122 at 50% (YOLO26n), and 0.407
@@ -85,14 +102,21 @@ three independent seeds (42/43/44) throughout.
 src/topoprun/                       canonical PEEK adapter + PEEK-map persistence (from PEEK-TiNA)
 structural_pruning/
   peek_rvc_pruning/yolo_tda.py      PEEK-map persistence scoring + Torch-Pruning importance
+  peek_rvc_pruning/iter_probe.py    evaluate a fine-tune every N batches (recovery probes)
   scripts/run_yolo26_tda_pruning.py stages: baseline | score | score-field | prune | aggregate | grid
   scripts/verify_yolo26_pruning.py  structural-vs-zeroed equivalence + single-layer checks
+  scripts/bench_inference.py        forward-pass timing of every pruned model, GPU and CPU, round-robin
+  scripts/profile_cpu_layers.py,    how a CPU timing artifact was traced (per-layer profile;
+    cpu_interleave.py               models timed one after another vs interleaved)
   scripts/slurm/                    score + score-field -> prune array -> aggregate chain
-  configs/coco/                     COCO yamls (placeholder paths) + the 10k fine-tune subset list
+  configs/coco/                     COCO yamls (placeholder paths), the 10k fine-tune subset list,
+                                    its 40% / 80% prefixes and the 500-image val slice (recovery study)
   scripts/slurm/same_protocol/      submission scripts for the WSD + COCO same-protocol runs, as run
-                                    on our cluster (edit the paths at the top)
+                                    on our cluster (edit the paths at the top); submit_recovery.sh =
+                                    the recovery study (probes, budget sweep, full train2017)
 block_pruning/                      block-replacement study (own README)
   finetune_init.py                  cut + fine-tune: copy every surviving tensor from the trained model
+  eval_cut_prefinetune.py           mAP of each ranked cut right after the cut, before any training
   weights/                          8 synthetic-shape base models — not in the repo, see weights/README.md
 scripts/
   train_wsd_baselines.slurm         scratch YOLO26n/s on WSD (starting checkpoints)
@@ -100,6 +124,7 @@ scripts/
   make_results_tables.py            regenerates the tables below from results/
   collect_same_protocol.py          WSD + COCO same-protocol runs -> results/same_protocol/*.csv
   same_protocol_tables.py           that section's tables + figures from results/same_protocol/
+  recovery_tables.py                recovery-study and inference-timing tables + figures
 results/
   structural_pruning/peek/<model>/        wsd_{n,s} and shapes_<dataset>_{n,s}: full 41-run grid
                                           (results.csv, map_vs_ratio.png, per-run JSON,
@@ -114,7 +139,9 @@ results/
                                           and per-epoch training logs
   base_models/                            training args of the 10 starting checkpoints
   same_protocol/                          channel_runs.csv, block_runs.csv (every WSD + COCO run of
-                                          that section, incl. the COCO lr pilot), figures/
+                                          that section, incl. the COCO lr pilot), curves.csv (their
+                                          per-epoch val mAP), probe_curves.csv, budget_runs.csv,
+                                          inference_{gpu,cpu}.csv, figures/
 ```
 
 ## Method
@@ -188,6 +215,9 @@ paths reduced to file names).
 | Same protocol: channel fine-tune, WSD | n, s | 20 | 16 | AdamW, lr 0.00125, momentum 0.9 (set explicitly) | 42, 43, 44 (loader seeded) | yes | yes | 1 |
 | Same protocol: channel fine-tune, COCO | pretrained n, s | 20 on the 10k train2017 subset | 16 | AdamW, lr 0.000125, momentum 0.9 | 42, 43, 44 (loader seeded) | yes | yes | 1 |
 | Same protocol: block cut + fine-tune | WSD and COCO n, s × k | 20, patience 100 | 16 | AdamW, lr 0.00125 (WSD) / 0.000125 (COCO) | 42 | yes | yes | 1 |
+| Recovery: probes | 79 configs (below) | 20 (COCO: first 2,500 batches) | 16 | as the same protocol; bias lr 0.1 and = lr0 | 42 | yes | yes | 1 |
+| Recovery: budget sweep | same 79 | 250 – 5,000 batches; COCO also 25k, 50k | 16 | as the same protocol, bias lr = lr0 | 42 | yes | yes | 5% of the run |
+| Recovery: COCO, all of train2017 | 24 COCO configs | 3 and 7 epochs (22k / 52k batches) | 16 | AdamW, lr 0.000125, bias lr = lr0 | 42 | yes | yes | 5% of the run |
 
 - **Optimizer.** Every stage runs `optimizer=auto`, which ignores `lr0` / `momentum`
   and picks by run length: MuSGD (lr 0.01, momentum 0.9) above 10,000 iterations,
@@ -207,6 +237,13 @@ paths reduced to file names).
 - **COCO learning rate.** The WSD lr (1.25e-3) drops the pretrained, unpruned YOLO26n
   from 0.400 to 0.308 mAP50-95 over the fine-tune; 1.25e-4 keeps it at 0.370 (pilot table
   in the same-protocol section), so COCO uses 1.25e-4. Everything else matches WSD.
+- **Warmup bias lr (matched warmup).** Ultralytics starts the bias parameters' lr at
+  `warmup_bias_lr` = 0.1 and decays it to lr0 over the warmup, whatever lr0 is. The
+  recovery study sets it to lr0 (`--warmup-bias-lr`), which is our standard from there
+  on; every 20-epoch table above uses the default. Budget runs warm up over 5% of the
+  run (Ultralytics' floor: 100 batches) and close mosaic for the second half; COCO
+  budgets under two epochs train on the first 40% / 80% of the 10k subset
+  (= Ultralytics `fraction`, as their own folders so each has its own label cache).
 - **Before every fine-tune** BN statistics are re-estimated on 128 train images
   (one-shot results stop here: no fine-tune, so no `args.yaml`).
 - **Hardware.** Cluster jobs ran on one A100 (40 GB) each — everything except the
@@ -562,6 +599,9 @@ mAP50-95 0.400 / 0.476), fine-tunes at lr 1.25e-4 on a fixed 10k-image train2017
 and evaluates on all 5,000 val2017 images; see the last table for the learning rate.
 *Unpruned + fine-tune* and *full* are the unpruned model put through the same fine-tune.
 Generated by `python scripts/same_protocol_tables.py` from `results/same_protocol/`.
+These 20-epoch runs use Ultralytics' default warmup, which crashes COCO models in the
+first batches (see *How fast pruned models recover*); the comparisons between methods
+are fair, as every run took the same hit, but the absolute COCO numbers are low.
 
 #### Structural channel pruning, 3 seeds
 
@@ -663,6 +703,331 @@ COCO YOLO26n, seed 42, 20% pruning (unpruned for *none*), mAP50-95 after the fin
 | 0.000125 | 0.370 | 0.310 | 0.301 | 0.268 |
 
 
+### How fast pruned models recover
+
+How many training batches does each kind of pruning need to get its accuracy back, and
+does it get there at all? Same recipe as above (AdamW, batch 16, seed 42; WSD lr 1.25e-3,
+COCO 1.25e-4) on a subset of the runs: the unpruned model; PEEK field H1, L2 and random
+at 10 / 30 / 50%; and the uncut model plus the raw-head, grid and null block rankings at
+k = 1–3 — 79 configurations over WSD and COCO, n and s. A batch is 16 images: 63 per epoch
+on WSD, 625 on the COCO 10k subset, 7,393 on all of train2017.
+
+#### Recovery within the 20-epoch fine-tune
+
+mAP50-95 on the full val set during the 20-epoch fine-tunes of the comparison above (standard warmup; channel rows = mean of seeds 42/43/44, blocks = seed 42). *Start* = before training (channel: after BN re-estimation). *→95%* = first epoch within 95% of the run's own epoch-20 value.
+
+**WSD** — 63 batches per epoch
+
+| Model | Run | Start | Epoch 1 | Epoch 5 | Epoch 20 | →95% (epoch) |
+|---|---|---:|---:|---:|---:|---:|
+| n | unpruned | 0.355 | 0.348 | 0.342 | 0.359 | 1 |
+| n | field_h1 10% | 0.288 | 0.315 | 0.324 | 0.350 | 6 |
+| n | field_h1 50% | 0.017 | 0.168 | 0.307 | 0.342 | 10 |
+| n | l2 10% | 0.287 | 0.336 | 0.337 | 0.352 | 1 |
+| n | l2 50% | 0.062 | 0.208 | 0.298 | 0.341 | 8 |
+| n | random 10% | 0.253 | 0.309 | 0.323 | 0.356 | 7 |
+| n | random 50% | 0.007 | 0.144 | 0.287 | 0.324 | 10 |
+| n | grid [8] | 0.192 | 0.288 | 0.334 | 0.355 | 3 |
+| n | head [22] | 0.211 | 0.280 | 0.305 | 0.330 | 8 |
+| n | null [16] | 0.162 | 0.246 | 0.312 | 0.334 | 6 |
+| n | grid [2 8] | 0.000 | 0.177 | 0.321 | 0.360 | 10 |
+| n | head [13 22] | 0.086 | 0.242 | 0.298 | 0.321 | 6 |
+| n | null [13 16] | 0.043 | 0.242 | 0.310 | 0.335 | 9 |
+| n | grid [2 6 8] | 0.000 | 0.166 | 0.268 | 0.341 | 15 |
+| n | head [13 19 22] | 0.057 | 0.106 | 0.234 | 0.297 | 14 |
+| n | null [6 13 16] | 0.000 | 0.168 | 0.291 | 0.338 | 9 |
+| s | unpruned | 0.374 | 0.342 | 0.341 | 0.377 | 8 |
+| s | field_h1 10% | 0.331 | 0.326 | 0.344 | 0.375 | 13 |
+| s | field_h1 50% | 0.034 | 0.258 | 0.323 | 0.366 | 9 |
+| s | l2 10% | 0.341 | 0.338 | 0.337 | 0.378 | 8 |
+| s | l2 50% | 0.084 | 0.264 | 0.334 | 0.356 | 10 |
+| s | random 10% | 0.308 | 0.330 | 0.339 | 0.374 | 9 |
+| s | random 50% | 0.004 | 0.213 | 0.316 | 0.358 | 8 |
+| s | grid [6] | 0.179 | 0.290 | 0.360 | 0.370 | 5 |
+| s | head [22] | 0.248 | 0.303 | 0.329 | 0.367 | 12 |
+| s | null [13] | 0.230 | 0.298 | 0.339 | 0.376 | 10 |
+| s | grid [6 8] | 0.137 | 0.256 | 0.332 | 0.389 | 12 |
+| s | head [13 22] | 0.116 | 0.268 | 0.314 | 0.358 | 9 |
+| s | null [4 13] | 0.000 | 0.208 | 0.331 | 0.354 | 8 |
+| s | grid [6 8 22] | 0.246 | 0.212 | 0.316 | 0.362 | 13 |
+| s | head [13 19 22] | 0.062 | 0.155 | 0.287 | 0.325 | 13 |
+| s | null [4 13 16] | 0.000 | 0.187 | 0.293 | 0.340 | 13 |
+
+**COCO** — 625 batches per epoch
+
+| Model | Run | Start | Epoch 1 | Epoch 5 | Epoch 20 | →95% (epoch) |
+|---|---|---:|---:|---:|---:|---:|
+| n | unpruned | 0.386 | 0.366 | 0.366 | 0.370 | 1 |
+| n | field_h1 10% | 0.194 | 0.293 | 0.322 | 0.341 | 6 |
+| n | field_h1 50% | 0.001 | 0.060 | 0.129 | 0.189 | 14 |
+| n | l2 10% | 0.191 | 0.284 | 0.319 | 0.336 | 6 |
+| n | l2 50% | 0.000 | 0.026 | 0.076 | 0.122 | 15 |
+| n | random 10% | 0.138 | 0.274 | 0.314 | 0.333 | 6 |
+| n | random 50% | 0.000 | 0.017 | 0.057 | 0.101 | 16 |
+| n | grid [2] | 0.001 | 0.207 | 0.281 | 0.316 | 10 |
+| n | head [22] | 0.198 | 0.277 | 0.294 | 0.309 | 5 |
+| n | null [16] | 0.039 | 0.311 | 0.331 | 0.347 | 5 |
+| n | grid [2 22] | 0.000 | 0.112 | 0.207 | 0.253 | 13 |
+| n | head [13 22] | 0.003 | 0.093 | 0.189 | 0.235 | 13 |
+| n | null [13 16] | 0.000 | 0.202 | 0.267 | 0.296 | 9 |
+| n | grid [2 8 22] | 0.000 | 0.018 | 0.067 | 0.117 | 15 |
+| n | head [13 19 22] | 0.006 | 0.044 | 0.115 | 0.166 | 15 |
+| n | null [13 16 19] | 0.020 | 0.176 | 0.231 | 0.266 | 10 |
+| s | unpruned | 0.461 | 0.410 | 0.407 | 0.423 | 1 |
+| s | field_h1 10% | 0.338 | 0.363 | 0.381 | 0.407 | 8 |
+| s | field_h1 50% | 0.004 | 0.102 | 0.208 | 0.276 | 14 |
+| s | l2 10% | 0.279 | 0.345 | 0.375 | 0.399 | 7 |
+| s | l2 50% | 0.001 | 0.048 | 0.134 | 0.210 | 15 |
+| s | random 10% | 0.244 | 0.343 | 0.373 | 0.401 | 7 |
+| s | random 50% | 0.000 | 0.044 | 0.128 | 0.203 | 16 |
+| s | grid [16] | 0.044 | 0.346 | 0.370 | 0.399 | 9 |
+| s | head [22] | 0.250 | 0.324 | 0.342 | 0.375 | 9 |
+| s | grid [2 16] | 0.001 | 0.147 | 0.271 | 0.334 | 13 |
+| s | head [13 22] | 0.004 | 0.156 | 0.255 | 0.316 | 14 |
+| s | null [8 16] | 0.000 | 0.148 | 0.235 | 0.303 | 14 |
+| s | grid [2 8 16] | 0.000 | 0.027 | 0.114 | 0.211 | 16 |
+| s | head [13 19 22] | 0.009 | 0.096 | 0.199 | 0.269 | 13 |
+| s | null [8 13 16] | 0.000 | 0.076 | 0.168 | 0.251 | 15 |
+
+#### The warmup crash
+
+Every-50-batch evaluations of the same 20-epoch schedule (seed 42), with Ultralytics' default warmup (*0.1*: the bias lr starts at 0.1 and decays to lr0 over the first epoch) and with it started at lr0 (*lr0*). COCO is scored on a fixed 500-image val2017 slice for the first 2,500 batches; WSD on its full val set.
+
+| Data | Model | Run | Bias lr | batch 0 | batch 50 | batch 100 | batch 250 | batch 500 | batch 1000 | batch 2500 |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| WSD | n | unpruned | 0.1 | 0.352 | 0.317 | 0.336 | 0.334 | 0.353 | 0.356 | — |
+| WSD | n | unpruned | lr0 | 0.352 | 0.348 | 0.338 | 0.340 | 0.345 | 0.356 | — |
+| WSD | n | field_h1 10% | 0.1 | 0.288 | 0.275 | 0.300 | 0.322 | 0.337 | 0.349 | — |
+| WSD | n | field_h1 10% | lr0 | 0.288 | 0.312 | 0.307 | 0.329 | 0.330 | 0.349 | — |
+| WSD | n | l2 10% | 0.1 | 0.291 | 0.280 | 0.306 | 0.342 | 0.337 | 0.353 | — |
+| WSD | n | l2 10% | lr0 | 0.291 | 0.329 | 0.336 | 0.324 | 0.342 | 0.347 | — |
+| WSD | n | field_h1 50% | 0.1 | 0.017 | 0.153 | 0.238 | 0.287 | 0.324 | 0.341 | — |
+| WSD | n | field_h1 50% | lr0 | 0.017 | 0.141 | 0.225 | 0.269 | 0.320 | 0.346 | — |
+| WSD | n | l2 50% | 0.1 | 0.063 | 0.178 | 0.264 | 0.292 | 0.322 | 0.334 | — |
+| WSD | n | l2 50% | lr0 | 0.062 | 0.192 | 0.230 | 0.290 | 0.332 | 0.334 | — |
+| WSD | s | unpruned | 0.1 | 0.381 | 0.327 | 0.310 | 0.326 | 0.343 | 0.365 | — |
+| WSD | s | unpruned | lr0 | 0.381 | 0.360 | 0.333 | 0.336 | 0.350 | 0.379 | — |
+| WSD | s | field_h1 10% | 0.1 | 0.337 | 0.297 | 0.313 | 0.327 | 0.336 | 0.375 | — |
+| WSD | s | field_h1 10% | lr0 | 0.337 | 0.332 | 0.321 | 0.334 | 0.351 | 0.369 | — |
+| WSD | s | l2 10% | 0.1 | 0.341 | 0.311 | 0.312 | 0.331 | 0.348 | 0.364 | — |
+| WSD | s | l2 10% | lr0 | 0.340 | 0.342 | 0.329 | 0.326 | 0.355 | 0.367 | — |
+| WSD | s | field_h1 50% | 0.1 | 0.034 | 0.226 | 0.278 | 0.318 | 0.335 | 0.361 | — |
+| WSD | s | field_h1 50% | lr0 | 0.034 | 0.237 | 0.243 | 0.318 | 0.336 | 0.350 | — |
+| WSD | s | l2 50% | 0.1 | 0.085 | 0.236 | 0.296 | 0.294 | 0.329 | 0.350 | — |
+| WSD | s | l2 50% | lr0 | 0.085 | 0.250 | 0.281 | 0.311 | 0.306 | 0.358 | — |
+| COCO | n | unpruned | 0.1 | 0.384 | 0.021 | 0.044 | 0.219 | 0.359 | 0.370 | 0.358 |
+| COCO | n | unpruned | lr0 | 0.384 | 0.396 | 0.395 | 0.395 | 0.388 | 0.379 | 0.362 |
+| COCO | n | field_h1 10% | 0.1 | 0.196 | 0.021 | 0.008 | 0.143 | 0.267 | 0.303 | 0.317 |
+| COCO | n | field_h1 10% | lr0 | 0.197 | 0.229 | 0.252 | 0.279 | 0.300 | 0.315 | 0.318 |
+| COCO | n | l2 10% | 0.1 | 0.196 | 0.000 | 0.014 | 0.104 | 0.255 | 0.300 | 0.317 |
+| COCO | n | l2 10% | lr0 | 0.196 | 0.213 | 0.235 | 0.271 | 0.298 | 0.316 | 0.314 |
+| COCO | n | field_h1 50% | 0.1 | 0.002 | 0.000 | 0.001 | 0.009 | 0.056 | 0.089 | 0.126 |
+| COCO | n | field_h1 50% | lr0 | 0.002 | 0.003 | 0.006 | 0.017 | 0.052 | 0.092 | 0.150 |
+| COCO | n | l2 50% | 0.1 | 0.001 | 0.000 | 0.001 | 0.005 | 0.026 | 0.046 | 0.071 |
+| COCO | n | l2 50% | lr0 | 0.001 | 0.001 | 0.002 | 0.007 | 0.023 | 0.058 | 0.097 |
+| COCO | s | unpruned | 0.1 | 0.467 | 0.018 | 0.051 | 0.243 | 0.384 | 0.422 | 0.416 |
+| COCO | s | unpruned | lr0 | 0.468 | 0.477 | 0.477 | 0.453 | 0.443 | 0.434 | 0.412 |
+| COCO | s | field_h1 10% | 0.1 | 0.347 | 0.029 | 0.023 | 0.128 | 0.344 | 0.385 | 0.383 |
+| COCO | s | field_h1 10% | lr0 | 0.347 | 0.376 | 0.384 | 0.391 | 0.390 | 0.397 | 0.398 |
+| COCO | s | l2 10% | 0.1 | 0.293 | 0.016 | 0.018 | 0.194 | 0.318 | 0.360 | 0.372 |
+| COCO | s | l2 10% | lr0 | 0.293 | 0.316 | 0.343 | 0.364 | 0.364 | 0.371 | 0.391 |
+| COCO | s | field_h1 50% | 0.1 | 0.010 | 0.000 | 0.000 | 0.024 | 0.090 | 0.139 | 0.192 |
+| COCO | s | field_h1 50% | lr0 | 0.010 | 0.010 | 0.023 | 0.059 | 0.112 | 0.165 | 0.221 |
+| COCO | s | l2 50% | 0.1 | 0.001 | 0.000 | 0.000 | 0.007 | 0.043 | 0.087 | 0.136 |
+| COCO | s | l2 50% | lr0 | 0.001 | 0.002 | 0.004 | 0.021 | 0.063 | 0.118 | 0.184 |
+
+![Warmup bias lr on COCO](results/same_protocol/figures/warmup.png)
+
+#### Training-budget sweep
+
+Separate fine-tunes of B training batches each (matched warmup, seed 42), mAP50-95 on the full val set. One epoch = 63 batches on WSD, 625 on the COCO 10k subset; *full 3 ep / 7 ep* = COCO fine-tuned on all of train2017 (7,393 batches per epoch, so 22k / 52k batches). Bold = best of the row.
+
+**WSD YOLO26n**
+
+| Run | 250 | 500 | 1,000 | 2,500 | 5,000 |
+|---|---:|---:|---:|---:|---:|
+| uncut | 0.352 | 0.360 | 0.360 | 0.355 | **0.368** |
+| unpruned | 0.353 | 0.357 | 0.359 | **0.362** | 0.361 |
+| field_h1 10% | 0.330 | 0.353 | **0.355** | 0.353 | 0.349 |
+| field_h1 30% | 0.322 | 0.333 | 0.337 | 0.340 | **0.343** |
+| field_h1 50% | 0.276 | 0.317 | 0.338 | 0.345 | **0.349** |
+| l2 10% | 0.342 | 0.343 | 0.350 | **0.356** | 0.353 |
+| l2 30% | 0.314 | 0.331 | 0.340 | 0.343 | **0.348** |
+| l2 50% | 0.283 | 0.314 | 0.336 | **0.342** | 0.339 |
+| random 10% | 0.335 | 0.346 | 0.349 | **0.358** | 0.355 |
+| random 30% | 0.298 | 0.312 | 0.325 | 0.337 | **0.339** |
+| random 50% | 0.249 | 0.294 | 0.323 | 0.328 | **0.333** |
+| grid [8] | 0.361 | 0.365 | **0.368** | 0.363 | 0.357 |
+| head [22] | 0.311 | 0.329 | 0.335 | **0.339** | 0.336 |
+| null [16] | 0.322 | 0.324 | 0.335 | 0.347 | **0.350** |
+| grid [2 8] | 0.314 | 0.355 | **0.363** | 0.355 | 0.360 |
+| head [13 22] | 0.291 | 0.312 | 0.330 | 0.335 | **0.345** |
+| null [13 16] | 0.301 | 0.328 | 0.336 | 0.332 | **0.349** |
+| grid [2 6 8] | 0.273 | 0.313 | 0.341 | 0.353 | **0.363** |
+| head [13 19 22] | 0.228 | 0.262 | 0.292 | 0.305 | **0.310** |
+| null [6 13 16] | 0.282 | 0.314 | 0.336 | 0.335 | **0.346** |
+
+**WSD YOLO26s**
+
+| Run | 250 | 500 | 1,000 | 2,500 | 5,000 |
+|---|---:|---:|---:|---:|---:|
+| uncut | 0.365 | 0.373 | 0.380 | 0.389 | **0.398** |
+| unpruned | 0.363 | 0.372 | 0.378 | **0.386** | 0.383 |
+| field_h1 10% | 0.369 | 0.365 | 0.377 | 0.386 | **0.388** |
+| field_h1 30% | 0.342 | 0.364 | 0.367 | 0.374 | **0.383** |
+| field_h1 50% | 0.333 | 0.361 | 0.369 | 0.362 | **0.379** |
+| l2 10% | 0.366 | 0.372 | 0.375 | 0.384 | **0.393** |
+| l2 30% | 0.349 | 0.362 | 0.365 | 0.370 | **0.377** |
+| l2 50% | 0.340 | 0.346 | 0.357 | 0.362 | **0.375** |
+| random 10% | 0.355 | 0.375 | 0.374 | 0.388 | **0.393** |
+| random 30% | 0.341 | 0.349 | 0.358 | 0.371 | **0.378** |
+| random 50% | 0.328 | 0.353 | 0.363 | 0.362 | **0.378** |
+| grid [6] | 0.332 | 0.363 | 0.365 | 0.368 | **0.386** |
+| head [22] | 0.336 | 0.354 | 0.366 | 0.379 | **0.384** |
+| null [13] | 0.341 | 0.364 | 0.369 | 0.374 | **0.384** |
+| grid [6 8] | 0.351 | 0.368 | 0.369 | **0.384** | 0.376 |
+| head [13 22] | 0.337 | 0.352 | 0.357 | 0.367 | **0.379** |
+| null [4 13] | 0.308 | 0.336 | 0.354 | 0.371 | **0.375** |
+| grid [6 8 22] | 0.328 | 0.347 | 0.354 | 0.360 | **0.362** |
+| head [13 19 22] | 0.250 | 0.302 | 0.337 | 0.333 | **0.357** |
+| null [4 13 16] | 0.287 | 0.326 | 0.354 | 0.357 | **0.365** |
+
+**COCO YOLO26n**
+
+| Run | 250 | 500 | 1,000 | 2,500 | 5,000 | 25,000 | 50,000 | full 3 ep | full 7 ep |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| uncut | 0.372 | 0.371 | 0.375 | 0.378 | 0.376 | 0.383 | **0.390** | — | — |
+| unpruned | 0.374 | 0.371 | 0.376 | 0.379 | 0.377 | 0.386 | **0.392** | 0.384 | 0.388 |
+| field_h1 10% | 0.288 | 0.302 | 0.310 | 0.330 | 0.339 | 0.339 | 0.336 | 0.361 | **0.371** |
+| field_h1 30% | 0.128 | 0.171 | 0.189 | 0.234 | 0.258 | 0.288 | 0.290 | 0.311 | **0.330** |
+| field_h1 50% | 0.030 | 0.060 | 0.077 | 0.133 | 0.173 | 0.237 | 0.247 | 0.256 | **0.283** |
+| l2 10% | 0.273 | 0.293 | 0.303 | 0.323 | 0.334 | 0.336 | 0.333 | 0.359 | **0.371** |
+| l2 30% | 0.072 | 0.112 | 0.142 | 0.193 | 0.227 | 0.277 | 0.282 | 0.299 | **0.323** |
+| l2 50% | 0.010 | 0.028 | 0.039 | 0.081 | 0.120 | 0.205 | 0.226 | 0.220 | **0.260** |
+| random 10% | 0.262 | 0.281 | 0.295 | 0.318 | 0.329 | 0.338 | 0.333 | 0.357 | **0.369** |
+| random 30% | 0.044 | 0.094 | 0.120 | 0.185 | 0.222 | 0.277 | 0.285 | 0.298 | **0.322** |
+| random 50% | 0.002 | 0.010 | 0.022 | 0.063 | 0.095 | 0.183 | 0.211 | 0.200 | **0.247** |
+| grid [2] | 0.053 | 0.139 | 0.197 | 0.266 | 0.297 | 0.327 | **0.327** | — | — |
+| head [22] | 0.272 | 0.283 | 0.289 | 0.302 | 0.309 | **0.321** | 0.318 | — | — |
+| null [16] | 0.295 | 0.311 | 0.322 | 0.340 | 0.344 | 0.347 | 0.343 | 0.366 | **0.374** |
+| grid [2 22] | 0.008 | 0.086 | 0.139 | 0.203 | 0.234 | 0.289 | **0.292** | — | — |
+| head [13 22] | 0.035 | 0.090 | 0.137 | 0.204 | 0.230 | 0.284 | **0.284** | — | — |
+| null [13 16] | 0.165 | 0.203 | 0.230 | 0.272 | 0.291 | **0.314** | 0.313 | — | — |
+| grid [2 8 22] | 0.003 | 0.008 | 0.019 | 0.051 | 0.095 | 0.211 | **0.241** | — | — |
+| head [13 19 22] | 0.018 | 0.048 | 0.070 | 0.130 | 0.162 | 0.227 | **0.239** | — | — |
+| null [13 16 19] | 0.132 | 0.177 | 0.196 | 0.236 | 0.257 | 0.287 | 0.287 | 0.304 | **0.322** |
+
+**COCO YOLO26s**
+
+| Run | 250 | 500 | 1,000 | 2,500 | 5,000 | 25,000 | 50,000 | full 3 ep | full 7 ep |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| uncut | 0.422 | 0.411 | 0.436 | 0.441 | 0.440 | 0.439 | **0.457** | — | — |
+| unpruned | 0.422 | 0.415 | 0.438 | 0.442 | 0.439 | 0.442 | 0.459 | 0.450 | **0.460** |
+| field_h1 10% | 0.370 | 0.371 | 0.399 | 0.413 | 0.415 | 0.396 | 0.403 | 0.439 | **0.448** |
+| field_h1 30% | 0.212 | 0.254 | 0.294 | 0.336 | 0.352 | 0.361 | 0.353 | 0.399 | **0.421** |
+| field_h1 50% | 0.079 | 0.122 | 0.163 | 0.230 | 0.266 | 0.307 | 0.308 | 0.350 | **0.380** |
+| l2 10% | 0.349 | 0.356 | 0.384 | 0.403 | 0.409 | 0.392 | 0.384 | 0.432 | **0.449** |
+| l2 30% | 0.155 | 0.206 | 0.252 | 0.301 | 0.326 | 0.350 | 0.346 | 0.388 | **0.413** |
+| l2 50% | 0.037 | 0.068 | 0.108 | 0.172 | 0.222 | 0.288 | 0.296 | 0.327 | **0.363** |
+| random 10% | 0.336 | 0.347 | 0.379 | 0.400 | 0.407 | 0.392 | 0.384 | 0.433 | **0.446** |
+| random 30% | 0.127 | 0.184 | 0.237 | 0.294 | 0.322 | 0.350 | 0.345 | 0.390 | **0.416** |
+| random 50% | 0.021 | 0.062 | 0.094 | 0.172 | 0.221 | 0.293 | 0.296 | 0.327 | **0.369** |
+| grid [16] | 0.341 | 0.353 | 0.385 | 0.400 | 0.407 | 0.391 | 0.387 | 0.431 | **0.443** |
+| head [22] | 0.334 | 0.333 | 0.359 | 0.374 | **0.383** | 0.376 | 0.369 | — | — |
+| grid [2 16] | 0.096 | 0.163 | 0.237 | 0.314 | 0.345 | **0.360** | 0.354 | — | — |
+| head [13 22] | 0.120 | 0.185 | 0.230 | 0.289 | 0.321 | **0.350** | 0.342 | — | — |
+| null [8 16] | 0.128 | 0.167 | 0.203 | 0.274 | 0.318 | **0.357** | 0.348 | — | — |
+| grid [2 8 16] | 0.010 | 0.030 | 0.046 | 0.151 | 0.221 | 0.312 | 0.321 | 0.352 | **0.392** |
+| head [13 19 22] | 0.070 | 0.116 | 0.156 | 0.218 | 0.255 | **0.308** | 0.305 | — | — |
+| null [8 13 16] | 0.047 | 0.095 | 0.130 | 0.199 | 0.242 | 0.294 | **0.303** | — | — |
+
+![Training-budget sweep](results/same_protocol/figures/budgets.png)
+
+#### Does COCO recover?
+
+COCO, as a share of the unpruned model given the same fine-tune (matched warmup). *→90%* = smallest 10k-subset budget reaching 90% of that control; no run reaches 95% on the subset. The original pretrained models score 0.400 / 0.476; no fine-tune of the unpruned model gets back there (best 0.392 / 0.459), so the control is the fair reference.
+
+| Model | Run | Subset 5k | Subset 50k | Full 3 ep | Full 7 ep | →90% (subset) |
+|---|---|---:|---:|---:|---:|---:|
+| n | field_h1 10% | 90% | 86% | 94% | 95% | 5,000 |
+| n | field_h1 30% | 68% | 74% | 81% | 85% | never |
+| n | field_h1 50% | 46% | 63% | 67% | 73% | never |
+| n | l2 10% | 89% | 85% | 93% | 95% | never |
+| n | l2 30% | 60% | 72% | 78% | 83% | never |
+| n | l2 50% | 32% | 58% | 57% | 67% | never |
+| n | random 10% | 87% | 85% | 93% | 95% | never |
+| n | random 30% | 59% | 73% | 78% | 83% | never |
+| n | random 50% | 25% | 54% | 52% | 64% | never |
+| n | grid [2] | 79% | 84% | — | — | never |
+| n | head [22] | 82% | 81% | — | — | never |
+| n | null [16] | 91% | 88% | 95% | 96% | 5,000 |
+| n | grid [2 22] | 62% | 75% | — | — | never |
+| n | head [13 22] | 61% | 73% | — | — | never |
+| n | null [13 16] | 77% | 80% | — | — | never |
+| n | grid [2 8 22] | 25% | 62% | — | — | never |
+| n | head [13 19 22] | 43% | 61% | — | — | never |
+| n | null [13 16 19] | 68% | 73% | 79% | 83% | never |
+| s | field_h1 10% | 95% | 88% | 98% | 97% | 1,000 |
+| s | field_h1 30% | 80% | 77% | 89% | 91% | never |
+| s | field_h1 50% | 61% | 67% | 78% | 83% | never |
+| s | l2 10% | 93% | 84% | 96% | 97% | 2,500 |
+| s | l2 30% | 74% | 75% | 86% | 90% | never |
+| s | l2 50% | 51% | 64% | 73% | 79% | never |
+| s | random 10% | 93% | 84% | 96% | 97% | 2,500 |
+| s | random 30% | 73% | 75% | 87% | 90% | never |
+| s | random 50% | 50% | 64% | 73% | 80% | never |
+| s | grid [16] | 93% | 84% | 96% | 96% | 2,500 |
+| s | head [22] | 87% | 80% | — | — | never |
+| s | grid [2 16] | 79% | 77% | — | — | never |
+| s | head [13 22] | 73% | 75% | — | — | never |
+| s | null [8 16] | 72% | 76% | — | — | never |
+| s | grid [2 8 16] | 50% | 70% | 78% | 85% | never |
+| s | head [13 19 22] | 58% | 66% | — | — | never |
+| s | null [8 13 16] | 55% | 66% | — | — | never |
+
+### Inference timing
+
+Forward pass only (no pre/post-processing), random 640×640 input, after conv+BN fusion. GPU: NVIDIA A100-PCIE-40GB, FP16; CPU: Intel Xeon Gold 6240R, 8 threads, FP32, on a shared node (absolute CPU times run high; read the relative ones). All models are timed round-robin: 40 rounds, each running every model 5 times in a shuffled order, so drift on the node hits them alike (timing them one after another skewed some CPU results by 10-30%). Batch-1 latency = median of the 200 runs; throughput = batch 32. Δ = vs the unpruned model; GFLOPs Δ for channel pruning from Torch-Pruning, for blocks from Ultralytics (each against its own unpruned count). Channel rows = the PEEK field H1 model (every criterion gives the same widths at a ratio). WSD differs from COCO only in the head's class count; its timings are within a few % of these.
+
+**COCO YOLO26n**
+
+| Model | GFLOPs Δ | GPU batch 1 (ms) | GPU batch 32 (img/s) | CPU batch 1 (ms) |
+|---|---:|---:|---:|---:|
+| unpruned | — | 8.69 | 2361.60 | 86.17 |
+| channel 10% | -7% | 8.61 (-1%) | 2143.00 (-9%) | 88.17 (+2%) |
+| channel 20% | -13% | 8.76 (+1%) | 2165.20 (-8%) | 86.36 (+0%) |
+| channel 30% | -18% | 8.34 (-4%) | 2281.90 (-3%) | 83.03 (-4%) |
+| channel 40% | -22% | 8.35 (-4%) | 2348.90 (-1%) | 82.33 (-4%) |
+| channel 50% | -26% | 8.30 (-4%) | 2648.90 (+12%) | 75.23 (-13%) |
+| block grid k1 | -4% | 8.02 (-8%) | 2531.70 (+7%) | 77.74 (-10%) |
+| block head k1 | -5% | 7.50 (-14%) | 2397.20 (+2%) | 77.02 (-11%) |
+| block null k1 | -4% | 7.67 (-12%) | 2443.20 (+3%) | 78.06 (-9%) |
+| block grid k2 | -9% | 7.26 (-16%) | 2659.20 (+13%) | 72.42 (-16%) |
+| block head k2 | -9% | 6.90 (-21%) | 2500.50 (+6%) | 73.17 (-15%) |
+| block null k2 | -8% | 7.06 (-19%) | 2580.10 (+9%) | 73.20 (-15%) |
+| block grid k3 | -12% | 6.63 (-24%) | 2781.10 (+18%) | 68.88 (-20%) |
+| block head k3 | -12% | 6.29 (-28%) | 2647.00 (+12%) | 68.91 (-20%) |
+| block null k3 | -11% | 6.46 (-26%) | 2655.50 (+12%) | 69.47 (-19%) |
+
+**COCO YOLO26s**
+
+| Model | GFLOPs Δ | GPU batch 1 (ms) | GPU batch 32 (img/s) | CPU batch 1 (ms) |
+|---|---:|---:|---:|---:|
+| unpruned | — | 8.71 | 1352.30 | 193.21 |
+| channel 10% | -7% | 8.94 (+3%) | 1247.40 (-8%) | 198.04 (+2%) |
+| channel 20% | -13% | 9.04 (+4%) | 1247.20 (-8%) | 192.40 (-0%) |
+| channel 30% | -19% | 8.86 (+2%) | 1304.20 (-4%) | 179.27 (-7%) |
+| channel 40% | -24% | 8.76 (+1%) | 1310.60 (-3%) | 176.09 (-9%) |
+| channel 50% | -28% | 8.66 (-1%) | 1539.50 (+14%) | 159.60 (-17%) |
+| block grid k1 | -4% | 7.71 (-11%) | 1385.80 (+2%) | 179.66 (-7%) |
+| block head k1 | -5% | 7.58 (-13%) | 1340.30 (-1%) | 178.83 (-7%) |
+| block grid k2 | -8% | 7.47 (-14%) | 1552.00 (+15%) | 164.74 (-15%) |
+| block head k2 | -9% | 6.96 (-20%) | 1395.80 (+3%) | 171.93 (-11%) |
+| block null k2 | -8% | 7.10 (-18%) | 1426.20 (+5%) | 170.88 (-12%) |
+| block grid k3 | -12% | 6.85 (-21%) | 1600.40 (+18%) | 158.79 (-18%) |
+| block head k3 | -13% | 6.34 (-27%) | 1460.70 (+8%) | 165.64 (-14%) |
+| block null k3 | -12% | 6.48 (-26%) | 1479.90 (+9%) | 164.46 (-15%) |
+
 ## Reproducing
 
 Needs a CUDA GPU and, for WSD, access to the private Roboflow export
@@ -744,7 +1109,15 @@ scripts are in `structural_pruning/scripts/slurm/same_protocol/`:
 scripts/collect_same_protocol.py --channel-root <outputs/yolo26_tda> --block-results
 <block_pruning/results>`, then `python scripts/same_protocol_tables.py`.
 
-**5. Tables:** `python scripts/collect_results.py --structural <outputs/yolo26_tda>
+**5. Recovery study and timing.** `structural_pruning/scripts/slurm/same_protocol/submit_recovery.sh`
+chooses what to run from the environment: `STUDIES` (`probe`, `budget`, `full`),
+`DATASETS`, `BUDGETS`, and `WBLR=1` for the matched warmup (e.g. `WBLR=1 STUDIES=budget
+DATASETS=coco BUDGETS="25000 50000"`). Timing: `python structural_pruning/scripts/bench_inference.py
+--device gpu` and `--device cpu --threads 8`. Then `collect_same_protocol.py` as above and
+`python scripts/recovery_tables.py`. The diagnostic and timing scripts, like the submission
+scripts, carry our cluster paths.
+
+**6. Tables:** `python scripts/collect_results.py --structural <outputs/yolo26_tda>
 --block <block_pruning> --wsd-baselines <baselines>`, then
 `python scripts/make_results_tables.py`.
 

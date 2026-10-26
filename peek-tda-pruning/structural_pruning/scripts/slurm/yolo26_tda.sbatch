@@ -33,7 +33,7 @@ case "$STAGE" in
     run_py prune --grid-index "$SLURM_ARRAY_TASK_ID" --ratios $RATIOS --criteria $CRITERIA --seed "${SEED:-0}" \
       --calib-images "$CALIB_IMAGES" --protect-layers "$PROTECT_LAYERS" \
       --epochs "$EPOCHS" --warmup-epochs "${WARMUP_EPOCHS:-3}" --optimizer "${OPTIMIZER:-auto}" \
-      ${LR0:+--lr0 "$LR0"} ${MOMENTUM:+--momentum "$MOMENTUM"} ${FT_DATA:+--finetune-data "$FT_DATA"} --batch "$BATCH" --workers "${WORKERS:-${SLURM_CPUS_PER_TASK:-8}}" --device 0
+      ${LR0:+--lr0 "$LR0"} ${MOMENTUM:+--momentum "$MOMENTUM"} ${FT_DATA:+--finetune-data "$FT_DATA"} ${FRACTION:+--fraction "$FRACTION"} ${CLOSE_MOSAIC:+--close-mosaic "$CLOSE_MOSAIC"} ${WARMUP_BIAS_LR:+--warmup-bias-lr "$WARMUP_BIAS_LR"} ${PROBE_EVERY:+--probe-every "$PROBE_EVERY"} ${PROBE_MAX:+--probe-max-batches "$PROBE_MAX"} --batch "$BATCH" --workers "${WORKERS:-${SLURM_CPUS_PER_TASK:-8}}" --device 0
     ;;
   aggregate)
     run_py aggregate

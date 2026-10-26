@@ -51,6 +51,15 @@ def main() -> None:
     ap.add_argument("--momentum", type=float, default=None)
     ap.add_argument("--warmup-epochs", type=float, default=3.0)
     ap.add_argument("--seed", type=int, default=42)
+    # recovery studies (iter_probe.py lives with the structural-pruning code)
+    ap.add_argument("--fraction", type=float, default=None, help="fraction of the train set per epoch")
+    ap.add_argument("--close-mosaic", type=int, default=None, help="epochs at the end without mosaic (default 10)")
+    ap.add_argument("--warmup-bias-lr", type=float, default=None,
+                    help="starting lr of the bias group during warmup (Ultralytics default 0.1, whatever lr0 is)")
+    ap.add_argument("--probe-every", type=int, default=None, help="evaluate every N training batches (probe.csv)")
+    ap.add_argument("--probe-max-batches", type=int, default=None, help="stop the fine-tune after N batches")
+    ap.add_argument("--tag", default="", help="suffix for the run name (e.g. _probe, _b500)")
+    ap.add_argument("--skip-existing", action="store_true", help="exit if results/<name>.json already exists")
     args = ap.parse_args()
 
     import torch
@@ -98,13 +107,30 @@ def main() -> None:
                 + ("" if args.scope == "head" else f"_{args.scope}") + ("" if args.norm == "raw" else f"_{args.norm}"))
     if args.init_weights:
         name += "_ft" + ("" if args.seed == 42 else f"_s{args.seed}")
-    model.train(
-        data=str(data_yaml), epochs=args.epochs, batch=args.batch, imgsz=640, seed=args.seed,
-        patience=args.patience, deterministic=args.deterministic, amp=args.amp,
-        device=args.device, optimizer=args.optimizer, warmup_epochs=args.warmup_epochs,
-        project=str(HERE / "runs"), name=name, exist_ok=True, plots=False, verbose=False, **extra,
-    )
-    metrics = model.val(
+    name += args.tag
+    if args.skip_existing and (HERE / "results" / f"{name}.json").exists():
+        print(f"{name}: already done")
+        return
+    extra.update({k: v for k, v in (("fraction", args.fraction), ("close_mosaic", args.close_mosaic), ("warmup_bias_lr", args.warmup_bias_lr)) if v is not None})
+    stopped = None
+    if args.probe_every:
+        import sys
+        for d in (HERE.parent / "PEEK-rvc-pruning", HERE.parent / "structural_pruning"):  # server / tina layout
+            sys.path.insert(0, str(d))
+        from peek_rvc_pruning import iter_probe
+        iter_probe.attach(model, HERE / "runs" / name / "probe.csv", args.probe_every, args.probe_max_batches)
+    try:
+        model.train(
+            data=str(data_yaml), epochs=args.epochs, batch=args.batch, imgsz=640, seed=args.seed,
+            patience=args.patience, deterministic=args.deterministic, amp=args.amp,
+            device=args.device, optimizer=args.optimizer, warmup_epochs=args.warmup_epochs,
+            project=str(HERE / "runs"), name=name, exist_ok=True, plots=False, verbose=False, **extra,
+        )
+    except Exception as e:  # iter_probe.StopProbe: probe run cut short on purpose, the curve is the result
+        if type(e).__name__ != "StopProbe":
+            raise
+        stopped = str(e)
+    metrics = None if stopped else model.val(
         data=str(data_yaml), split="val", verbose=False,
         project=str(HERE / "runs"), name=f"{name}_val", exist_ok=True, plots=False,
     )
@@ -118,13 +144,16 @@ def main() -> None:
         "optimizer": args.optimizer, "lr0": args.lr0, "data": data_yaml.name,
         "layers_cut": cut,
         "cut_persistence": [scores[str(i)] for i in cut] if scores else [],
-        "mAP50-95": round(float(metrics.box.map), 4),
-        "mAP50": round(float(metrics.box.map50), 4),
+        "mAP50-95": round(float(metrics.box.map), 4) if metrics else None,
+        "mAP50": round(float(metrics.box.map50), 4) if metrics else None,
         "epochs": args.epochs,
         "epochs_run": model.trainer.epoch + 1,  # < epochs if patience stopped it
+        **{k: getattr(args, k) for k in ("fraction", "close_mosaic", "warmup_bias_lr", "probe_every", "probe_max_batches")
+           if getattr(args, k) is not None},
+        **({"probe_stopped": stopped} if stopped else {}),
         **stats,
     }, indent=2))
-    print(f"{name}: mAP50-95={float(metrics.box.map):.4f}  "
+    print(f"{name}: mAP50-95={float(metrics.box.map) if metrics else float('nan'):.4f}  "
           f"GFLOPs={stats['gflops']}  params={stats['params']}  cut={cut}")
 
 
