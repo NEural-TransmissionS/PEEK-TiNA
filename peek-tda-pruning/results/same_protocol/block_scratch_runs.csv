@@ -1,0 +1,37 @@
+dataset,model,name,criterion,k,scope,norm,random_order,layers_cut,lr0,epochs_run,params,gflops,map50_95,map50
+viewsphere,n,viewsphere_n_k0_peek,combined,0,head,raw,,,,369,2572280,6.119,0.4964,0.7012
+viewsphere,n,viewsphere_n_k1_all_rand0,combined,1,all,raw,0,6,,471,2501880,5.892,0.1092,0.2031
+viewsphere,n,viewsphere_n_k1_all_rand2,combined,1,all,raw,2,19,,472,2501880,5.892,0.5265,0.7662
+viewsphere,n,viewsphere_n_k1_peek,combined,1,head,raw,,22,,348,2207992,5.826,0.0645,0.1363
+viewsphere,n,viewsphere_n_k1_peek_all_grid,combined,1,all,grid,,2,,281,2567816,5.885,0.4908,0.7078
+viewsphere,n,viewsphere_n_k1_peek_all_null,combined,1,all,null,,16,,494,2554488,5.887,0.5369,0.7568
+viewsphere,n,viewsphere_n_k2_all_rand0,combined,2,all,raw,0,6 13,,222,2431480,5.664,0.4553,0.6716
+viewsphere,n,viewsphere_n_k2_all_rand1,combined,2,all,raw,1,2 16,,327,2550024,5.652,0.4841,0.6998
+viewsphere,n,viewsphere_n_k2_all_rand2,combined,2,all,raw,2,16 19,,352,2484088,5.659,0.4941,0.716
+viewsphere,n,viewsphere_n_k2_peek,combined,2,head,raw,,13 22,,530,2137592,5.598,0.0779,0.1875
+viewsphere,n,viewsphere_n_k2_peek_all_grid,combined,2,all,grid,,2 4,,332,2550184,5.656,0.5178,0.752
+viewsphere,n,viewsphere_n_k2_peek_all_null,combined,2,all,null,,4 16,,293,2536856,5.658,0.4786,0.6792
+viewsphere,n,viewsphere_n_k3_all_rand0,combined,3,all,raw,0,6 8 13,,521,2151416,5.438,0.4351,0.6376
+viewsphere,n,viewsphere_n_k3_all_rand1,combined,3,all,raw,1,2 4 16,,843,2532392,5.424,0.5494,0.7767
+viewsphere,n,viewsphere_n_k3_all_rand2,combined,3,all,raw,2,16 19 22,,202,2119800,5.365,0.3787,0.5837
+viewsphere,n,viewsphere_n_k3_peek,combined,3,head,raw,,13 19 22,,515,2067192,5.37,0.5302,0.7687
+viewsphere,n,viewsphere_n_k3_peek_all_grid,combined,3,all,grid,,2 4 6,,424,2479784,5.429,0.5091,0.7564
+viewsphere,n,viewsphere_n_k3_peek_all_null,combined,3,all,null,,4 16 19,,449,2466456,5.43,0.5051,0.7285
+viewsphere,s,viewsphere_s_k0_peek,combined,0,head,raw,,,,819,10009784,22.838,0.6095,0.8133
+viewsphere,s,viewsphere_s_k1_all_rand0,combined,1,all,raw,0,6,,701,9729720,21.937,0.5991,0.8204
+viewsphere,s,viewsphere_s_k1_all_rand2,combined,1,all,raw,2,19,,418,9729720,21.937,0.5751,0.7919
+viewsphere,s,viewsphere_s_k1_peek,combined,1,head,raw,,22,,634,8560312,21.675,0.5999,0.8137
+viewsphere,s,viewsphere_s_k1_peek_all_grid,combined,1,all,grid,,2,,395,9992152,21.924,0.5656,0.7929
+viewsphere,s,viewsphere_s_k1_peek_all_null,combined,1,all,null,,16,,758,9939384,21.928,0.6003,0.8138
+viewsphere,s,viewsphere_s_k2_all_rand0,combined,2,all,raw,0,6 13,,544,9449656,21.036,0.58,0.7821
+viewsphere,s,viewsphere_s_k2_all_rand1,combined,2,all,raw,1,2 16,,227,9921752,21.013,0.3867,0.6021
+viewsphere,s,viewsphere_s_k2_all_rand2,combined,2,all,raw,2,16 19,,516,9659320,21.026,0.5629,0.7982
+viewsphere,s,viewsphere_s_k2_peek,combined,2,head,raw,,13 22,,226,8280248,20.773,0.1781,0.3239
+viewsphere,s,viewsphere_s_k2_peek_all_grid,combined,2,all,grid,,2 6,,518,9712088,21.023,0.5609,0.7927
+viewsphere,s,viewsphere_s_k2_peek_all_null,combined,2,all,null,,6 16,,320,9659320,21.026,0.5459,0.7679
+viewsphere,s,viewsphere_s_k3_all_rand0,combined,3,all,raw,0,6 8 13,,573,8332472,20.14,0.5603,0.7982
+viewsphere,s,viewsphere_s_k3_all_rand1,combined,3,all,raw,1,2 4 16,,234,9851672,20.111,0.4695,0.7091
+viewsphere,s,viewsphere_s_k3_all_rand2,combined,3,all,raw,2,16 19 22,,523,8209848,19.863,0.5528,0.7842
+viewsphere,s,viewsphere_s_k3_peek,combined,3,head,raw,,13 19 22,,249,8000184,19.872,0.5017,0.7373
+viewsphere,s,viewsphere_s_k3_peek_all_grid,combined,3,all,grid,,2 6 8,,317,8594904,20.127,0.5064,0.7344
+viewsphere,s,viewsphere_s_k3_peek_all_null,combined,3,all,null,,6 8 16,,442,8542136,20.13,0.5371,0.7807

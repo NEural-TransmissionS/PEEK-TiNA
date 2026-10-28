@@ -14,10 +14,11 @@ from collections import defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parents[1] / "results" / "same_protocol"
-DATA = {"wsd": "WSD", "coco": "COCO"}
-IPE = {"wsd": 63, "coco": 625}  # training batches (of 16) per epoch: WSD 1,005 images, COCO 10k subset
+DATA = {"wsd": "WSD", "coco": "COCO", "viewsphere": "Viewsphere"}
+IPE = {"wsd": 63, "coco": 625, "viewsphere": 58}  # batches (of 16) per epoch: WSD 1,005 images, COCO 10k subset, viewsphere 925
 FULL_IPE = 7393                 # COCO, all of train2017
-BUDGETS = {"wsd": (250, 500, 1000, 2500, 5000), "coco": (250, 500, 1000, 2500, 5000, 25000, 50000)}
+BUDGETS = {"wsd": (250, 500, 1000, 2500, 5000), "coco": (250, 500, 1000, 2500, 5000, 25000, 50000),
+           "viewsphere": (250, 500, 1000, 2500, 5000)}
 FULL = (3 * FULL_IPE, 7 * FULL_IPE)
 COLORS = {"field_h1": "#2a78d6", "l2": "#eb6834", "random": "#1baf7a", "none": "#52514e"}
 CRIT = ("field_h1", "l2", "random")
@@ -56,7 +57,8 @@ def epoch_recovery(cur: list[dict]) -> None:
     for r in cur:
         if r["basis"] == "peek" and r["random_order"] == "" and r["criterion"] in ("none", *CRIT, "combined"):
             curves[(r["dataset"], r["model"], label(r), r["seed"])][int(r["epoch"])] = float(r["map50_95"])
-    print("mAP50-95 on the full val set during the 20-epoch fine-tunes of the comparison above (standard warmup; "
+    print("mAP50-95 on the full val set during the 20-epoch fine-tunes of the comparison above (standard warmup "
+          "on WSD/COCO, matched on viewsphere; "
           "channel rows = mean of seeds 42/43/44, blocks = seed 42). *Start* = before training (channel: after BN "
           "re-estimation). *→95%* = first epoch within 95% of the run's own epoch-20 value.\n")
     for ds in DATA:
@@ -85,8 +87,8 @@ def warmup(pc: list[dict]) -> None:
     batches = (0, 50, 100, 250, 500, 1000, 2500)
     print("Every-50-batch evaluations of the same 20-epoch schedule (seed 42), with Ultralytics' default warmup "
           "(*0.1*: the bias lr starts at 0.1 and decays to lr0 over the first epoch) and with it started at lr0 "
-          "(*lr0*). COCO is scored on a fixed 500-image val2017 slice for the first 2,500 batches; WSD on its "
-          "full val set.\n")
+          "(*lr0*). COCO is scored on a fixed 500-image val2017 slice for the first 2,500 batches; WSD and "
+          "viewsphere on their full val sets (viewsphere: lr0 only).\n")
     print("| Data | Model | Run | Bias lr | " + " | ".join(f"batch {b}" for b in batches) + " |")
     print("|---|---|---|---|" + "---:|" * len(batches))
     for ds in DATA:
@@ -108,7 +110,7 @@ def budget_table(bud: list[dict]) -> dict:
             key = int(r["budget"]) if r["variant"] == "wblr" else f"full{r['epoch']}"
             t[(r["dataset"], r["model"], label(r))][key] = float(r["map50_95"])
     print("Separate fine-tunes of B training batches each (matched warmup, seed 42), mAP50-95 on the full val "
-          "set. One epoch = 63 batches on WSD, 625 on the COCO 10k subset; *full 3 ep / 7 ep* = COCO fine-tuned on "
+          "set. One epoch = 63 batches on WSD, 625 on the COCO 10k subset, 58 on viewsphere; *full 3 ep / 7 ep* = COCO fine-tuned on "
           "all of train2017 (7,393 batches per epoch, so 22k / 52k batches). Bold = best of the row.\n")
     for ds in DATA:
         for m in "ns":
@@ -165,20 +167,22 @@ def timing(ch: list[dict], bl: list[dict]) -> None:
                    (r["setting"] if r["method"] == "channel" else f"block {r['method'][6:]} {r['setting']}"))
             rows[key][dev] = r
     print(f"Forward pass only (no pre/post-processing), random 640×640 input, after conv+BN fusion. GPU: "
-          f"{gpu[0]['hardware']}, FP16; CPU: Intel Xeon Gold 6240R, {cpu[0]['hardware'].split(', ')[-1]}, FP32, on a "
-          "shared node (absolute CPU times run high; read the relative ones). All models are timed round-robin: 40 "
+          f"{gpu[0]['hardware']}, FP16; CPU: Intel Xeon, {cpu[0]['hardware'].split(', ')[-1]}, FP32, on a "
+          "shared node (absolute CPU times run high; read the relative ones, and expect up to ~±10% between "
+          "near-identical models). All models are timed round-robin: 40 "
           "rounds, each running every model 5 times in a shuffled order, so drift on the node hits them alike (timing "
           "them one after another skewed some CPU results by 10-30%). Batch-1 latency = median of the 200 runs; "
           "throughput = batch 32. Δ = vs the unpruned model; GFLOPs Δ for channel pruning from Torch-Pruning, "
           "for blocks from Ultralytics (each against its own unpruned count). Channel rows = the PEEK field H1 "
           "model (every criterion gives the same widths at a ratio). WSD differs from COCO only in the head's "
-          "class count; its timings are within a few % of these.\n")
-    for m in "ns":
-        print(f"**COCO YOLO26{m}**\n")
+          "class count; its timings are within a few % of these. Viewsphere models have WSD's architecture and "
+          "are listed for their own block cuts. All four tables come from one round-robin run.\n")
+    for ds, m in [(ds, m) for ds in ("coco", "viewsphere") for m in "ns" if (ds, m, "unpruned") in rows]:
+        print(f"**{DATA[ds]} YOLO26{m}**\n")
         print("| Model | GFLOPs Δ | GPU batch 1 (ms) | GPU batch 32 (img/s) | CPU batch 1 (ms) |")
         print("|---|---:|---:|---:|---:|")
-        base = rows[("coco", m, "unpruned")]
-        keys = [k for k in rows if k[:2] == ("coco", m)]
+        base = rows[(ds, m, "unpruned")]
+        keys = [k for k in rows if k[:2] == (ds, m)]
         keys.sort(key=lambda k: (k[2] != "unpruned", k[2].startswith("block"), k[2][-2:] if k[2].startswith("block") else k[2], k[2]))
         for k in keys:
             r = rows[k]
@@ -187,8 +191,8 @@ def timing(ch: list[dict], bl: list[dict]) -> None:
                     return "—"
                 v, b = float(r[dev][col]), float(base[dev][col])
                 return f"{v:.2f}" if k[2] == "unpruned" else f"{v:.2f} ({100 * (v / b - 1):+.0f}%)"
-            g = gf.get(k) if not k[2].startswith("block") else gf.get(("coco", m, k[2]))
-            g0 = gf[("coco", m, "unpruned")] if not k[2].startswith("block") else gf.get(("coco", m, "block k0"))
+            g = gf.get(k) if not k[2].startswith("block") else gf.get((ds, m, k[2]))
+            g0 = gf[(ds, m, "unpruned")] if not k[2].startswith("block") else gf.get((ds, m, "block k0"))
             gd = "—" if k[2] == "unpruned" or g is None or g0 is None else f"{100 * (g / g0 - 1):+.0f}%"
             name = k[2] if k[2] in ("unpruned",) or k[2].startswith("block") else f"channel {float(k[2]):.0%}"
             print(f"| {name} | {gd} | {cell('gpu', 'b1_ms_median')} | {cell('gpu', 'b32_img_per_s')} | {cell('cpu', 'b1_ms_median')} |")
@@ -220,7 +224,7 @@ def figures(probe: dict, t: dict) -> None:
     fig.legend(h, lab, loc="lower center", ncol=4, fontsize=8, bbox_to_anchor=(0.5, -0.12))
     fig.savefig(out / "warmup.png", dpi=150, bbox_inches="tight")
 
-    fig, axes = plt.subplots(2, 2, figsize=(11, 8), constrained_layout=True)
+    fig, axes = plt.subplots(len(DATA), 2, figsize=(11, 4 * len(DATA)), constrained_layout=True)
     for i, ds in enumerate(DATA):
         for j, m in enumerate("ns"):
             ax = axes[i, j]
@@ -240,7 +244,7 @@ def figures(probe: dict, t: dict) -> None:
             ax.minorticks_off()
             ax.set_title(f"{DATA[ds]} YOLO26{m}" + (" (◇ = all of train2017: 22k, 52k batches)" if ds == "coco" else ""))
             ax.grid(alpha=0.3, which="both")
-            if i == 1:
+            if i == len(DATA) - 1:
                 ax.set_xlabel("training batches (log)")
             if j == 0:
                 ax.set_ylabel("mAP50-95")

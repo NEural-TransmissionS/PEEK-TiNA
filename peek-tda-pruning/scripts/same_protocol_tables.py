@@ -1,7 +1,7 @@
-"""README tables and figures for WSD vs COCO on the same protocol.
+"""README tables and figures for WSD vs COCO vs viewsphere on the same protocol.
 
 Reads results/same_protocol/{channel_runs,block_runs}.csv (made by scripts/collect_same_protocol.py)
-and prints the markdown for the README section "WSD and COCO on the same protocol"; writes
+and prints the markdown for the README section "WSD, COCO and viewsphere on the same protocol"; writes
 results/same_protocol/figures/{channel,blocks}.png. The older WSD/shapes tables come from
 scripts/make_results_tables.py.
 
@@ -18,7 +18,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parents[1] / "results" / "same_protocol"
 RATIOS = ("0.1", "0.2", "0.3", "0.4", "0.5")
 SEEDS = ("42", "43", "44")
-DATA = {"wsd": "WSD", "coco": "COCO"}
+DATA = {"wsd": "WSD", "coco": "COCO", "viewsphere": "Viewsphere"}
 BLOCKS_ALL = [2, 4, 6, 8, 13, 16, 19, 22]  # C3k2 blocks eligible for replacement (scope "all")
 N_RANDOM = 23  # random block orders 0-22
 COLORS = {"field_h1": "#2a78d6", "l2": "#eb6834", "random": "#1baf7a",
@@ -66,14 +66,14 @@ def channel_seeds(ch: list[dict]) -> None:
             print()
 
 
-def coco_grid(ch: list[dict]) -> None:
+def grid(ch: list[dict], ds: str) -> None:
     g = {(r["model"], r["basis"], r["criterion"], ratio(r)): float(r["map_ft"])
-         for r in ch if r["dataset"] == "coco" and r["set"] == "grid" and r["seed"] == "42"}
+         for r in ch if r["dataset"] == ds and r["set"] == "grid" and r["seed"] == "42"}
     crits = ["field_h1", "field_total", "field_h0", "h0", "h1", "total", "l2", "random"]
     print("Seed 42, mAP50-95 after the fine-tune. *Activation* = the same TDA criterion computed on raw "
           "activations instead of PEEK maps (mean over the five ratios).\n")
     for m in "ns":
-        print(f"**COCO YOLO26{m}** — unpruned + fine-tune {g[(m, 'peek', 'none', '0.0')]:.3f}\n")
+        print(f"**{DATA[ds]} YOLO26{m}** — unpruned + fine-tune {g[(m, 'peek', 'none', '0.0')]:.3f}\n")
         print("| Criterion | " + " | ".join(f"{float(x):.0%}" for x in RATIOS) + " | Mean | Activation mean |")
         print("|---|" + "---:|" * (len(RATIOS) + 2))
         for c in sorted(crits, key=lambda c: -st.mean(g[(m, "peek", c, x)] for x in RATIOS)):
@@ -81,6 +81,30 @@ def coco_grid(ch: list[dict]) -> None:
             a = [g.get((m, "activation", c, x)) for x in RATIOS]
             am = f"{st.mean(a):.3f}" if None not in a else "—"
             print(f"| {c} | " + " | ".join(f"{x:.3f}" for x in v) + f" | {st.mean(v):.3f} | {am} |")
+        print()
+
+
+def oneshot(ch: list[dict], ds: str) -> None:
+    """mAP50-95 right after pruning + BN re-estimation (no fine-tune): seed-42 grid vs 10 random masks."""
+    g = {(r["model"], r["criterion"], ratio(r)): float(r["map_bn"])
+         for r in ch if r["dataset"] == ds and r["set"] == "grid" and r["basis"] == "peek" and r["seed"] == "42"}
+    rnd = defaultdict(list)
+    for r in ch:
+        if r["dataset"] == ds and r["set"] == "oneshot" and r["criterion"] == "random":
+            rnd[(r["model"], ratio(r))].append(float(r["map_bn"]))
+    print("mAP50-95 right after pruning and BN re-estimation, before any fine-tune (seed 42). *Random* = mean "
+          "over 10 random masks (seeds 0-9) [best mask]. **Bold** = best at that ratio.\n")
+    crits = ["field_h1", "field_total", "field_h0", "h1", "l2"]
+    for m in "ns":
+        print(f"**{DATA[ds]} YOLO26{m}**\n")
+        print("| Criterion | " + " | ".join(f"{float(x):.0%}" for x in RATIOS) + " |")
+        print("|---|" + "---:|" * len(RATIOS))
+        best = {x: max([g[(m, c, x)] for c in crits] + [st.mean(rnd[(m, x)])]) for x in RATIOS}
+        for c in crits:
+            print(f"| {c} | " + " | ".join(f"**{g[(m, c, x)]:.3f}**" if g[(m, c, x)] == best[x] else f"{g[(m, c, x)]:.3f}"
+                                           for x in RATIOS) + " |")
+        print("| random (10 masks) | " + " | ".join(f"{st.mean(rnd[(m, x)]):.3f} [{max(rnd[(m, x)]):.3f}]"
+                                                    for x in RATIOS) + " |")
         print()
 
 
@@ -153,7 +177,7 @@ def figures(ch: list[dict], bl: list[dict]) -> None:
     out.mkdir(exist_ok=True)
     t = seed_table(ch)
     x = [float(r) for r in RATIOS]
-    fig, axes = plt.subplots(2, 2, figsize=(10, 7.5), constrained_layout=True)
+    fig, axes = plt.subplots(len(DATA), 2, figsize=(10, 3.75 * len(DATA)), constrained_layout=True)
     for i, ds in enumerate(DATA):
         for j, m in enumerate("ns"):
             ax = axes[i, j]
@@ -166,7 +190,7 @@ def figures(ch: list[dict], bl: list[dict]) -> None:
             ax.set_title(f"{DATA[ds]} YOLO26{m}")
             ax.set_xticks(x, [f"{v:.0%}" for v in x])
             ax.grid(alpha=0.3)
-            if i == 1:
+            if i == len(DATA) - 1:
                 ax.set_xlabel("channels pruned per layer")
             if j == 0:
                 ax.set_ylabel("mAP50-95 after fine-tune")
@@ -175,7 +199,7 @@ def figures(ch: list[dict], bl: list[dict]) -> None:
     fig.savefig(out / "channel.png", dpi=150)
 
     by_cut, ranked = block_sets(bl)
-    fig, axes = plt.subplots(2, 2, figsize=(10, 7.5), constrained_layout=True)
+    fig, axes = plt.subplots(len(DATA), 2, figsize=(10, 3.75 * len(DATA)), constrained_layout=True)
     rng = np.random.default_rng(0)
     for i, ds in enumerate(DATA):
         for j, m in enumerate("ns"):
@@ -194,7 +218,7 @@ def figures(ch: list[dict], bl: list[dict]) -> None:
             ax.set_title(f"{DATA[ds]} YOLO26{m}")
             ax.set_xticks([1, 2, 3])
             ax.grid(alpha=0.3)
-            if i == 1:
+            if i == len(DATA) - 1:
                 ax.set_xlabel("blocks replaced (k)")
             if j == 0:
                 ax.set_ylabel("mAP50-95 after fine-tune")
@@ -208,8 +232,11 @@ if __name__ == "__main__":
     print("#### Structural channel pruning, 3 seeds\n")
     channel_seeds(ch)
     print("![Channel pruning, 3 seeds](results/same_protocol/figures/channel.png)\n")
-    print("#### COCO: every criterion\n")
-    coco_grid(ch)
+    for ds in ("coco", "viewsphere"):
+        print(f"#### {DATA[ds]}: every criterion\n")
+        grid(ch, ds)
+        print(f"#### {DATA[ds]}: one-shot\n")
+        oneshot(ch, ds)
     print("#### Block replacement vs random block orders\n")
     blocks(bl)
     print("![Block replacement vs random orders](results/same_protocol/figures/blocks.png)\n")

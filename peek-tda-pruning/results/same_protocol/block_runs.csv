@@ -199,3 +199,99 @@ coco,s,coco_s_k3_all_rand9_ft,combined,3,all,raw,9,8 16 22,0.000125,20,7372728,1
 coco,s,coco_s_k3_peek_all_grid_ft,combined,3,all,grid,,2 8 16,0.000125,20,8804568,20.117,0.2112,0.3159
 coco,s,coco_s_k3_peek_all_null_ft,combined,3,all,null,,8 13 16,0.000125,20,8542136,20.13,0.2508,0.369
 coco,s,coco_s_k3_peek_ft,combined,3,head,raw,,13 19 22,0.000125,20,8000184,19.872,0.2693,0.4415
+viewsphere,n,viewsphere_n_k0_peek_ft,combined,0,head,raw,,,0.00125,20,2505360,5.778,0.569,0.7636
+viewsphere,n,viewsphere_n_k1_all_rand0_ft,combined,1,all,raw,0,6,0.00125,20,2434960,5.55,0.5501,0.749
+viewsphere,n,viewsphere_n_k1_all_rand2_ft,combined,1,all,raw,2,19,0.00125,20,2434960,5.55,0.5416,0.7607
+viewsphere,n,viewsphere_n_k1_all_rand4_ft,combined,1,all,raw,4,4,0.00125,20,2487728,5.55,0.5457,0.7554
+viewsphere,n,viewsphere_n_k1_all_rand8_ft,combined,1,all,raw,8,8,0.00125,20,2225296,5.553,0.5336,0.7519
+viewsphere,n,viewsphere_n_k1_peek_all_grid_ft,combined,1,all,grid,,2,0.00125,20,2500896,5.544,0.5285,0.7346
+viewsphere,n,viewsphere_n_k1_peek_all_null_ft,combined,1,all,null,,16,0.00125,20,2487568,5.546,0.5127,0.7081
+viewsphere,n,viewsphere_n_k1_peek_ft,combined,1,head,raw,,22,0.00125,20,2141072,5.485,0.5406,0.7601
+viewsphere,n,viewsphere_n_k2_all_rand0_ft,combined,2,all,raw,0,6 13,0.00125,20,2364560,5.323,0.4901,0.7095
+viewsphere,n,viewsphere_n_k2_all_rand11_ft,combined,2,all,raw,11,4 8,0.00125,20,2207664,5.324,0.4983,0.7233
+viewsphere,n,viewsphere_n_k2_all_rand12_ft,combined,2,all,raw,12,4 19,0.00125,20,2417328,5.322,0.5212,0.7448
+viewsphere,n,viewsphere_n_k2_all_rand13_ft,combined,2,all,raw,13,2 22,0.00125,20,2136608,5.25,0.4986,0.7313
+viewsphere,n,viewsphere_n_k2_all_rand14_ft,combined,2,all,raw,14,8 19,0.00125,20,2154896,5.325,0.5106,0.7294
+viewsphere,n,viewsphere_n_k2_all_rand15_ft,combined,2,all,raw,15,2 6,0.00125,20,2430496,5.316,0.4785,0.7021
+viewsphere,n,viewsphere_n_k2_all_rand18_ft,combined,2,all,raw,18,6 19,0.00125,20,2364560,5.323,0.5299,0.753
+viewsphere,n,viewsphere_n_k2_all_rand1_ft,combined,2,all,raw,1,2 16,0.00125,20,2483104,5.311,0.4738,0.6702
+viewsphere,n,viewsphere_n_k2_all_rand22_ft,combined,2,all,raw,22,4 22,0.00125,20,2123440,5.256,0.5284,0.7791
+viewsphere,n,viewsphere_n_k2_all_rand2_ft,combined,2,all,raw,2,16 19,0.00125,20,2417168,5.318,0.4626,0.6625
+viewsphere,n,viewsphere_n_k2_all_rand3_ft,combined,2,all,raw,3,19 22,0.00125,20,2070672,5.257,0.4926,0.7351
+viewsphere,n,viewsphere_n_k2_all_rand4_ft,combined,2,all,raw,4,4 6,0.00125,20,2417328,5.322,0.4977,0.7278
+viewsphere,n,viewsphere_n_k2_all_rand5_ft,combined,2,all,raw,5,4 13,0.00125,20,2417328,5.322,0.4815,0.6934
+viewsphere,n,viewsphere_n_k2_all_rand6_ft,combined,2,all,raw,6,6 16,0.00125,20,2417168,5.318,0.4915,0.7059
+viewsphere,n,viewsphere_n_k2_all_rand7_ft,combined,2,all,raw,7,2 19,0.00125,20,2430496,5.316,0.5038,0.741
+viewsphere,n,viewsphere_n_k2_all_rand8_ft,combined,2,all,raw,8,8 22,0.00125,20,1861008,5.259,0.5142,0.7519
+viewsphere,n,viewsphere_n_k2_peek_all_grid_ft,combined,2,all,grid,,2 4,0.00125,20,2483264,5.315,0.4934,0.7166
+viewsphere,n,viewsphere_n_k2_peek_all_null_ft,combined,2,all,null,,4 16,0.00125,20,2469936,5.317,0.4939,0.6849
+viewsphere,n,viewsphere_n_k2_peek_ft,combined,2,head,raw,,13 22,0.00125,20,2070672,5.257,0.5121,0.7414
+viewsphere,n,viewsphere_n_k3_all_rand0_ft,combined,3,all,raw,0,6 8 13,0.00125,20,2084496,5.097,0.4314,0.6568
+viewsphere,n,viewsphere_n_k3_all_rand10_ft,combined,3,all,raw,10,4 6 8,0.00125,20,2137264,5.097,0.4193,0.6541
+viewsphere,n,viewsphere_n_k3_all_rand11_ft,combined,3,all,raw,11,4 8 22,0.00125,20,1843376,5.031,0.4651,0.7138
+viewsphere,n,viewsphere_n_k3_all_rand12_ft,combined,3,all,raw,12,4 8 19,0.00125,20,2137264,5.097,0.4529,0.6927
+viewsphere,n,viewsphere_n_k3_all_rand14_ft,combined,3,all,raw,14,8 13 19,0.00125,20,2084496,5.097,0.4583,0.6725
+viewsphere,n,viewsphere_n_k3_all_rand15_ft,combined,3,all,raw,15,2 6 8,0.00125,20,2150432,5.091,0.4205,0.6324
+viewsphere,n,viewsphere_n_k3_all_rand16_ft,combined,3,all,raw,16,2 13 19,0.00125,20,2360096,5.088,0.4988,0.7196
+viewsphere,n,viewsphere_n_k3_all_rand17_ft,combined,3,all,raw,17,2 4 19,0.00125,20,2412864,5.088,0.4686,0.7104
+viewsphere,n,viewsphere_n_k3_all_rand18_ft,combined,3,all,raw,18,2 6 19,0.00125,20,2360096,5.088,0.4579,0.6741
+viewsphere,n,viewsphere_n_k3_all_rand1_ft,combined,3,all,raw,1,2 4 16,0.00125,20,2465472,5.083,0.4528,0.6707
+viewsphere,n,viewsphere_n_k3_all_rand21_ft,combined,3,all,raw,21,2 13 16,0.00125,20,2412704,5.084,0.4545,0.6547
+viewsphere,n,viewsphere_n_k3_all_rand22_ft,combined,3,all,raw,22,4 19 22,0.00125,20,2053040,5.028,0.4704,0.724
+viewsphere,n,viewsphere_n_k3_all_rand2_ft,combined,3,all,raw,2,16 19 22,0.00125,20,2052880,5.024,0.4403,0.6774
+viewsphere,n,viewsphere_n_k3_all_rand3_ft,combined,3,all,raw,3,6 19 22,0.00125,20,2000272,5.029,0.4774,0.7223
+viewsphere,n,viewsphere_n_k3_all_rand5_ft,combined,3,all,raw,5,4 6 13,0.00125,20,2346928,5.094,0.456,0.6855
+viewsphere,n,viewsphere_n_k3_all_rand6_ft,combined,3,all,raw,6,6 8 16,0.00125,20,2137104,5.093,0.3749,0.5717
+viewsphere,n,viewsphere_n_k3_all_rand7_ft,combined,3,all,raw,7,2 19 22,0.00125,20,2066208,5.023,0.4868,0.7268
+viewsphere,n,viewsphere_n_k3_all_rand8_ft,combined,3,all,raw,8,2 8 22,0.00125,20,1856544,5.025,0.4766,0.7017
+viewsphere,n,viewsphere_n_k3_all_rand9_ft,combined,3,all,raw,9,8 16 22,0.00125,20,1843216,5.027,0.4384,0.6636
+viewsphere,n,viewsphere_n_k3_peek_all_grid_ft,combined,3,all,grid,,2 4 6,0.00125,20,2412864,5.088,0.458,0.6847
+viewsphere,n,viewsphere_n_k3_peek_all_null_ft,combined,3,all,null,,4 16 19,0.00125,20,2399536,5.089,0.4529,0.6677
+viewsphere,n,viewsphere_n_k3_peek_ft,combined,3,head,raw,,13 19 22,0.00125,20,2000272,5.029,0.4722,0.7097
+viewsphere,s,viewsphere_s_k0_peek_ft,combined,0,head,raw,,,0.00125,20,9950960,22.512,0.5778,0.7899
+viewsphere,s,viewsphere_s_k1_all_rand0_ft,combined,1,all,raw,0,6,0.00125,20,9670896,21.61,0.5812,0.7871
+viewsphere,s,viewsphere_s_k1_all_rand2_ft,combined,1,all,raw,2,19,0.00125,20,9670896,21.61,0.575,0.7852
+viewsphere,s,viewsphere_s_k1_all_rand4_ft,combined,1,all,raw,4,4,0.00125,20,9880880,21.609,0.5641,0.7784
+viewsphere,s,viewsphere_s_k1_all_rand8_ft,combined,1,all,raw,8,8,0.00125,20,8833776,21.615,0.5599,0.7772
+viewsphere,s,viewsphere_s_k1_peek_all_grid_ft,combined,1,all,grid,,2,0.00125,20,9933328,21.597,0.5504,0.7615
+viewsphere,s,viewsphere_s_k1_peek_all_null_ft,combined,1,all,null,,16,0.00125,20,9880560,21.601,0.5378,0.7321
+viewsphere,s,viewsphere_s_k1_peek_ft,combined,1,head,raw,,22,0.00125,20,8501488,21.348,0.5943,0.8042
+viewsphere,s,viewsphere_s_k2_all_rand0_ft,combined,2,all,raw,0,6 13,0.00125,20,9390832,20.709,0.533,0.7666
+viewsphere,s,viewsphere_s_k2_all_rand11_ft,combined,2,all,raw,11,4 8,0.00125,20,8763696,20.713,0.5508,0.7727
+viewsphere,s,viewsphere_s_k2_all_rand12_ft,combined,2,all,raw,12,4 19,0.00125,20,9600816,20.708,0.5617,0.7857
+viewsphere,s,viewsphere_s_k2_all_rand13_ft,combined,2,all,raw,13,2 22,0.00125,20,8483856,20.434,0.5519,0.7736
+viewsphere,s,viewsphere_s_k2_all_rand14_ft,combined,2,all,raw,14,8 19,0.00125,20,8553712,20.714,0.5699,0.7862
+viewsphere,s,viewsphere_s_k2_all_rand17_ft,combined,2,all,raw,17,2 4,0.00125,20,9863248,20.695,0.5153,0.7465
+viewsphere,s,viewsphere_s_k2_all_rand18_ft,combined,2,all,raw,18,6 19,0.00125,20,9390832,20.709,0.5262,0.768
+viewsphere,s,viewsphere_s_k2_all_rand1_ft,combined,2,all,raw,1,2 16,0.00125,20,9862928,20.686,0.4882,0.6987
+viewsphere,s,viewsphere_s_k2_all_rand22_ft,combined,2,all,raw,22,4 22,0.00125,20,8431408,20.445,0.5421,0.7694
+viewsphere,s,viewsphere_s_k2_all_rand2_ft,combined,2,all,raw,2,16 19,0.00125,20,9600496,20.7,0.515,0.7364
+viewsphere,s,viewsphere_s_k2_all_rand3_ft,combined,2,all,raw,3,19 22,0.00125,20,8221424,20.447,0.5505,0.7848
+viewsphere,s,viewsphere_s_k2_all_rand4_ft,combined,2,all,raw,4,4 6,0.00125,20,9600816,20.708,0.541,0.7749
+viewsphere,s,viewsphere_s_k2_all_rand5_ft,combined,2,all,raw,5,4 13,0.00125,20,9600816,20.708,0.5213,0.7583
+viewsphere,s,viewsphere_s_k2_all_rand7_ft,combined,2,all,raw,7,2 19,0.00125,20,9653264,20.696,0.5152,0.7455
+viewsphere,s,viewsphere_s_k2_all_rand8_ft,combined,2,all,raw,8,8 22,0.00125,20,7384304,20.452,0.5641,0.7914
+viewsphere,s,viewsphere_s_k2_peek_all_grid_ft,combined,2,all,grid,,2 6,0.00125,20,9653264,20.696,0.5174,0.7385
+viewsphere,s,viewsphere_s_k2_peek_all_null_ft,combined,2,all,null,,6 16,0.00125,20,9600496,20.7,0.5094,0.7489
+viewsphere,s,viewsphere_s_k2_peek_ft,combined,2,head,raw,,13 22,0.00125,20,8221424,20.447,0.5533,0.7887
+viewsphere,s,viewsphere_s_k3_all_rand0_ft,combined,3,all,raw,0,6 8 13,0.00125,20,8273648,19.813,0.4779,0.7151
+viewsphere,s,viewsphere_s_k3_all_rand10_ft,combined,3,all,raw,10,4 6 8,0.00125,20,8483632,19.812,0.492,0.7324
+viewsphere,s,viewsphere_s_k3_all_rand11_ft,combined,3,all,raw,11,4 8 22,0.00125,20,7314224,19.549,0.5274,0.7487
+viewsphere,s,viewsphere_s_k3_all_rand12_ft,combined,3,all,raw,12,4 8 19,0.00125,20,8483632,19.812,0.5397,0.7617
+viewsphere,s,viewsphere_s_k3_all_rand14_ft,combined,3,all,raw,14,8 13 19,0.00125,20,8273648,19.813,0.5029,0.7364
+viewsphere,s,viewsphere_s_k3_all_rand16_ft,combined,3,all,raw,16,2 13 19,0.00125,20,9373200,19.795,0.4945,0.7447
+viewsphere,s,viewsphere_s_k3_all_rand17_ft,combined,3,all,raw,17,2 4 19,0.00125,20,9583184,19.794,0.4778,0.7028
+viewsphere,s,viewsphere_s_k3_all_rand18_ft,combined,3,all,raw,18,2 6 19,0.00125,20,9373200,19.795,0.4858,0.7396
+viewsphere,s,viewsphere_s_k3_all_rand1_ft,combined,3,all,raw,1,2 4 16,0.00125,20,9792848,19.784,0.4863,0.6965
+viewsphere,s,viewsphere_s_k3_all_rand21_ft,combined,3,all,raw,21,2 13 16,0.00125,20,9582864,19.785,0.4624,0.6558
+viewsphere,s,viewsphere_s_k3_all_rand22_ft,combined,3,all,raw,22,4 19 22,0.00125,20,8151344,19.544,0.5179,0.7544
+viewsphere,s,viewsphere_s_k3_all_rand2_ft,combined,3,all,raw,2,16 19 22,0.00125,20,8151024,19.536,0.4896,0.7323
+viewsphere,s,viewsphere_s_k3_all_rand3_ft,combined,3,all,raw,3,6 19 22,0.00125,20,7941360,19.545,0.5113,0.7711
+viewsphere,s,viewsphere_s_k3_all_rand4_ft,combined,3,all,raw,4,2 4 6,0.00125,20,9583184,19.794,0.4761,0.7095
+viewsphere,s,viewsphere_s_k3_all_rand5_ft,combined,3,all,raw,5,4 6 13,0.00125,20,9320752,19.807,0.5104,0.7398
+viewsphere,s,viewsphere_s_k3_all_rand7_ft,combined,3,all,raw,7,2 19 22,0.00125,20,8203792,19.532,0.5227,0.7793
+viewsphere,s,viewsphere_s_k3_all_rand8_ft,combined,3,all,raw,8,2 8 22,0.00125,20,7366672,19.537,0.5281,0.7624
+viewsphere,s,viewsphere_s_k3_all_rand9_ft,combined,3,all,raw,9,8 16 22,0.00125,20,7313904,19.541,0.5027,0.7255
+viewsphere,s,viewsphere_s_k3_peek_all_grid_ft,combined,3,all,grid,,2 6 8,0.00125,20,8536080,19.8,0.4711,0.6992
+viewsphere,s,viewsphere_s_k3_peek_all_null_ft,combined,3,all,null,,6 8 16,0.00125,20,8483312,19.803,0.4476,0.684
+viewsphere,s,viewsphere_s_k3_peek_ft,combined,3,head,raw,,13 19 22,0.00125,20,7941360,19.545,0.5328,0.783

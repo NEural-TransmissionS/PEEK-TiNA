@@ -1,8 +1,9 @@
-"""Collect the WSD + COCO same-protocol runs into results/same_protocol/*.csv.
+"""Collect the WSD + COCO + viewsphere same-protocol runs into results/same_protocol/*.csv.
 
 Same protocol = 20-epoch fine-tune (AdamW, momentum 0.9, warmup 1, batch 16) after structural
 channel pruning or block cut, train-loader seeds fixed. WSD uses lr 1.25e-3 (the lr its models were
-trained with); COCO uses lr 1.25e-4 and a fixed 10k train2017 subset (see README).
+trained with); COCO uses lr 1.25e-4 and a fixed 10k train2017 subset; viewsphere (v1_wsd4, base =
+WSD -> viewsphere fine-tunes) uses lr 1.25e-3 with the matched warmup bias lr throughout (see README).
 Writes channel_runs / block_runs (20-epoch results), curves (their per-epoch val mAP), and for the
 recovery study probe_curves (every 50 batches), budget_runs (separate fine-tunes of B batches, incl.
 COCO on full train2017) and inference_{gpu,cpu} (scripts/bench_inference.py timings).
@@ -29,7 +30,12 @@ for m in "ns":
         f"coco_{m}_protect6_activation_ft20": ("coco", m, "grid", "activation"),
         f"coco_{m}_protect6_seeds_ft20": ("coco", m, "seeds", "peek"),
         f"coco_{m}_protect6_oneshot": ("coco", m, "oneshot", "peek"),
+        f"viewsphere_{m}_protect6_peek_ft20": ("viewsphere", m, "grid", "peek"),
+        f"viewsphere_{m}_protect6_activation_ft20": ("viewsphere", m, "grid", "activation"),
+        f"viewsphere_{m}_protect6_seeds_ft20": ("viewsphere", m, "seeds", "peek"),
+        f"viewsphere_{m}_protect6_oneshot": ("viewsphere", m, "oneshot", "peek"),
     }
+DATASETS = ("wsd", "coco", "viewsphere")
 CHANNEL_DIRS |= {
     "coco_n_protect6_activation_oneshot": ("coco", "n", "oneshot", "activation"),
     "coco_n_protect6_lrpilot_lr0.000125": ("coco", "n", "lrpilot", "peek"),
@@ -64,7 +70,7 @@ def channel(root: Path) -> list[dict]:
 
 def blocks(results: Path) -> list[dict]:
     rows = []
-    for ds in ("wsd", "coco"):
+    for ds in DATASETS:
         for f in sorted(results.glob(f"{ds}_*_ft.json")):
             r = json.loads(f.read_text())
             rows.append({
@@ -74,6 +80,25 @@ def blocks(results: Path) -> list[dict]:
                 "epochs_run": r.get("epochs_run", ""), "params": r["params"], "gflops": r["gflops"],
                 "map50_95": r["mAP50-95"], "map50": r["mAP50"],
             })
+    return rows
+
+
+def scratch_blocks(results: Path) -> list[dict]:
+    """Viewsphere block cuts retrained from scratch (1000 epochs, like WSD's), kept apart from the
+    cut + fine-tune runs above: results/<name>.json without the _ft suffix."""
+    rows = []
+    for f in sorted(results.glob("viewsphere_*.json")):
+        if "_ft" in f.stem:
+            continue
+        r = json.loads(f.read_text())
+        rows.append({
+            "dataset": "viewsphere", "model": r["size"], "name": f.stem, "criterion": r.get("criterion", "combined"),
+            "k": r["k"], "scope": r.get("scope", "head"), "norm": r.get("norm", "raw"),
+            "random_order": "" if r.get("random_order") is None else r["random_order"],
+            "layers_cut": " ".join(map(str, sorted(r["layers_cut"]))), "lr0": r.get("lr0", ""),
+            "epochs_run": r.get("epochs_run", ""), "params": r["params"], "gflops": r["gflops"],
+            "map50_95": r["mAP50-95"], "map50": r["mAP50"],
+        })
     return rows
 
 
@@ -112,7 +137,7 @@ def curves(root: Path, results: Path) -> list[dict]:
     pre = results / "precut_eval.json"
     pre = {(p["dataset"], p["model"], p["layers_cut"]): p["map50_95_precut"]
            for p in (json.loads(pre.read_text()) if pre.exists() else [])}
-    for ds in ("wsd", "coco"):
+    for ds in DATASETS:
         for f in sorted(results.glob(f"{ds}_*_ft.json")):
             r = json.loads(f.read_text())
             key = {"dataset": ds, "model": r["size"], **_block_id(r), "variant": "", "budget": ""}
@@ -131,7 +156,7 @@ def probes(root: Path, results: Path) -> list[dict]:
     started at lr0 instead of Ultralytics' 0.1."""
     rows = []
     for v in ("", "_wblr"):
-      for ds in ("wsd", "coco"):
+      for ds in DATASETS:
         for m in "ns":
             for f in sorted((root / f"{ds}_{m}_protect6_probe{v}" / "runs").glob("*/probe.csv")):
                 r = json.loads((f.parent / "result.json").read_text())
@@ -153,7 +178,7 @@ def budgets(root: Path, results: Path) -> list[dict]:
     warmup bias lr started at lr0 (<ds>_<m>_protect6_budget<B>_wblr/, blocks *_ft_b<B>_wblr)."""
     rows = []
     for v, b in [(v, b) for v in ("", "_wblr") for b in BUDGETS]:
-        for ds in ("wsd", "coco"):
+        for ds in DATASETS:
             for m in "ns":
                 for f in sorted((root / f"{ds}_{m}_protect6_budget{b}{v}" / "runs").glob("*/result.json")):
                     r = json.loads(f.read_text())
@@ -199,11 +224,14 @@ if __name__ == "__main__":
     a = ap.parse_args()
     write("channel_runs.csv", CHANNEL_COLS, channel(a.channel_root))
     write("block_runs.csv", BLOCK_COLS, blocks(a.block_results))
+    write("block_scratch_runs.csv", BLOCK_COLS, scratch_blocks(a.block_results))
     write("curves.csv", CURVE_COLS, curves(a.channel_root, a.block_results))
     write("probe_curves.csv", CURVE_COLS, probes(a.channel_root, a.block_results))
     write("budget_runs.csv", CURVE_COLS, budgets(a.channel_root, a.block_results))
     bench = a.channel_root.parent / "bench"
-    for dev in ("gpu", "cpu"):  # inference timing (scripts/bench_inference.py), copied as is
-        if (bench / f"bench_{dev}.csv").exists():
-            (OUT / f"inference_{dev}.csv").write_text((bench / f"bench_{dev}.csv").read_text())
-            print(f"inference_{dev}.csv copied")
+    for dev in ("gpu", "cpu"):  # inference timing (scripts/bench_inference.py), copied as is;
+        # bench_<dev>_vs.csv = all three datasets timed together on one node (preferred when present)
+        src = next((f for f in (bench / f"bench_{dev}_vs.csv", bench / f"bench_{dev}.csv") if f.exists()), None)
+        if src:
+            (OUT / f"inference_{dev}.csv").write_text(src.read_text())
+            print(f"inference_{dev}.csv copied from {src.name}")

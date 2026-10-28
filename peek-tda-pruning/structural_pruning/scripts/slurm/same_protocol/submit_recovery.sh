@@ -15,6 +15,8 @@
 #            subset the ceiling? Unpruned + the channel subset, and two block cuts per model
 #            (n: null [16], null [13 16 19]; s: grid [16], grid [2 8 16]). Outputs coco_<m>_protect6_full_e<E>_wblr.
 # What runs is set by the environment (defaults = the first submission):
+#   viewsphere: like WSD (whole run, full valid), base = weights/viewsphere_{n,s}.pt (WSD -> viewsphere
+#            fine-tunes), 58 batches per epoch; added 2026-10-27, submitted via submit_viewsphere_phase2.sh.
 #   STUDIES="probe budget"  DATASETS="wsd coco"  BUDGETS="250 500 1000 2500 5000"  WBLR=0
 # e.g. WBLR=1 STUDIES=probe bash submit_recovery.sh;  STUDIES=budget DATASETS=coco BUDGETS="25000 50000" bash ...
 set -euo pipefail
@@ -30,12 +32,16 @@ PS="--partition=gpu1,gpu2,h200,h200_mig $X"                    # COCO s fine-tun
 LOG=outputs/recovery_jobs.txt
 # B -> "epochs fraction"
 declare -A WSD_B=([250]="4 1" [500]="8 1" [1000]="16 1" [2500]="40 1" [5000]="79 1")
+declare -A VS_B=([250]="4 1" [500]="9 1" [1000]="17 1" [2500]="43 1" [5000]="86 1")
 declare -A COCO_B=([250]="1 0.4" [500]="1 0.8" [1000]="2 0.8" [2500]="4 1" [5000]="8 1" [25000]="40 1" [50000]="80 1")
 
 setup() {  # ds m -> exports for that model
   if [ $1 = wsd ]; then
     export WEIGHTS=$T/runs/wsd71_scratch/yolo26${2}_scratch_seed42/weights/best.pt DATA=$T/data/data.yaml LR0=0.00125
     unset FT_DATA; BW=weights/wsd_$2.pt; BLR=0.00125; BDATA=""; PART=$PW
+  elif [ $1 = viewsphere ]; then
+    export WEIGHTS=$S/weights/viewsphere_$2.pt DATA=/shared/projects/nets/viewsphere-dataset/v1_wsd4/data.yaml LR0=0.00125
+    unset FT_DATA; BW=weights/viewsphere_$2.pt; BLR=0.00125; BDATA=""; PART=$PW
   else
     export WEIGHTS=$T/yolo26$2.pt DATA=$P/configs/coco/coco.yaml LR0=0.000125 FT_DATA=$P/configs/coco/coco_ft10k.yaml
     BW=weights/coco_$2.pt; BLR=0.000125; BDATA="--data $P/configs/coco/coco_ft10k.yaml"
@@ -79,7 +85,7 @@ for ds in $DATASETS; do for m in n s; do
     v=""; wb=""; unset WARMUP_BIAS_LR
     if [ "$WBLR" = 1 ]; then v=_wblr; wb="--warmup-bias-lr $BLR"; export WARMUP_BIAS_LR=$LR0; fi
     for b in $BUDGETS; do
-      if [ $ds = wsd ]; then read -r e f <<< "${WSD_B[$b]}"; else read -r e f <<< "${COCO_B[$b]}"; fi
+      if [ $ds = wsd ]; then read -r e f <<< "${WSD_B[$b]}"; elif [ $ds = viewsphere ]; then read -r e f <<< "${VS_B[$b]}"; else read -r e f <<< "${COCO_B[$b]}"; fi
       w=$(python3 -c "print(round(0.05 * $e, 3))"); cm=$(( (e + 1) / 2 ))
       # time limit: COCO ~3 min/epoch (train + full-val) for n, 6 for s, plus 2 h; WSD is quick
       if [ $ds = coco ]; then mpe=$([ $m = s ] && echo 6 || echo 3); h=$(( (e * mpe + 59) / 60 + 2 )); else h=2; fi

@@ -1,4 +1,4 @@
-"""Inference timing of the pruned YOLO26 models (channel pruning and block replacement, WSD + COCO).
+"""Inference timing of the pruned YOLO26 models (channel pruning and block replacement, WSD + COCO + viewsphere).
 
 Times the network forward pass only (no image decoding, letterboxing or post-processing) on random
 640x640 input, after Ultralytics' conv+BN fusion:
@@ -36,7 +36,7 @@ def models() -> list[dict]:
     """Every architecture once: channel pruning has the same per-layer widths for every criterion at a
     ratio (field_h1 stands for all), block replacement one model per ranked cut set."""
     out = []
-    for ds in ("wsd", "coco"):
+    for ds in ("wsd", "coco", "viewsphere"):
         for m in "ns":
             runs = CHANNEL / f"{ds}_{m}_protect6_peek_ft20/runs"
             out.append({"dataset": ds, "model": m, "method": "unpruned", "setting": "",

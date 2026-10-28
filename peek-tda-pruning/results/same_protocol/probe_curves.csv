@@ -6057,3 +6057,963 @@ coco,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,2350,3,0.23239
 coco,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,2400,3,0.23485
 coco,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,2450,3,0.2333
 coco,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,2500,3,0.2333
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,0,0,0.3979
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,50,0,0.37614
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,100,1,0.45967
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,150,2,0.45478
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,200,3,0.4539
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,250,4,0.48319
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,300,5,0.46444
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,350,6,0.45084
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,400,6,0.50084
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,450,7,0.47221
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,500,8,0.49151
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,550,9,0.46756
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,600,10,0.39641
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,650,11,0.35782
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,700,12,0.32258
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,750,12,0.32996
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,800,13,0.46715
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,850,14,0.43723
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,900,15,0.52948
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,950,16,0.5349
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,1000,17,0.54523
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,1050,18,0.54752
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,1100,18,0.53277
+viewsphere,n,channel,peek,field_h1,0.1,42,,,,,wblr,,1150,19,0.52641
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,0,0,0.13197
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,50,0,0.24541
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,100,1,0.35047
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,150,2,0.3453
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,200,3,0.37895
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,250,4,0.44213
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,300,5,0.35657
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,350,6,0.46236
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,400,6,0.41771
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,450,7,0.36967
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,500,8,0.26189
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,550,9,0.44901
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,600,10,0.31911
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,650,11,0.45828
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,700,12,0.25634
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,750,12,0.16833
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,800,13,0.08644
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,850,14,0.16943
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,900,15,0.49139
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,950,16,0.50293
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,1000,17,0.50062
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,1050,18,0.50569
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,1100,18,0.48818
+viewsphere,n,channel,peek,field_h1,0.3,42,,,,,wblr,,1150,19,0.48772
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,0,0,0.03666
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,50,0,0.02422
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,100,1,0.20637
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,150,2,0.24614
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,200,3,0.27866
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,250,4,0.29534
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,300,5,0.34787
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,350,6,0.35258
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,400,6,0.34588
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,450,7,0.31922
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,500,8,0.32009
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,550,9,0.30756
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,600,10,0.25893
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,650,11,0.26288
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,700,12,0.08205
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,750,12,0.06578
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,800,13,0.07047
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,850,14,0.08871
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,900,15,0.43242
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,950,16,0.43669
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,1000,17,0.43306
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,1050,18,0.43997
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,1100,18,0.42972
+viewsphere,n,channel,peek,field_h1,0.5,42,,,,,wblr,,1150,19,0.42033
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,0,0,0.43981
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,50,0,0.40058
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,100,1,0.31543
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,150,2,0.40868
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,200,3,0.48978
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,250,4,0.4515
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,300,5,0.50417
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,350,6,0.46452
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,400,6,0.51857
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,450,7,0.45875
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,500,8,0.19444
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,550,9,0.49371
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,600,10,0.38469
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,650,11,0.21739
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,700,12,0.10742
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,750,12,0.12787
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,800,13,0.16168
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,850,14,0.472
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,900,15,0.54159
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,950,16,0.55029
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,1000,17,0.53602
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,1050,18,0.55092
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,1100,18,0.5334
+viewsphere,n,channel,peek,l2,0.1,42,,,,,wblr,,1150,19,0.53086
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,0,0,0.15017
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,50,0,0.27674
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,100,1,0.26179
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,150,2,0.37144
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,200,3,0.32191
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,250,4,0.34176
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,300,5,0.37457
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,350,6,0.41986
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,400,6,0.46542
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,450,7,0.48988
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,500,8,0.46761
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,550,9,0.42379
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,600,10,0.31246
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,650,11,0.45865
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,700,12,0.37613
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,750,12,0.08914
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,800,13,0.25214
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,850,14,0.24886
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,900,15,0.50183
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,950,16,0.51002
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,1000,17,0.52256
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,1050,18,0.52025
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,1100,18,0.50534
+viewsphere,n,channel,peek,l2,0.3,42,,,,,wblr,,1150,19,0.49771
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,0,0,0.01428
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,50,0,0.08457
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,100,1,0.23925
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,150,2,0.26203
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,200,3,0.29808
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,250,4,0.35544
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,300,5,0.3042
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,350,6,0.31522
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,400,6,0.30734
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,450,7,0.37708
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,500,8,0.3468
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,550,9,0.30944
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,600,10,0.27551
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,650,11,0.35151
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,700,12,0.12538
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,750,12,0.0569
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,800,13,0.08014
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,850,14,0.16374
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,900,15,0.44558
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,950,16,0.4359
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,1000,17,0.45031
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,1050,18,0.45989
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,1100,18,0.43223
+viewsphere,n,channel,peek,l2,0.5,42,,,,,wblr,,1150,19,0.41727
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,0,0,0.52612
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,50,0,0.45015
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,100,1,0.47021
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,150,2,0.47397
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,200,3,0.47164
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,250,4,0.52124
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,300,5,0.51978
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,350,6,0.47578
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,400,6,0.49108
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,450,7,0.46807
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,500,8,0.54886
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,550,9,0.49978
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,600,10,0.39692
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,650,11,0.5456
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,700,12,0.19718
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,750,12,0.26329
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,800,13,0.38835
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,850,14,0.42133
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,900,15,0.55307
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,950,16,0.56414
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,1000,17,0.55698
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,1050,18,0.56551
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,1100,18,0.5549
+viewsphere,n,channel,peek,none,0.0,42,,,,,wblr,,1150,19,0.54757
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,0,0,0.37435
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,50,0,0.32119
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,100,1,0.37059
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,150,2,0.40664
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,200,3,0.47349
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,250,4,0.43621
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,300,5,0.47625
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,350,6,0.49137
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,400,6,0.45711
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,450,7,0.46229
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,500,8,0.23325
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,550,9,0.48365
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,600,10,0.38001
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,650,11,0.51592
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,700,12,0.14085
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,750,12,0.23235
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,800,13,0.51265
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,850,14,0.48078
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,900,15,0.53036
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,950,16,0.5375
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,1000,17,0.54011
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,1050,18,0.54651
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,1100,18,0.53535
+viewsphere,n,channel,peek,random,0.1,42,,,,,wblr,,1150,19,0.52953
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,0,0,0.07406
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,50,0,0.18965
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,100,1,0.23766
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,150,2,0.25239
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,200,3,0.25328
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,250,4,0.2637
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,300,5,0.25142
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,350,6,0.30328
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,400,6,0.28499
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,450,7,0.25567
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,500,8,0.38207
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,550,9,0.29394
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,600,10,0.29892
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,650,11,0.44168
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,700,12,0.32385
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,750,12,0.23206
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,800,13,0.26452
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,850,14,0.36031
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,900,15,0.50336
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,950,16,0.50365
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,1000,17,0.50075
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,1050,18,0.51236
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,1100,18,0.48878
+viewsphere,n,channel,peek,random,0.3,42,,,,,wblr,,1150,19,0.48235
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,0,0,0.00845
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,50,0,0.03582
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,100,1,0.12797
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,150,2,0.27016
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,200,3,0.23356
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,250,4,0.24636
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,300,5,0.21979
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,350,6,0.23968
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,400,6,0.25098
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,450,7,0.28705
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,500,8,0.24123
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,550,9,0.20592
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,600,10,0.12326
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,650,11,0.14962
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,700,12,0.08009
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,750,12,0.08411
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,800,13,0.1056
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,850,14,0.24139
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,900,15,0.42651
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,950,16,0.43182
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,1000,17,0.41602
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,1050,18,0.42411
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,1100,18,0.40445
+viewsphere,n,channel,peek,random,0.5,42,,,,,wblr,,1150,19,0.40153
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,0,0,0.51587
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,50,0,0.5048
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,100,1,0.53284
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,150,2,0.54554
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,200,3,0.53028
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,250,4,0.54415
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,300,5,0.55855
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,350,6,0.55885
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,400,6,0.52925
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,450,7,0.55111
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,500,8,0.54261
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,550,9,0.54357
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,600,10,0.4104
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,650,11,0.51752
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,700,12,0.22436
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,750,12,0.3331
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,800,13,0.5845
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,850,14,0.57074
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,900,15,0.54253
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,950,16,0.54928
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,1000,17,0.55174
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,1050,18,0.56549
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,1100,18,0.54363
+viewsphere,s,channel,peek,field_h1,0.1,42,,,,,wblr,,1150,19,0.54079
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,0,0,0.26228
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,50,0,0.35049
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,100,1,0.26074
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,150,2,0.44133
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,200,3,0.51168
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,250,4,0.36988
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,300,5,0.3042
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,350,6,0.35611
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,400,6,0.39176
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,450,7,0.53199
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,500,8,0.49512
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,550,9,0.35707
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,600,10,0.38429
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,650,11,0.5077
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,700,12,0.55507
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,750,12,0.2958
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,800,13,0.57001
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,850,14,0.54807
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,900,15,0.42101
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,950,16,0.53717
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,1000,17,0.54915
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,1050,18,0.54988
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,1100,18,0.52564
+viewsphere,s,channel,peek,field_h1,0.3,42,,,,,wblr,,1150,19,0.47538
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,0,0,0.05301
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,50,0,0.22483
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,100,1,0.27567
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,150,2,0.307
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,200,3,0.33307
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,250,4,0.39519
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,300,5,0.4099
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,350,6,0.46998
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,400,6,0.43965
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,450,7,0.46058
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,500,8,0.39301
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,550,9,0.47888
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,600,10,0.26082
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,650,11,0.46591
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,700,12,0.50911
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,750,12,0.11229
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,800,13,0.13178
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,850,14,0.51638
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,900,15,0.48575
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,950,16,0.49584
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,1000,17,0.49781
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,1050,18,0.49695
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,1100,18,0.49964
+viewsphere,s,channel,peek,field_h1,0.5,42,,,,,wblr,,1150,19,0.4972
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,0,0,0.50719
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,50,0,0.50433
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,100,1,0.49986
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,150,2,0.52762
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,200,3,0.31351
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,250,4,0.54444
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,300,5,0.54397
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,350,6,0.55525
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,400,6,0.57327
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,450,7,0.57621
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,500,8,0.56689
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,550,9,0.54228
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,600,10,0.47173
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,650,11,0.52291
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,700,12,0.15835
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,750,12,0.45437
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,800,13,0.5641
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,850,14,0.56487
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,900,15,0.55156
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,950,16,0.56784
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,1000,17,0.56494
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,1050,18,0.56734
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,1100,18,0.55599
+viewsphere,s,channel,peek,l2,0.1,42,,,,,wblr,,1150,19,0.55722
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,0,0,0.29258
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,50,0,0.35561
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,100,1,0.39765
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,150,2,0.43216
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,200,3,0.51023
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,250,4,0.52966
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,300,5,0.47798
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,350,6,0.51711
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,400,6,0.53603
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,450,7,0.52958
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,500,8,0.52045
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,550,9,0.51384
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,600,10,0.40635
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,650,11,0.49676
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,700,12,0.18948
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,750,12,0.21893
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,800,13,0.57051
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,850,14,0.53662
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,900,15,0.53389
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,950,16,0.51947
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,1000,17,0.51884
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,1050,18,0.52564
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,1100,18,0.51199
+viewsphere,s,channel,peek,l2,0.3,42,,,,,wblr,,1150,19,0.52226
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,0,0,0.01678
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,50,0,0.19922
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,100,1,0.28228
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,150,2,0.31068
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,200,3,0.47159
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,250,4,0.39164
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,300,5,0.47951
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,350,6,0.35546
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,400,6,0.37324
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,450,7,0.46919
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,500,8,0.48105
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,550,9,0.49948
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,600,10,0.39148
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,650,11,0.44413
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,700,12,0.17761
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,750,12,0.23471
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,800,13,0.54322
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,850,14,0.49432
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,900,15,0.44198
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,950,16,0.47396
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,1000,17,0.48322
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,1050,18,0.48119
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,1100,18,0.45877
+viewsphere,s,channel,peek,l2,0.5,42,,,,,wblr,,1150,19,0.45573
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,0,0,0.57075
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,50,0,0.57443
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,100,1,0.54718
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,150,2,0.26868
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,200,3,0.48267
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,250,4,0.55494
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,300,5,0.47862
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,350,6,0.55845
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,400,6,0.56392
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,450,7,0.55729
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,500,8,0.56319
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,550,9,0.54656
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,600,10,0.50118
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,650,11,0.51897
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,700,12,0.58024
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,750,12,0.58066
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,800,13,0.55583
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,850,14,0.57193
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,900,15,0.55373
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,950,16,0.55225
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,1000,17,0.55852
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,1050,18,0.56624
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,1100,18,0.55731
+viewsphere,s,channel,peek,none,0.0,42,,,,,wblr,,1150,19,0.5566
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,0,0,0.47151
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,50,0,0.43912
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,100,1,0.51486
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,150,2,0.54102
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,200,3,0.27622
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,250,4,0.55244
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,300,5,0.56219
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,350,6,0.55063
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,400,6,0.56575
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,450,7,0.51628
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,500,8,0.55643
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,550,9,0.56086
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,600,10,0.46414
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,650,11,0.37043
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,700,12,0.19486
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,750,12,0.32217
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,800,13,0.58432
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,850,14,0.55893
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,900,15,0.5628
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,950,16,0.55682
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,1000,17,0.55352
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,1050,18,0.56011
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,1100,18,0.54631
+viewsphere,s,channel,peek,random,0.1,42,,,,,wblr,,1150,19,0.55097
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,0,0,0.14756
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,50,0,0.23488
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,100,1,0.14161
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,150,2,0.27863
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,200,3,0.47203
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,250,4,0.48668
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,300,5,0.4587
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,350,6,0.32691
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,400,6,0.35216
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,450,7,0.511
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,500,8,0.47698
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,550,9,0.43776
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,600,10,0.34986
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,650,11,0.48214
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,700,12,0.17426
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,750,12,0.32519
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,800,13,0.54892
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,850,14,0.53828
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,900,15,0.48573
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,950,16,0.5114
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,1000,17,0.51943
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,1050,18,0.53
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,1100,18,0.51059
+viewsphere,s,channel,peek,random,0.3,42,,,,,wblr,,1150,19,0.50564
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,0,0,0.01111
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,50,0,0.10621
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,100,1,0.29094
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,150,2,0.16427
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,200,3,0.13641
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,250,4,0.15175
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,300,5,0.27829
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,350,6,0.21699
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,400,6,0.2023
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,450,7,0.45319
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,500,8,0.49592
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,550,9,0.47257
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,600,10,0.21034
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,650,11,0.42066
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,700,12,0.15699
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,750,12,0.49745
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,800,13,0.48332
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,850,14,0.48338
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,900,15,0.47737
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,950,16,0.48244
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,1000,17,0.49653
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,1050,18,0.49367
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,1100,18,0.4916
+viewsphere,s,channel,peek,random,0.5,42,,,,,wblr,,1150,19,0.49307
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,0,0,0.55194
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,50,0,0.30372
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,100,1,0.54349
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,150,2,0.43626
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,200,3,0.50782
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,250,4,0.46479
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,300,5,0.51886
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,350,6,0.5282
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,400,6,0.44456
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,450,7,0.43607
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,500,8,0.50611
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,550,9,0.48635
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,600,10,0.39411
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,650,11,0.5001
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,700,12,0.18327
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,750,12,0.25595
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,800,13,0.49487
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,850,14,0.47484
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,900,15,0.55103
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,950,16,0.54778
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,1000,17,0.56865
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,1050,18,0.55603
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,1100,18,0.55607
+viewsphere,n,block,peek,combined,,42,,head,raw,,wblr,,1150,19,0.56315
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,0,0,1e-05
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,50,0,0.22412
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,100,1,0.35287
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,150,2,0.3957
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,200,3,0.39572
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,250,4,0.43327
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,300,5,0.47122
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,350,6,0.44521
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,400,6,0.46592
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,450,7,0.48434
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,500,8,0.48491
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,550,9,0.48089
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,600,10,0.43019
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,650,11,0.31613
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,700,12,0.05542
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,750,12,0.0855
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,800,13,0.09033
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,850,14,0.14636
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,900,15,0.50879
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,950,16,0.49126
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,1000,17,0.52106
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,1050,18,0.49492
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,1100,18,0.49939
+viewsphere,n,block,peek,combined,,42,2,all,grid,,wblr,,1150,19,0.50215
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,0,0,0.29837
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,50,0,0.1528
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,100,1,0.30842
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,150,2,0.39033
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,200,3,0.41608
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,250,4,0.35819
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,300,5,0.41334
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,350,6,0.35373
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,400,6,0.46304
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,450,7,0.42463
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,500,8,0.40999
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,550,9,0.39699
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,600,10,0.31549
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,650,11,0.29074
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,700,12,0.11403
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,750,12,0.19881
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,800,13,0.26148
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,850,14,0.48858
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,900,15,0.51307
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,950,16,0.4619
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,1000,17,0.50448
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,1050,18,0.5026
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,1100,18,0.49791
+viewsphere,n,block,peek,combined,,42,16,all,null,,wblr,,1150,19,0.50337
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,0,0,0.40534
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,50,0,0.21263
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,100,1,0.49251
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,150,2,0.47958
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,200,3,0.4607
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,250,4,0.41251
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,300,5,0.46213
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,350,6,0.49857
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,400,6,0.44683
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,450,7,0.44499
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,500,8,0.4455
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,550,9,0.40338
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,600,10,0.37277
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,650,11,0.5281
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,700,12,0.31222
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,750,12,0.31363
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,800,13,0.20343
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,850,14,0.34719
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,900,15,0.49071
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,950,16,0.51315
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,1000,17,0.5489
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,1050,18,0.53152
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,1100,18,0.53408
+viewsphere,n,block,peek,combined,,42,22,head,raw,,wblr,,1150,19,0.53238
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,0,0,0.0
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,50,0,0.05226
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,100,1,0.21955
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,150,2,0.27608
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,200,3,0.31712
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,250,4,0.33582
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,300,5,0.39477
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,350,6,0.42828
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,400,6,0.39968
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,450,7,0.38487
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,500,8,0.41224
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,550,9,0.44602
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,600,10,0.34884
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,650,11,0.36898
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,700,12,0.01987
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,750,12,0.02091
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,800,13,0.33766
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,850,14,0.47366
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,900,15,0.16975
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,950,16,0.42538
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,1000,17,0.49069
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,1050,18,0.43695
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,1100,18,0.46887
+viewsphere,n,block,peek,combined,,42,2 4,all,grid,,wblr,,1150,19,0.48758
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,0,0,0.0
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,50,0,0.00192
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,100,1,0.23826
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,150,2,0.22124
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,200,3,0.14599
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,250,4,0.41909
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,300,5,0.29379
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,350,6,0.40071
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,400,6,0.19155
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,450,7,0.39104
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,500,8,0.35787
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,550,9,0.38964
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,600,10,0.25664
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,650,11,0.45563
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,700,12,0.0739
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,750,12,0.09176
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,800,13,0.07083
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,850,14,0.17232
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,900,15,0.49038
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,950,16,0.46335
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,1000,17,0.50289
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,1050,18,0.48192
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,1100,18,0.4747
+viewsphere,n,block,peek,combined,,42,4 16,all,null,,wblr,,1150,19,0.47219
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,0,0,0.01154
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,50,0,0.15061
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,100,1,0.34922
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,150,2,0.37287
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,200,3,0.33717
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,250,4,0.35112
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,300,5,0.34117
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,350,6,0.45525
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,400,6,0.45667
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,450,7,0.41219
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,500,8,0.42949
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,550,9,0.40055
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,600,10,0.32019
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,650,11,0.09971
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,700,12,0.11794
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,750,12,0.13408
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,800,13,0.32709
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,850,14,0.45653
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,900,15,0.45215
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,950,16,0.48641
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,1000,17,0.51214
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,1050,18,0.4964
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,1100,18,0.49097
+viewsphere,n,block,peek,combined,,42,13 22,head,raw,,wblr,,1150,19,0.4975
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,0,0,0.0
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,50,0,0.01461
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,100,1,0.17043
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,150,2,0.23725
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,200,3,0.27936
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,250,4,0.27608
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,300,5,0.30423
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,350,6,0.33546
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,400,6,0.32503
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,450,7,0.38923
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,500,8,0.38955
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,550,9,0.37702
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,600,10,0.28526
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,650,11,0.01144
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,700,12,0.03606
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,750,12,0.01884
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,800,13,0.45898
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,850,14,0.43399
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,900,15,0.44267
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,950,16,0.38604
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,1000,17,0.42606
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,1050,18,0.45498
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,1100,18,0.43926
+viewsphere,n,block,peek,combined,,42,2 4 6,all,grid,,wblr,,1150,19,0.44753
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,0,0,0.0
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,50,0,0.03941
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,100,1,0.0066
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,150,2,0.19712
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,200,3,0.27233
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,250,4,0.14541
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,300,5,0.28545
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,350,6,0.3079
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,400,6,0.36757
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,450,7,0.35161
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,500,8,0.35068
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,550,9,0.43775
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,600,10,0.22827
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,650,11,0.39035
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,700,12,0.29429
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,750,12,0.14245
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,800,13,0.0844
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,850,14,0.45717
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,900,15,0.45792
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,950,16,0.4278
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,1000,17,0.45458
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,1050,18,0.43862
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,1100,18,0.43182
+viewsphere,n,block,peek,combined,,42,4 16 19,all,null,,wblr,,1150,19,0.43292
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,0,0,0.014
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,50,0,0.03339
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,100,1,0.03482
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,150,2,0.25999
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,200,3,0.34342
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,250,4,0.25457
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,300,5,0.30723
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,350,6,0.28534
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,400,6,0.33171
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,450,7,0.29727
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,500,8,0.13107
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,550,9,0.38196
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,600,10,0.2658
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,650,11,0.45015
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,700,12,0.14312
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,750,12,0.28255
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,800,13,0.44117
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,850,14,0.39763
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,900,15,0.46888
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,950,16,0.44028
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1000,17,0.4798
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1050,18,0.45018
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1100,18,0.44451
+viewsphere,n,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1150,19,0.45505
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,0,0,0.58066
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,50,0,0.58
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,100,1,0.54045
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,150,2,0.54274
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,200,3,0.54816
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,250,4,0.51239
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,300,5,0.52157
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,350,6,0.56417
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,400,6,0.54729
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,450,7,0.55822
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,500,8,0.57215
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,550,9,0.57411
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,600,10,0.46929
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,650,11,0.51429
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,700,12,0.22101
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,750,12,0.59207
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,800,13,0.59167
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,850,14,0.56354
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,900,15,0.56496
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,950,16,0.53269
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,1000,17,0.55409
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,1050,18,0.54575
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,1100,18,0.54278
+viewsphere,s,block,peek,combined,,42,,head,raw,,wblr,,1150,19,0.54626
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,0,0,0.01837
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,50,0,0.27844
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,100,1,0.38167
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,150,2,0.40823
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,200,3,0.44065
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,250,4,0.44352
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,300,5,0.44826
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,350,6,0.50283
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,400,6,0.44716
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,450,7,0.49071
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,500,8,0.43516
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,550,9,0.47592
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,600,10,0.42483
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,650,11,0.5146
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,700,12,0.49879
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,750,12,0.49065
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,800,13,0.53614
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,850,14,0.5383
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,900,15,0.53006
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,950,16,0.52066
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,1000,17,0.51608
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,1050,18,0.50729
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,1100,18,0.5227
+viewsphere,s,block,peek,combined,,42,2,all,grid,,wblr,,1150,19,0.52815
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,0,0,0.30665
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,50,0,0.13174
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,100,1,0.40224
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,150,2,0.43718
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,200,3,0.38911
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,250,4,0.4521
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,300,5,0.44219
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,350,6,0.44757
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,400,6,0.48794
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,450,7,0.50112
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,500,8,0.50655
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,550,9,0.49815
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,600,10,0.38819
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,650,11,0.49586
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,700,12,0.13482
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,750,12,0.53348
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,800,13,0.5169
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,850,14,0.49557
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,900,15,0.50998
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,950,16,0.49918
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,1000,17,0.51183
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,1050,18,0.50431
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,1100,18,0.50268
+viewsphere,s,block,peek,combined,,42,16,all,null,,wblr,,1150,19,0.50425
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,0,0,0.47502
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,50,0,0.49843
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,100,1,0.44768
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,150,2,0.51665
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,200,3,0.53653
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,250,4,0.52234
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,300,5,0.51209
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,350,6,0.5158
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,400,6,0.54495
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,450,7,0.55446
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,500,8,0.52854
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,550,9,0.55047
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,600,10,0.47923
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,650,11,0.49747
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,700,12,0.37693
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,750,12,0.58246
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,800,13,0.57315
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,850,14,0.5431
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,900,15,0.55326
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,950,16,0.53234
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,1000,17,0.55298
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,1050,18,0.53866
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,1100,18,0.54345
+viewsphere,s,block,peek,combined,,42,22,head,raw,,wblr,,1150,19,0.53949
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,0,0,0.00032
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,50,0,0.12427
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,100,1,0.28657
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,150,2,0.31355
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,200,3,0.33958
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,250,4,0.3805
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,300,5,0.35344
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,350,6,0.37073
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,400,6,0.44306
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,450,7,0.40961
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,500,8,0.40405
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,550,9,0.4448
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,600,10,0.31103
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,650,11,0.04542
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,700,12,0.07623
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,750,12,0.09517
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,800,13,0.45448
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,850,14,0.53087
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,900,15,0.25019
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,950,16,0.45983
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,1000,17,0.49431
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,1050,18,0.47422
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,1100,18,0.48665
+viewsphere,s,block,peek,combined,,42,2 6,all,grid,,wblr,,1150,19,0.49432
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,0,0,0.0
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,50,0,0.09565
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,100,1,0.26366
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,150,2,0.33951
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,200,3,0.16123
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,250,4,0.16983
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,300,5,0.15727
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,350,6,0.32404
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,400,6,0.28053
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,450,7,0.16428
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,500,8,0.09117
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,550,9,0.47172
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,600,10,0.16094
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,650,11,0.46815
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,700,12,0.17734
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,750,12,0.46893
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,800,13,0.49594
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,850,14,0.48874
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,900,15,0.48998
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,950,16,0.46769
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,1000,17,0.49423
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,1050,18,0.49072
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,1100,18,0.4855
+viewsphere,s,block,peek,combined,,42,6 16,all,null,,wblr,,1150,19,0.48617
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,0,0,0.09785
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,50,0,0.15742
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,100,1,0.33517
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,150,2,0.39139
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,200,3,0.37369
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,250,4,0.42385
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,300,5,0.43945
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,350,6,0.46056
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,400,6,0.20389
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,450,7,0.48366
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,500,8,0.49571
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,550,9,0.5008
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,600,10,0.41351
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,650,11,0.47959
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,700,12,0.23632
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,750,12,0.53878
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,800,13,0.53985
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,850,14,0.53061
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,900,15,0.51369
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,950,16,0.50217
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,1000,17,0.51755
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,1050,18,0.51505
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,1100,18,0.51556
+viewsphere,s,block,peek,combined,,42,13 22,head,raw,,wblr,,1150,19,0.52209
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,0,0,0.00148
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,50,0,0.06704
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,100,1,0.17739
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,150,2,0.23422
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,200,3,0.27784
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,250,4,0.29205
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,300,5,0.3025
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,350,6,0.364
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,400,6,0.33602
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,450,7,0.32024
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,500,8,0.3496
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,550,9,0.37816
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,600,10,0.30044
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,650,11,0.41732
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,700,12,0.36638
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,750,12,0.42824
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,800,13,0.45773
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,850,14,0.47464
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,900,15,0.44549
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,950,16,0.38565
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,1000,17,0.41391
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,1050,18,0.39153
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,1100,18,0.40138
+viewsphere,s,block,peek,combined,,42,2 6 8,all,grid,,wblr,,1150,19,0.41065
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,0,0,0.0
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,50,0,0.2434
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,100,1,0.10638
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,150,2,0.17472
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,200,3,0.14077
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,250,4,0.13482
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,300,5,0.12606
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,350,6,0.38224
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,400,6,0.278
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,450,7,0.19791
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,500,8,0.31312
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,550,9,0.37375
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,600,10,0.24321
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,650,11,0.3628
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,700,12,0.20077
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,750,12,0.10793
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,800,13,0.44462
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,850,14,0.43925
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,900,15,0.41158
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,950,16,0.40231
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,1000,17,0.4281
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,1050,18,0.40533
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,1100,18,0.41091
+viewsphere,s,block,peek,combined,,42,6 8 16,all,null,,wblr,,1150,19,0.41002
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,0,0,0.05132
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,50,0,0.08334
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,100,1,0.26459
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,150,2,0.25477
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,200,3,0.17073
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,250,4,0.41406
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,300,5,0.34455
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,350,6,0.44528
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,400,6,0.32295
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,450,7,0.43511
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,500,8,0.47583
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,550,9,0.45742
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,600,10,0.21878
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,650,11,0.44158
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,700,12,0.48461
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,750,12,0.2308
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,800,13,0.51536
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,850,14,0.49025
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,900,15,0.45832
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,950,16,0.47299
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1000,17,0.47574
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1050,18,0.48494
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1100,18,0.47988
+viewsphere,s,block,peek,combined,,42,13 19 22,head,raw,,wblr,,1150,19,0.48083
