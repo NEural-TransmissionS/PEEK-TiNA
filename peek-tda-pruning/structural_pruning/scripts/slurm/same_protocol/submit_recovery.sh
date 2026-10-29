@@ -17,13 +17,15 @@
 # What runs is set by the environment (defaults = the first submission):
 #   viewsphere: like WSD (whole run, full valid), base = weights/viewsphere_{n,s}.pt (WSD -> viewsphere
 #            fine-tunes), 58 batches per epoch; added 2026-10-27, submitted via submit_viewsphere_phase2.sh.
+#   SEED=42 (default) — other seeds reach the channel runs (SEED env) and the block runs (--seed;
+#            names get _s<seed>); added 2026-10-28 for the noise check (submit_noise_seeds.sh).
 #   STUDIES="probe budget"  DATASETS="wsd coco"  BUDGETS="250 500 1000 2500 5000"  WBLR=0
 # e.g. WBLR=1 STUDIES=probe bash submit_recovery.sh;  STUDIES=budget DATASETS=coco BUDGETS="25000 50000" bash ...
 set -euo pipefail
 T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=$P/outputs/yolo26_tda
 STUDIES=${STUDIES:-probe budget}; DATASETS=${DATASETS:-wsd coco}; BUDGETS=${BUDGETS:-250 500 1000 2500 5000}; WBLR=${WBLR:-0}
 cd $P
-export REPO_ROOT=$P PROTECT_LAYERS=6 WORKERS=16 BATCH=16 SEED=42 OPTIMIZER=AdamW MOMENTUM=0.9
+export REPO_ROOT=$P PROTECT_LAYERS=6 WORKERS=16 BATCH=16 SEED=${SEED:-42} OPTIMIZER=AdamW MOMENTUM=0.9
 export RATIOS="0.1 0.3 0.5" CRITERIA="field_h1 l2 random"   # array 0 none, 1-3 field_h1, 4-6 l2, 7-9 random
 SB=scripts/slurm/yolo26_tda.sbatch; X="--exclude=gpu06"
 PW="--partition=gpu1,gpu2,h200,h200_mig,vdi-med,vdi-long $X"   # wide
@@ -52,7 +54,7 @@ block() {  # name time args...
   local n=$1 tl=$2; shift 2
   (cd $S && sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$tl --job-name=$n \
     --output=slurm/logs/recovery_$n.out \
-    --wrap=". ../tina_venv/bin/activate; python _train_one.py $* --basis peek --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --momentum 0.9 --device 0 --skip-existing")
+    --wrap=". ../tina_venv/bin/activate; python _train_one.py $* --basis peek --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --momentum 0.9 --device 0 --seed $SEED --skip-existing")
 }
 cuts() {  # ds m -> one "args" line per cut set (uncut, raw head, grid, null; COCO s null k1 = grid k1)
   echo "--k 0"
@@ -99,7 +101,7 @@ for ds in $DATASETS; do for m in n s; do
       ids=""; while read -r c; do
         ids="$ids $(PART=$bp block rbb$b$v-$ds-$m-$(echo $c | tr -d ' -') $tl --dataset $ds --size $m $c --init-weights $BW --epochs $e --lr0 $BLR --warmup-epochs $w --close-mosaic $cm $wb $bd --tag _b$b$v)"
       done < <(cuts $ds $m)
-      echo "$ds $m budget$v $b (epochs $e, fraction $f, warmup $w, close_mosaic $cm, $tl): channel $j blocks:$ids" | tee -a $LOG
+      echo "$ds $m budget$v $b seed $SEED (epochs $e, fraction $f, warmup $w, close_mosaic $cm, $tl): channel $j blocks:$ids" | tee -a $LOG
     done
     unset CLOSE_MOSAIC WARMUP_BIAS_LR
     [ $ds = coco ] && export FT_DATA=$P/configs/coco/coco_ft10k.yaml

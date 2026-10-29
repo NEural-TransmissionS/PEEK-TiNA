@@ -17,6 +17,7 @@ WSD/shapes results are collected by scripts/collect_results.py.
 import argparse
 import csv
 import json
+import re
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parents[1] / "results" / "same_protocol"
@@ -35,6 +36,9 @@ for m in "ns":
         f"viewsphere_{m}_protect6_seeds_ft20": ("viewsphere", m, "seeds", "peek"),
         f"viewsphere_{m}_protect6_oneshot": ("viewsphere", m, "oneshot", "peek"),
     }
+    # one-shot BN re-estimation seeds 43-51 (submit_noise_seeds.sh; masks from the seed-42 scores)
+    CHANNEL_DIRS |= {f"{ds}_{m}_protect6_oneshot_seeds": (ds, m, "oneshot_seeds", "peek")
+                     for ds in ("wsd", "coco", "viewsphere")}
 DATASETS = ("wsd", "coco", "viewsphere")
 CHANNEL_DIRS |= {
     "coco_n_protect6_activation_oneshot": ("coco", "n", "oneshot", "activation"),
@@ -44,7 +48,7 @@ CHANNEL_DIRS |= {
 }
 CHANNEL_COLS = ["dataset", "model", "set", "basis", "criterion", "ratio", "seed", "epochs", "optimizer",
                 "lr0", "finetune_data", "params", "gflops", "map_before", "map_bn", "map_ft"]
-BLOCK_COLS = ["dataset", "model", "name", "criterion", "k", "scope", "norm", "random_order", "layers_cut", "lr0",
+BLOCK_COLS = ["dataset", "model", "name", "criterion", "k", "scope", "norm", "random_order", "seed", "layers_cut", "lr0",
               "epochs_run", "params", "gflops", "map50_95", "map50"]
 
 
@@ -68,15 +72,21 @@ def channel(root: Path) -> list[dict]:
     return rows
 
 
+def block_files(results: Path, ds: str, suffix: str = "") -> list[Path]:
+    """results/<ds>_*_ft[_s<seed>]<suffix>.json; seed 42 runs carry no _s tag."""
+    pat = re.compile(rf"{ds}_.+_ft(_s\d+)?{re.escape(suffix)}")
+    return [f for f in sorted(results.glob(f"{ds}_*.json")) if pat.fullmatch(f.stem)]
+
+
 def blocks(results: Path) -> list[dict]:
     rows = []
     for ds in DATASETS:
-        for f in sorted(results.glob(f"{ds}_*_ft.json")):
+        for f in block_files(results, ds):
             r = json.loads(f.read_text())
             rows.append({
                 "dataset": ds, "model": r["size"], "name": f.stem, "criterion": r.get("criterion", "combined"), "k": r["k"], "scope": r.get("scope", "head"),
                 "norm": r.get("norm", "raw"), "random_order": "" if r.get("random_order") is None else r["random_order"],
-                "layers_cut": " ".join(map(str, sorted(r["layers_cut"]))), "lr0": r.get("lr0", ""),
+                "seed": r.get("seed", 42), "layers_cut": " ".join(map(str, sorted(r["layers_cut"]))), "lr0": r.get("lr0", ""),
                 "epochs_run": r.get("epochs_run", ""), "params": r["params"], "gflops": r["gflops"],
                 "map50_95": r["mAP50-95"], "map50": r["mAP50"],
             })
@@ -94,7 +104,7 @@ def scratch_blocks(results: Path) -> list[dict]:
         rows.append({
             "dataset": "viewsphere", "model": r["size"], "name": f.stem, "criterion": r.get("criterion", "combined"),
             "k": r["k"], "scope": r.get("scope", "head"), "norm": r.get("norm", "raw"),
-            "random_order": "" if r.get("random_order") is None else r["random_order"],
+            "random_order": "" if r.get("random_order") is None else r["random_order"], "seed": r.get("seed", 42),
             "layers_cut": " ".join(map(str, sorted(r["layers_cut"]))), "lr0": r.get("lr0", ""),
             "epochs_run": r.get("epochs_run", ""), "params": r["params"], "gflops": r["gflops"],
             "map50_95": r["mAP50-95"], "map50": r["mAP50"],
@@ -138,7 +148,7 @@ def curves(root: Path, results: Path) -> list[dict]:
     pre = {(p["dataset"], p["model"], p["layers_cut"]): p["map50_95_precut"]
            for p in (json.loads(pre.read_text()) if pre.exists() else [])}
     for ds in DATASETS:
-        for f in sorted(results.glob(f"{ds}_*_ft.json")):
+        for f in block_files(results, ds):
             r = json.loads(f.read_text())
             key = {"dataset": ds, "model": r["size"], **_block_id(r), "variant": "", "budget": ""}
             if (ds, r["size"], key["layers_cut"]) in pre:
@@ -185,7 +195,7 @@ def budgets(root: Path, results: Path) -> list[dict]:
                     if "after_finetune" in r:
                         rows.append({"dataset": ds, "model": m, **_channel_id(r, "peek"), "variant": v[1:], "budget": b, "batch": "",
                                      "epoch": r["epochs"], "map50_95": r["after_finetune"]["map50_95"]})
-            for f in sorted(results.glob(f"{ds}_*_ft_b{b}{v}.json")):
+            for f in block_files(results, ds, f"_b{b}{v}"):
                 r = json.loads(f.read_text())
                 if r.get("mAP50-95") is not None:
                     rows.append({"dataset": ds, "model": r["size"], **_block_id(r), "variant": v[1:], "budget": b, "batch": "",

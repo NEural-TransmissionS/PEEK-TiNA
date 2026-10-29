@@ -24,7 +24,8 @@ see *WSD, COCO and viewsphere on the same protocol*).
 > split unless stated; the test split was never evaluated. Random pruning was
 > repeated on every model over 10 masks (before fine-tuning) and 3 seeds (after),
 > which is the yardstick for noise below. *WSD, COCO and viewsphere on the same protocol* uses
-three independent seeds (42/43/44) throughout.
+three independent seeds (42/43/44) throughout; *Seed noise* adds fine-tune seeds up to 46, BN
+re-estimation seeds up to 51, and repeats the block and budget runs over seeds 42–44.
 
 ## Key findings
 
@@ -53,15 +54,27 @@ three independent seeds (42/43/44) throughout.
   behave alike. On WSD, with the same three independent seeds, field H1 and L2 are
   within noise of each other (mean over ratios: n 0.344 vs 0.347, s 0.372 vs 0.367), both
   ahead of random on n. See *WSD, COCO and viewsphere on the same protocol*.
+- **Which differences survive seed noise** (5 fine-tune seeds, 10 BN re-estimation seeds,
+  3 seeds for blocks and budgets; a gap counts when it exceeds 2 standard errors): every COCO
+  criterion gap; every one-shot gap (re-estimating BN moves a model by ≤ 0.005 on WSD and
+  COCO, 0.01–0.04 on viewsphere); the dataset-specific winner among block rankings (grid on
+  WSD, null on COCO YOLO26n, head on viewsphere at k = 2–3); and nearly every pruned-vs-
+  unpruned gap. Inside noise: most WSD and viewsphere criterion gaps after the 20-epoch
+  fine-tune (≤ 0.01–0.02), the criterion gaps of the budget sweep by 5,000 batches, and the
+  seed-42 lead of the viewsphere YOLO26s head ranking. See *Seed noise*.
 - **Viewsphere repeats the WSD picture.** One-shot, the PEEK field criteria beat the mean
   of 10 random masks at every ratio on both models (YOLO26s at 10%: 0.515 vs 0.465) and
   trade the lead with L2 (L2 ahead at 10–30% on YOLO26n, field at 40–50%); per-channel
   criteria fall below random. After the 20-epoch fine-tune, field H1, L2 and random end
-  within 0.01–0.03 of each other over 3 seeds. Under cut + fine-tune the raw head ranking
-  (22 → 13 → 19, as on WSD) beats 100 / 83 / 96% of 23 random block orders at k = 1 / 2 / 3
-  on YOLO26s and 39 / 78 / 74% on YOLO26n; grid and null beat at most 48%. Light
-  pruning recovers fully (10–30% channels or one block reach the unpruned level within
-  2,500–5,000 batches); 50% stays 0.04–0.07 behind. Base models are WSD → viewsphere
+  within 0.01–0.04 of each other over 5 seeds; L2 is slightly ahead of field H1 (outside noise
+  only at a few ratios, e.g. 0.016 at 50% on YOLO26n) and beats random by 0.012–0.038 at
+  40–50%. Under cut + fine-tune the raw head ranking (22 → 13 → 19, as on WSD) beats
+  100 / 83 / 96% of 23 random block orders at k = 1 / 2 / 3 on YOLO26s at seed 42, but
+  65 / 70 / 74% on the mean of seeds 42–44 (the k = 1 cut alone has sd 0.025), and
+  39 / 74 / 74% on YOLO26n; grid and null stay at or below random. Recovery depends on the model:
+  over seeds 42–44, after 5,000 batches YOLO26s is back at the unpruned level even at 50%
+  channels (−0.008, inside noise), while YOLO26n stays behind from 30% (−0.027; −0.061 at
+  50%); the head block [22] ends within 0.012. Base models are WSD → viewsphere
   fine-tunes, because training on viewsphere alone from scratch was unstable.
 - **Block replacement over all eight C3k2 blocks needs map-size normalization, and no
   normalization wins on both datasets.** The raw ranking sorts blocks by resolution
@@ -127,7 +140,8 @@ structural_pruning/
   scripts/slurm/same_protocol/      submission scripts for the WSD + COCO + viewsphere same-protocol
                                     runs, as run on our cluster (edit the paths at the top);
                                     submit_recovery.sh = the recovery study (probes, budget sweep, full
-                                    train2017); submit_viewsphere_phase{1,2}.sh = every viewsphere run
+                                    train2017); submit_viewsphere_phase{1,2}.sh = every viewsphere run;
+                                    submit_noise_seeds.sh = the seed-noise repeats
 block_pruning/                      block-replacement study (own README)
   finetune_init.py                  cut + fine-tune: copy every surviving tensor from the trained model
   eval_cut_prefinetune.py           mAP of each ranked cut right after the cut, before any training
@@ -139,6 +153,7 @@ scripts/
   collect_same_protocol.py          WSD + COCO same-protocol runs -> results/same_protocol/*.csv
   same_protocol_tables.py           that section's tables + figures from results/same_protocol/
   recovery_tables.py                recovery-study and inference-timing tables + figures
+  noise_tables.py                   seed-noise tables (-> results/same_protocol/noise_seeds.md)
   viewsphere/                       building the viewsphere dataset (remap_wsd4.py, make_splits.py),
                                     its base-model training (train_viewsphere_{scratch,finetune}.slurm)
                                     and test-split evaluation by satellite / Sun phase / lit fraction
@@ -158,7 +173,8 @@ results/
   same_protocol/                          channel_runs.csv, block_runs.csv (every WSD + COCO +
                                           viewsphere run of that section, incl. the COCO lr pilot),
                                           block_scratch_runs.csv (viewsphere cuts retrained from
-                                          scratch), viewsphere_base_test.csv, curves.csv (their
+                                          scratch), viewsphere_base_test.csv, noise_seeds.md
+                                          (the *Seed noise* tables), curves.csv (their
                                           per-epoch val mAP), probe_curves.csv, budget_runs.csv,
                                           inference_{gpu,cpu}.csv, figures/
 ```
@@ -238,6 +254,7 @@ paths reduced to file names).
 | Viewsphere base models (used) | WSD base → viewsphere, n and s | 1000, patience 100 (stopped at 504 / 399) | 16 | AdamW, lr 0.00125, momentum 0.9, bias lr = lr0 | 42 | yes | yes | 3 |
 | Same protocol: channel fine-tune, viewsphere | n, s | 20 | 16 | AdamW, lr 0.00125, momentum 0.9, bias lr = lr0 | 42, 43, 44 (loader seeded) | yes | yes | 1 |
 | Block cuts, viewsphere (scratch) | n, s × k | 1000, patience 100 | 16 | MuSGD, lr 0.01 | 42 | yes | yes | 3 |
+| Seed-noise repeats | WSD, COCO, viewsphere n, s | as the run repeated | 16 | as the run repeated | channel 45, 46; one-shot BN 43–51; blocks and budgets 43, 44 | yes | yes | 1 |
 | Recovery: probes | 79 configs (below) | 20 (COCO: first 2,500 batches) | 16 | as the same protocol; bias lr 0.1 and = lr0 | 42 | yes | yes | 1 |
 | Recovery: budget sweep | same 79 | 250 – 5,000 batches; COCO also 25k, 50k | 16 | as the same protocol, bias lr = lr0 | 42 | yes | yes | 5% of the run |
 | Recovery: COCO, all of train2017 | 24 COCO configs | 3 and 7 epochs (22k / 52k batches) | 16 | AdamW, lr 0.000125, bias lr = lr0 | 42 | yes | yes | 5% of the run |
@@ -1311,6 +1328,197 @@ Forward pass only (no pre/post-processing), random 640×640 input, after conv+BN
 | block head k3 | -13% | 6.70 (-28%) | 1460.50 (+11%) | 94.73 (-17%) |
 | block null k3 | -12% | 6.88 (-26%) | 1484.80 (+13%) | 120.01 (+5%) |
 
+### Seed noise
+
+Are the gaps above larger than what changing the seed alone does? `submit_noise_seeds.sh`
+repeats runs with only the seed changed, each dataset on its own protocol: the channel
+20-epoch fine-tunes for seeds 45/46 (5 seeds with 42–44); the one-shot BN re-estimation of
+field H1 and L2 over seeds 43–51 (the mask comes from the seed-42 scores, so only the BN
+sample changes); every ranked block cut + fine-tune for seeds 43/44; and the recovery budget
+sweep on WSD and viewsphere for seeds 43/44. Random block orders and random one-shot masks
+stay at one run each, so their spread mixes the seed with the choice of blocks or mask. The
+seed-42 tables above are unchanged. Generated by `python scripts/noise_tables.py` (also
+`results/same_protocol/noise_seeds.md`).
+
+**Channel pruning + 20-epoch fine-tune**, seeds 42-46: mAP50-95 mean ± sd, and the gaps between criteria (bold = more than 2 standard errors).
+
+| Data | Model | Ratio | field H1 | L2 | random | field − L2 | field − random | L2 − random |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| WSD | n | unpruned | 0.360 ± 0.003 (n=5) | | | | | |
+| WSD | n | 10% | 0.350 ± 0.003 | 0.353 ± 0.003 | 0.350 ± 0.010 | -0.003 | +0.001 | +0.003 |
+| WSD | n | 20% | 0.344 ± 0.006 | 0.347 ± 0.005 | 0.335 ± 0.005 | -0.003 | **+0.010** | **+0.012** |
+| WSD | n | 30% | 0.338 ± 0.002 | 0.344 ± 0.001 | 0.333 ± 0.003 | **-0.006** | **+0.005** | **+0.011** |
+| WSD | n | 40% | 0.338 ± 0.004 | 0.342 ± 0.006 | 0.335 ± 0.004 | -0.004 | +0.003 | **+0.007** |
+| WSD | n | 50% | 0.342 ± 0.007 | 0.340 ± 0.003 | 0.329 ± 0.006 | +0.002 | **+0.013** | **+0.011** |
+| WSD | s | unpruned | 0.381 ± 0.007 (n=5) | | | | | |
+| WSD | s | 10% | 0.376 ± 0.003 | 0.380 ± 0.004 | 0.372 ± 0.004 | -0.003 | +0.004 | **+0.007** |
+| WSD | s | 20% | 0.373 ± 0.005 | 0.371 ± 0.004 | 0.371 ± 0.003 | +0.002 | +0.002 | -0.000 |
+| WSD | s | 30% | 0.371 ± 0.004 | 0.363 ± 0.003 | 0.364 ± 0.006 | **+0.008** | **+0.008** | -0.001 |
+| WSD | s | 40% | 0.364 ± 0.006 | 0.361 ± 0.006 | 0.363 ± 0.008 | +0.002 | +0.000 | -0.002 |
+| WSD | s | 50% | 0.365 ± 0.006 | 0.358 ± 0.004 | 0.358 ± 0.004 | **+0.007** | **+0.008** | +0.001 |
+| COCO | n | unpruned | 0.370 ± 0.001 (n=5) | | | | | |
+| COCO | n | 10% | 0.341 ± 0.001 | 0.336 ± 0.002 | 0.333 ± 0.002 | **+0.005** | **+0.007** | **+0.003** |
+| COCO | n | 20% | 0.310 ± 0.001 | 0.300 ± 0.001 | 0.293 ± 0.002 | **+0.011** | **+0.018** | **+0.007** |
+| COCO | n | 30% | 0.272 ± 0.002 | 0.246 ± 0.002 | 0.237 ± 0.008 | **+0.026** | **+0.035** | **+0.009** |
+| COCO | n | 40% | 0.231 ± 0.002 | 0.183 ± 0.002 | 0.149 ± 0.010 | **+0.048** | **+0.082** | **+0.034** |
+| COCO | n | 50% | 0.187 ± 0.003 | 0.126 ± 0.006 | 0.104 ± 0.004 | **+0.061** | **+0.083** | **+0.022** |
+| COCO | s | unpruned | 0.424 ± 0.002 (n=5) | | | | | |
+| COCO | s | 10% | 0.406 ± 0.002 | 0.400 ± 0.002 | 0.401 ± 0.001 | **+0.006** | **+0.005** | -0.001 |
+| COCO | s | 20% | 0.385 ± 0.001 | 0.371 ± 0.002 | 0.370 ± 0.002 | **+0.014** | **+0.015** | +0.001 |
+| COCO | s | 30% | 0.353 ± 0.001 | 0.335 ± 0.001 | 0.334 ± 0.004 | **+0.018** | **+0.019** | +0.001 |
+| COCO | s | 40% | 0.320 ± 0.001 | 0.282 ± 0.002 | 0.270 ± 0.004 | **+0.038** | **+0.050** | **+0.012** |
+| COCO | s | 50% | 0.276 ± 0.002 | 0.212 ± 0.004 | 0.203 ± 0.006 | **+0.064** | **+0.072** | **+0.008** |
+| Viewsphere | n | unpruned | 0.566 ± 0.004 (n=5) | | | | | |
+| Viewsphere | n | 10% | 0.551 ± 0.004 | 0.554 ± 0.008 | 0.552 ± 0.012 | -0.004 | -0.001 | +0.003 |
+| Viewsphere | n | 20% | 0.537 ± 0.008 | 0.542 ± 0.005 | 0.530 ± 0.013 | -0.005 | +0.007 | +0.012 |
+| Viewsphere | n | 30% | 0.517 ± 0.004 | 0.523 ± 0.004 | 0.512 ± 0.012 | **-0.006** | +0.005 | +0.011 |
+| Viewsphere | n | 40% | 0.490 ± 0.008 | 0.496 ± 0.007 | 0.483 ± 0.007 | -0.006 | +0.006 | **+0.012** |
+| Viewsphere | n | 50% | 0.456 ± 0.011 | 0.472 ± 0.003 | 0.434 ± 0.014 | **-0.016** | **+0.022** | **+0.038** |
+| Viewsphere | s | unpruned | 0.577 ± 0.016 (n=5) | | | | | |
+| Viewsphere | s | 10% | 0.570 ± 0.014 | 0.556 ± 0.054 | 0.550 ± 0.040 | +0.013 | +0.020 | +0.007 |
+| Viewsphere | s | 20% | 0.558 ± 0.010 | 0.573 ± 0.002 | 0.560 ± 0.013 | **-0.016** | -0.002 | **+0.014** |
+| Viewsphere | s | 30% | 0.554 ± 0.010 | 0.548 ± 0.010 | 0.539 ± 0.016 | +0.006 | +0.015 | +0.009 |
+| Viewsphere | s | 40% | 0.537 ± 0.009 | 0.545 ± 0.005 | 0.525 ± 0.008 | -0.008 | **+0.011** | **+0.019** |
+| Viewsphere | s | 50% | 0.516 ± 0.012 | 0.527 ± 0.005 | 0.505 ± 0.003 | -0.011 | +0.010 | **+0.021** |
+
+**One-shot** (prune + BN re-estimation, no fine-tune): field H1 and L2 over BN-sample seeds 42-51 (the mask is fixed), random over 10 masks (seeds 0-9, so mask choice is included).
+
+| Data | Model | Ratio | field H1 | L2 | random masks | field − L2 | field − random |
+|---|---|---:|---:|---:|---:|---:|---:|
+| WSD | n | 10% | 0.289 ± 0.001 | 0.289 ± 0.004 | — | -0.001 | — |
+| WSD | n | 20% | 0.207 ± 0.002 | 0.231 ± 0.004 | — | **-0.024** | — |
+| WSD | n | 30% | 0.098 ± 0.002 | 0.167 ± 0.003 | — | **-0.069** | — |
+| WSD | n | 40% | 0.028 ± 0.001 | 0.097 ± 0.002 | — | **-0.069** | — |
+| WSD | n | 50% | 0.017 ± 0.001 | 0.064 ± 0.003 | — | **-0.047** | — |
+| WSD | s | 10% | 0.334 ± 0.004 | 0.342 ± 0.002 | — | **-0.007** | — |
+| WSD | s | 20% | 0.280 ± 0.004 | 0.302 ± 0.005 | — | **-0.022** | — |
+| WSD | s | 30% | 0.208 ± 0.002 | 0.239 ± 0.004 | — | **-0.030** | — |
+| WSD | s | 40% | 0.096 ± 0.003 | 0.155 ± 0.004 | — | **-0.059** | — |
+| WSD | s | 50% | 0.035 ± 0.002 | 0.087 ± 0.003 | — | **-0.052** | — |
+| COCO | n | 10% | 0.195 ± 0.002 | 0.192 ± 0.002 | 0.150 ± 0.014 | **+0.003** | **+0.045** |
+| COCO | n | 20% | 0.078 ± 0.001 | 0.054 ± 0.002 | 0.024 ± 0.006 | **+0.024** | **+0.053** |
+| COCO | n | 30% | 0.021 ± 0.001 | 0.009 ± 0.000 | 0.003 ± 0.001 | **+0.012** | **+0.018** |
+| COCO | n | 40% | 0.007 ± 0.000 | 0.002 ± 0.000 | 0.000 ± 0.000 | **+0.005** | **+0.006** |
+| COCO | n | 50% | 0.002 ± 0.000 | 0.000 ± 0.000 | 0.000 ± 0.000 | **+0.001** | **+0.001** |
+| COCO | s | 10% | 0.338 ± 0.003 | 0.279 ± 0.003 | 0.244 ± 0.013 | **+0.059** | **+0.095** |
+| COCO | s | 20% | 0.186 ± 0.003 | 0.092 ± 0.001 | 0.059 ± 0.016 | **+0.095** | **+0.127** |
+| COCO | s | 30% | 0.060 ± 0.002 | 0.019 ± 0.001 | 0.006 ± 0.002 | **+0.041** | **+0.054** |
+| COCO | s | 40% | 0.017 ± 0.001 | 0.002 ± 0.000 | 0.001 ± 0.000 | **+0.014** | **+0.016** |
+| COCO | s | 50% | 0.004 ± 0.000 | 0.001 ± 0.000 | 0.000 ± 0.000 | **+0.003** | **+0.004** |
+| Viewsphere | n | 10% | 0.410 ± 0.031 | 0.446 ± 0.040 | 0.351 ± 0.043 | **-0.036** | **+0.058** |
+| Viewsphere | n | 20% | 0.271 ± 0.043 | 0.293 ± 0.025 | 0.179 ± 0.031 | -0.022 | **+0.092** |
+| Viewsphere | n | 30% | 0.144 ± 0.028 | 0.161 ± 0.024 | 0.056 ± 0.036 | -0.017 | **+0.088** |
+| Viewsphere | n | 40% | 0.071 ± 0.014 | 0.055 ± 0.015 | 0.020 ± 0.018 | **+0.016** | **+0.051** |
+| Viewsphere | n | 50% | 0.043 ± 0.010 | 0.017 ± 0.004 | 0.008 ± 0.011 | **+0.026** | **+0.035** |
+| Viewsphere | s | 10% | 0.517 ± 0.017 | 0.516 ± 0.017 | 0.465 ± 0.029 | +0.001 | **+0.052** |
+| Viewsphere | s | 20% | 0.417 ± 0.017 | 0.424 ± 0.024 | 0.348 ± 0.020 | -0.007 | **+0.069** |
+| Viewsphere | s | 30% | 0.273 ± 0.023 | 0.296 ± 0.017 | 0.188 ± 0.025 | **-0.024** | **+0.084** |
+| Viewsphere | s | 40% | 0.137 ± 0.014 | 0.149 ± 0.036 | 0.082 ± 0.024 | -0.012 | **+0.056** |
+| Viewsphere | s | 50% | 0.052 ± 0.014 | 0.022 ± 0.010 | 0.015 ± 0.009 | **+0.029** | **+0.037** |
+
+**Block cut + fine-tune**, seeds 42-44: mAP50-95 mean ± sd for each ranked cut, against the random block orders (seed 42 only, so their spread is mostly *which* blocks). *vs random* = cut mean − mean of the random orders, bold when larger than 2 standard errors of both; *beats* = share of random orders below the 3-seed mean (seed-42 value in brackets).
+
+| Data | Model | k | Random orders | Head (raw) | All, grid | All, null |
+|---|---|---:|---|---|---|---|
+| WSD | n | 0 | — | uncut 0.363 ± 0.010 | | |
+| WSD | n | 1 | 0.346 ± 0.009 (n=23) | [22] 0.333 ± 0.001, vs random **-0.013**, beats 17% (17%) | [8] 0.358 ± 0.004, vs random **+0.012**, beats 100% (83%) | [16] 0.336 ± 0.002, vs random **-0.011**, beats 26% (17%) |
+| WSD | n | 2 | 0.329 ± 0.015 (n=23) | [13, 22] 0.323 ± 0.003, vs random -0.006, beats 35% (35%) | [2, 8] 0.365 ± 0.003, vs random **+0.036**, beats 100% (100%) | [13, 16] 0.336 ± 0.006, vs random +0.008, beats 74% (74%) |
+| WSD | n | 3 | 0.319 ± 0.023 (n=23) | [13, 19, 22] 0.293 ± 0.004, vs random **-0.027**, beats 17% (22%) | [2, 6, 8] 0.342 ± 0.003, vs random **+0.023**, beats 87% (91%) | [6, 13, 16] 0.335 ± 0.003, vs random **+0.015**, beats 74% (74%) |
+| WSD | s | 0 | — | uncut 0.382 ± 0.005 | | |
+| WSD | s | 1 | 0.371 ± 0.009 (n=23) | [22] 0.361 ± 0.007, vs random **-0.010**, beats 17% (43%) | [6] 0.368 ± 0.002, vs random -0.003, beats 43% (52%) | [13] 0.382 ± 0.001, vs random **+0.011**, beats 83% (83%) |
+| WSD | s | 2 | 0.355 ± 0.010 (n=23) | [13, 22] 0.358 ± 0.002, vs random +0.003, beats 57% (57%) | [6, 8] 0.382 ± 0.007, vs random **+0.027**, beats 100% (100%) | [4, 13] 0.363 ± 0.008, vs random +0.008, beats 83% (83%) |
+| WSD | s | 3 | 0.351 ± 0.022 (n=23) | [13, 19, 22] 0.326 ± 0.001, vs random **-0.024**, beats 17% (13%) | [6, 8, 22] 0.366 ± 0.001, vs random **+0.016**, beats 78% (78%) | [4, 13, 16] 0.343 ± 0.004, vs random -0.008, beats 35% (35%) |
+| COCO | n | 0 | — | uncut 0.369 ± 0.001 | | |
+| COCO | n | 1 | 0.301 ± 0.034 (n=23) | [22] 0.309 ± 0.001, vs random +0.008, beats 61% (61%) | [2] 0.310 ± 0.006, vs random +0.009, beats 61% (61%) | [16] 0.344 ± 0.002, vs random **+0.043**, beats 91% (91%) |
+| COCO | n | 2 | 0.229 ± 0.040 (n=23) | [13, 22] 0.235 ± 0.004, vs random +0.006, beats 48% (48%) | [2, 22] 0.251 ± 0.003, vs random **+0.022**, beats 65% (65%) | [13, 16] 0.295 ± 0.001, vs random **+0.066**, beats 96% (96%) |
+| COCO | n | 3 | 0.147 ± 0.033 (n=23) | [13, 19, 22] 0.167 ± 0.004, vs random **+0.020**, beats 70% (70%) | [2, 8, 22] 0.117 ± 0.001, vs random **-0.030**, beats 22% (13%) | [13, 16, 19] 0.265 ± 0.001, vs random **+0.118**, beats 100% (100%) |
+| COCO | s | 0 | — | uncut 0.423 ± 0.001 | | |
+| COCO | s | 1 | 0.363 ± 0.024 (n=23) | [22] 0.374 ± 0.002, vs random **+0.011**, beats 74% (74%) | [16] 0.397 ± 0.002, vs random **+0.033**, beats 91% (91%) | — |
+| COCO | s | 2 | 0.304 ± 0.033 (n=23) | [13, 22] 0.317 ± 0.003, vs random +0.012, beats 57% (57%) | [2, 16] 0.336 ± 0.004, vs random **+0.032**, beats 83% (70%) | [8, 16] 0.305 ± 0.002, vs random +0.001, beats 48% (43%) |
+| COCO | s | 3 | 0.229 ± 0.039 (n=23) | [13, 19, 22] 0.264 ± 0.005, vs random **+0.035**, beats 74% (74%) | [2, 8, 16] 0.208 ± 0.005, vs random **-0.022**, beats 35% (39%) | [8, 13, 16] 0.252 ± 0.002, vs random **+0.023**, beats 65% (65%) |
+| Viewsphere | n | 0 | — | uncut 0.566 ± 0.003 | | |
+| Viewsphere | n | 1 | 0.539 ± 0.011 (n=23) | [22] 0.540 ± 0.006, vs random +0.001, beats 39% (39%) | [2] 0.531 ± 0.003, vs random **-0.007**, beats 22% (9%) | [16] 0.509 ± 0.006, vs random **-0.030**, beats 0% (0%) |
+| Viewsphere | n | 2 | 0.497 ± 0.018 (n=23) | [13, 22] 0.510 ± 0.003, vs random **+0.013**, beats 74% (78%) | [2, 4] 0.485 ± 0.014, vs random -0.012, beats 26% (39%) | [4, 16] 0.493 ± 0.002, vs random -0.004, beats 39% (43%) |
+| Viewsphere | n | 3 | 0.456 ± 0.028 (n=23) | [13, 19, 22] 0.474 ± 0.009, vs random **+0.018**, beats 74% (74%) | [2, 4, 6] 0.457 ± 0.015, vs random +0.000, beats 43% (48%) | [4, 16, 19] 0.458 ± 0.005, vs random +0.002, beats 48% (30%) |
+| Viewsphere | s | 0 | — | uncut 0.569 ± 0.009 | | |
+| Viewsphere | s | 1 | 0.564 ± 0.013 (n=23) | [22] 0.568 ± 0.025, vs random +0.003, beats 65% (100%) | [2] 0.555 ± 0.005, vs random **-0.009**, beats 22% (9%) | [16] 0.531 ± 0.011, vs random **-0.033**, beats 0% (0%) |
+| Viewsphere | s | 2 | 0.531 ± 0.023 (n=23) | [13, 22] 0.547 ± 0.006, vs random **+0.016**, beats 70% (83%) | [2, 6] 0.520 ± 0.011, vs random -0.011, beats 43% (35%) | [6, 16] 0.508 ± 0.016, vs random **-0.023**, beats 9% (9%) |
+| Viewsphere | s | 3 | 0.497 ± 0.024 (n=23) | [13, 19, 22] 0.514 ± 0.018, vs random +0.018, beats 74% (96%) | [2, 6, 8] 0.466 ± 0.006, vs random **-0.031**, beats 9% (9%) | [6, 8, 16] 0.424 ± 0.023, vs random **-0.072**, beats 0% (0%) |
+
+Seed-to-seed sd of one block run (pooled over every cut with 3 seeds): WSD n 0.004, WSD s 0.004, COCO n 0.002, COCO s 0.003, Viewsphere n 0.007, Viewsphere s 0.013.
+
+**Recovery budgets** (separate fine-tunes of B batches, matched warmup), seeds 42-44. First the typical seed sd per budget, then gaps that the seed-42 tables read as differences.
+
+| Data | Model | sd @ 250 | sd @ 500 | sd @ 1,000 | sd @ 2,500 | sd @ 5,000 |
+|---|---|---:|---:|---:|---:|---:|
+| WSD | n | 0.005 | 0.005 | 0.003 | 0.004 | 0.003 |
+| WSD | s | 0.006 | 0.005 | 0.004 | 0.004 | 0.003 |
+| Viewsphere | n | 0.021 | 0.009 | 0.005 | 0.006 | 0.005 |
+| Viewsphere | s | 0.014 | 0.009 | 0.008 | 0.009 | 0.007 |
+
+| Data | Model | Comparison | 250 | 500 | 1,000 | 2,500 | 5,000 |
+|---|---|---|---:|---:|---:|---:|---:|
+| WSD | n | field_h1 50% − l2 50% | -0.003 | -0.003 | +0.001 | +0.001 | +0.004 |
+| WSD | n | field_h1 50% − random 50% | **+0.024** | +0.009 | **+0.010** | +0.007 | +0.005 |
+| WSD | n | l2 50% − random 50% | **+0.028** | +0.013 | +0.009 | +0.006 | +0.001 |
+| WSD | n | field_h1 10% − unpruned | **-0.020** | **-0.010** | **-0.006** | **-0.009** | **-0.012** |
+| WSD | n | field_h1 30% − unpruned | **-0.032** | **-0.027** | **-0.019** | **-0.020** | **-0.015** |
+| WSD | n | field_h1 50% − unpruned | **-0.071** | **-0.041** | **-0.021** | **-0.021** | **-0.016** |
+| WSD | n | grid [8] − uncut | +0.007 | **+0.005** | +0.003 | -0.001 | **-0.007** |
+| WSD | n | head [22] − uncut | **-0.041** | **-0.034** | **-0.028** | **-0.021** | **-0.021** |
+| WSD | n | null [16] − uncut | **-0.036** | **-0.032** | **-0.024** | **-0.016** | **-0.015** |
+| WSD | n | grid [2 8] − uncut | **-0.048** | **-0.008** | +0.000 | **-0.005** | **-0.011** |
+| WSD | n | head [13 22] − uncut | **-0.053** | **-0.041** | **-0.028** | **-0.021** | **-0.024** |
+| WSD | n | null [13 16] − uncut | **-0.047** | **-0.039** | **-0.023** | **-0.024** | **-0.019** |
+| WSD | n | grid [2 6 8] − uncut | **-0.075** | **-0.053** | **-0.016** | **-0.010** | **-0.010** |
+| WSD | n | head [13 19 22] − uncut | **-0.123** | **-0.090** | **-0.068** | **-0.057** | **-0.057** |
+| WSD | n | null [6 13 16] − uncut | **-0.063** | **-0.037** | **-0.024** | **-0.021** | **-0.020** |
+| WSD | s | field_h1 50% − l2 50% | +0.001 | **+0.013** | **+0.010** | -0.001 | **+0.006** |
+| WSD | s | field_h1 50% − random 50% | +0.009 | **+0.010** | +0.005 | -0.004 | -0.004 |
+| WSD | s | l2 50% − random 50% | +0.008 | -0.003 | -0.006 | -0.003 | **-0.010** |
+| WSD | s | field_h1 10% − unpruned | -0.002 | -0.002 | -0.005 | -0.002 | -0.003 |
+| WSD | s | field_h1 30% − unpruned | **-0.015** | **-0.017** | **-0.012** | **-0.014** | -0.007 |
+| WSD | s | field_h1 50% − unpruned | **-0.029** | **-0.017** | **-0.016** | **-0.023** | **-0.013** |
+| WSD | s | grid [6] − uncut | **-0.027** | **-0.012** | **-0.012** | **-0.012** | **-0.009** |
+| WSD | s | head [22] − uncut | **-0.026** | **-0.016** | **-0.017** | **-0.013** | **-0.011** |
+| WSD | s | null [13] − uncut | **-0.019** | **-0.006** | **-0.010** | **-0.011** | **-0.013** |
+| WSD | s | grid [6 8] − uncut | **-0.012** | -0.001 | **-0.010** | **-0.013** | **-0.018** |
+| WSD | s | head [13 22] − uncut | **-0.030** | **-0.019** | **-0.023** | **-0.021** | **-0.014** |
+| WSD | s | null [4 13] − uncut | **-0.055** | **-0.027** | **-0.025** | **-0.019** | **-0.025** |
+| WSD | s | grid [6 8 22] − uncut | **-0.038** | **-0.022** | **-0.026** | **-0.027** | **-0.031** |
+| WSD | s | head [13 19 22] − uncut | **-0.101** | **-0.066** | **-0.053** | **-0.050** | **-0.042** |
+| WSD | s | null [4 13 16] − uncut | **-0.074** | **-0.042** | **-0.035** | **-0.033** | **-0.030** |
+| Viewsphere | n | field_h1 50% − l2 50% | -0.018 | -0.012 | -0.010 | **-0.021** | **-0.016** |
+| Viewsphere | n | field_h1 50% − random 50% | +0.027 | **+0.036** | **+0.028** | -0.003 | **-0.013** |
+| Viewsphere | n | l2 50% − random 50% | +0.045 | **+0.048** | **+0.038** | +0.018 | +0.003 |
+| Viewsphere | n | field_h1 10% − unpruned | **-0.037** | **-0.024** | **-0.015** | **-0.012** | -0.023 |
+| Viewsphere | n | field_h1 30% − unpruned | **-0.127** | **-0.070** | **-0.051** | **-0.039** | **-0.027** |
+| Viewsphere | n | field_h1 50% − unpruned | **-0.249** | **-0.147** | **-0.105** | **-0.088** | **-0.061** |
+| Viewsphere | n | grid [2] − uncut | **-0.079** | **-0.055** | **-0.038** | **-0.075** | -0.049 |
+| Viewsphere | n | head [22] − uncut | **-0.042** | **-0.033** | **-0.019** | **-0.017** | **-0.012** |
+| Viewsphere | n | null [16] − uncut | **-0.122** | **-0.085** | **-0.065** | **-0.044** | **-0.031** |
+| Viewsphere | n | grid [2 4] − uncut | **-0.205** | **-0.113** | **-0.075** | **-0.045** | **-0.034** |
+| Viewsphere | n | head [13 22] − uncut | **-0.157** | **-0.093** | **-0.055** | **-0.039** | **-0.025** |
+| Viewsphere | n | null [4 16] − uncut | **-0.200** | **-0.109** | **-0.077** | **-0.056** | **-0.047** |
+| Viewsphere | n | grid [2 4 6] − uncut | **-0.245** | **-0.173** | **-0.119** | **-0.079** | **-0.077** |
+| Viewsphere | n | head [13 19 22] − uncut | **-0.198** | **-0.141** | **-0.103** | **-0.075** | **-0.052** |
+| Viewsphere | n | null [4 16 19] − uncut | **-0.258** | **-0.156** | **-0.108** | **-0.078** | **-0.055** |
+| Viewsphere | s | field_h1 50% − l2 50% | **-0.032** | -0.017 | -0.011 | -0.003 | -0.016 |
+| Viewsphere | s | field_h1 50% − random 50% | -0.008 | -0.011 | +0.019 | -0.005 | -0.005 |
+| Viewsphere | s | l2 50% − random 50% | +0.025 | +0.006 | **+0.030** | -0.002 | +0.010 |
+| Viewsphere | s | field_h1 10% − unpruned | -0.022 | -0.011 | -0.002 | +0.005 | +0.031 |
+| Viewsphere | s | field_h1 30% − unpruned | **-0.072** | **-0.037** | **-0.023** | -0.010 | +0.023 |
+| Viewsphere | s | field_h1 50% − unpruned | **-0.163** | **-0.091** | **-0.056** | **-0.041** | -0.008 |
+| Viewsphere | s | grid [2] − uncut | **-0.073** | **-0.044** | **-0.040** | **-0.017** | **-0.018** |
+| Viewsphere | s | head [22] − uncut | **-0.027** | -0.012 | **-0.018** | -0.006 | -0.006 |
+| Viewsphere | s | null [16] − uncut | **-0.116** | **-0.062** | **-0.065** | **-0.037** | **-0.029** |
+| Viewsphere | s | grid [2 6] − uncut | **-0.162** | **-0.082** | **-0.078** | **-0.028** | **-0.045** |
+| Viewsphere | s | head [13 22] − uncut | **-0.097** | **-0.054** | **-0.057** | **-0.031** | **-0.032** |
+| Viewsphere | s | null [6 16] − uncut | **-0.185** | **-0.117** | **-0.088** | **-0.049** | **-0.045** |
+| Viewsphere | s | grid [2 6 8] − uncut | **-0.253** | **-0.140** | **-0.138** | **-0.086** | **-0.061** |
+| Viewsphere | s | head [13 19 22] − uncut | **-0.152** | **-0.109** | **-0.084** | **-0.053** | **-0.050** |
+| Viewsphere | s | null [6 8 16] − uncut | **-0.238** | **-0.182** | **-0.149** | **-0.093** | **-0.051** |
+
 ## Reproducing
 
 Needs a CUDA GPU and, for WSD, access to the private Roboflow export
@@ -1397,7 +1605,9 @@ chooses what to run from the environment: `STUDIES` (`probe`, `budget`, `full`),
 `DATASETS`, `BUDGETS`, and `WBLR=1` for the matched warmup (e.g. `WBLR=1 STUDIES=budget
 DATASETS=coco BUDGETS="25000 50000"`). Timing: `python structural_pruning/scripts/bench_inference.py
 --device gpu` and `--device cpu --threads 8`. Then `collect_same_protocol.py` as above and
-`python scripts/recovery_tables.py`. The diagnostic and timing scripts, like the submission
+`python scripts/recovery_tables.py`. Seed noise: `submit_noise_seeds.sh` (`STUDIES` picks
+`channel` / `oneshot` / `blocks` / `budgets`; it calls `submit_recovery.sh` with `SEED`), then
+`collect_same_protocol.py` and `python scripts/noise_tables.py`. The diagnostic and timing scripts, like the submission
 scripts, carry our cluster paths.
 
 **6. Viewsphere.** `scripts/viewsphere/remap_wsd4.py` and `make_splits.py` build `v1_wsd4`

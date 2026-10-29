@@ -116,6 +116,8 @@ def block_sets(bl: list[dict]) -> tuple[dict, dict]:
     """(ds, model) -> {cut set: mAP}, and (ds, model, k, ranking) -> (cut, mAP) for the ranked cuts."""
     by_cut, ranked = defaultdict(dict), {}
     for r in bl:
+        if r["seed"] != "42":  # noise seeds 43/44: scripts/noise_tables.py
+            continue
         cut = frozenset(int(x) for x in r["layers_cut"].split())
         by_cut[(r["dataset"], r["model"])].setdefault(cut, []).append(float(r["map50_95"]))
         if r["random_order"] == "" and r["criterion"] == "combined" and r["k"] != "0":

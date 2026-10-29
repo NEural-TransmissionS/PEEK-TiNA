@@ -55,6 +55,8 @@ def f3(x) -> str:
 def epoch_recovery(cur: list[dict]) -> None:
     curves = defaultdict(dict)
     for r in cur:
+        if r["seed"] not in (("42", "43", "44") if r["method"] == "channel" else ("42",)):
+            continue  # noise seeds: scripts/noise_tables.py
         if r["basis"] == "peek" and r["random_order"] == "" and r["criterion"] in ("none", *CRIT, "combined"):
             curves[(r["dataset"], r["model"], label(r), r["seed"])][int(r["epoch"])] = float(r["map50_95"])
     print("mAP50-95 on the full val set during the 20-epoch fine-tunes of the comparison above (standard warmup "
@@ -106,7 +108,7 @@ def warmup(pc: list[dict]) -> None:
 def budget_table(bud: list[dict]) -> dict:
     t = defaultdict(dict)
     for r in bud:
-        if r["variant"] in ("wblr", "wblr_full"):
+        if r["variant"] in ("wblr", "wblr_full") and r["seed"] == "42":  # seeds 43/44: noise_tables.py
             key = int(r["budget"]) if r["variant"] == "wblr" else f"full{r['epoch']}"
             t[(r["dataset"], r["model"], label(r))][key] = float(r["map50_95"])
     print("Separate fine-tunes of B training batches each (matched warmup, seed 42), mAP50-95 on the full val "
