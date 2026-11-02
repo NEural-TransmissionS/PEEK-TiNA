@@ -7,6 +7,9 @@ WSD -> viewsphere fine-tunes) uses lr 1.25e-3 with the matched warmup bias lr th
 Writes channel_runs / block_runs (20-epoch results), curves (their per-epoch val mAP), and for the
 recovery study probe_curves (every 50 batches), budget_runs (separate fine-tunes of B batches, incl.
 COCO on full train2017) and inference_{gpu,cpu} (scripts/bench_inference.py timings).
+Block rows carry `rankings`: every ranking (criterion combined / h0 / h1, head raw / grid / null, k) whose
+cut set the row is. A cut model depends only on the cut set, so a set two rankings share was trained once,
+under the first run's name: look rankings up by this column, not by run name or `criterion`.
 Tables and figures: scripts/same_protocol_tables.py and scripts/recovery_tables.py; the older
 WSD/shapes results are collected by scripts/collect_results.py.
 
@@ -49,7 +52,27 @@ CHANNEL_DIRS |= {
 CHANNEL_COLS = ["dataset", "model", "set", "basis", "criterion", "ratio", "seed", "epochs", "optimizer",
                 "lr0", "finetune_data", "params", "gflops", "map_before", "map_bn", "map_ft"]
 BLOCK_COLS = ["dataset", "model", "name", "criterion", "k", "scope", "norm", "random_order", "seed", "layers_cut", "lr0",
-              "epochs_run", "params", "gflops", "map50_95", "map50"]
+              "epochs_run", "params", "gflops", "map50_95", "map50", "rankings"]
+RANK_SCORES = {"combined": "combined", "h0": "h0_secondary_sum", "h1": "h1_sum"}  # = topo_prune.CRITERIA
+RANKS: dict = {}  # (dataset, model, "layers cut") -> "crit-ranking-k ..." (filled by rankings())
+
+
+def rankings(results: Path) -> dict:
+    """Cut set of every block ranking, from topo-prune-shapes/ranking_peek (as topo_prune.cut_order:
+    lowest score first, k = 1-3): head = raw scores of the 4 head blocks, grid / null = all 8 C3k2 blocks."""
+    labs = {}
+    rdir = results.parent / "ranking_peek"
+    for ds in DATASETS:
+        for m in "ns":
+            head = json.loads((rdir / f"{ds}_{m}.json").read_text())
+            allr = json.loads((rdir / f"{ds}_{m}_all_norm.json").read_text())
+            for lab, r in (("head", head), ("grid", {**allr, **allr["grid"]}), ("null", {**allr, **allr["null"]})):
+                for crit, key in RANK_SCORES.items():
+                    order = sorted(r["candidates"], key=lambda i: r[key][str(i)])
+                    for k in (1, 2, 3):
+                        cut = " ".join(map(str, sorted(order[:k])))
+                        labs.setdefault((ds, m, cut), []).append(f"{crit}-{lab}-k{k}")
+    return {key: " ".join(v) for key, v in labs.items()}
 
 
 def channel(root: Path) -> list[dict]:
@@ -88,7 +111,7 @@ def blocks(results: Path) -> list[dict]:
                 "norm": r.get("norm", "raw"), "random_order": "" if r.get("random_order") is None else r["random_order"],
                 "seed": r.get("seed", 42), "layers_cut": " ".join(map(str, sorted(r["layers_cut"]))), "lr0": r.get("lr0", ""),
                 "epochs_run": r.get("epochs_run", ""), "params": r["params"], "gflops": r["gflops"],
-                "map50_95": r["mAP50-95"], "map50": r["mAP50"],
+                "map50_95": r["mAP50-95"], "map50": r["mAP50"], "rankings": _ranks(ds, r),
             })
     return rows
 
@@ -113,15 +136,19 @@ def scratch_blocks(results: Path) -> list[dict]:
 
 
 CURVE_COLS = ["dataset", "model", "method", "basis", "criterion", "ratio", "seed", "layers_cut", "scope", "norm",
-              "random_order", "variant", "budget", "batch", "epoch", "map50_95"]
+              "random_order", "rankings", "variant", "budget", "batch", "epoch", "map50_95"]
 BUDGETS = (250, 500, 1000, 2500, 5000, 25000, 50000)  # 25k/50k: COCO only
 
 
-def _block_id(r: dict) -> dict:
+def _ranks(ds: str, r: dict) -> str:
+    return RANKS.get((ds, r["size"], " ".join(map(str, sorted(r["layers_cut"])))), "")
+
+
+def _block_id(ds: str, r: dict) -> dict:
     return {"method": "block", "basis": "peek", "criterion": r.get("criterion", "combined"), "ratio": "",
             "seed": r.get("seed", 42), "layers_cut": " ".join(map(str, sorted(r["layers_cut"]))),
             "scope": r.get("scope", "head"), "norm": r.get("norm", "raw"),
-            "random_order": "" if r.get("random_order") is None else r["random_order"]}
+            "random_order": "" if r.get("random_order") is None else r["random_order"], "rankings": _ranks(ds, r)}
 
 
 def _channel_id(r: dict, basis: str) -> dict:
@@ -150,7 +177,7 @@ def curves(root: Path, results: Path) -> list[dict]:
     for ds in DATASETS:
         for f in block_files(results, ds):
             r = json.loads(f.read_text())
-            key = {"dataset": ds, "model": r["size"], **_block_id(r), "variant": "", "budget": ""}
+            key = {"dataset": ds, "model": r["size"], **_block_id(ds, r), "variant": "", "budget": ""}
             if (ds, r["size"], key["layers_cut"]) in pre:
                 rows.append({**key, "batch": 0, "epoch": 0, "map50_95": pre[(ds, r["size"], key["layers_cut"])]})
             with open(results.parent / "runs" / f.stem / "results.csv") as fh:
@@ -176,7 +203,7 @@ def probes(root: Path, results: Path) -> list[dict]:
                              for e in csv.DictReader(fh)]
         for f in sorted(results.glob(f"{ds}_*_ft_probe{v}.json")):
             r = json.loads(f.read_text())
-            key = {"dataset": ds, "model": r["size"], **_block_id(r), "variant": v[1:], "budget": ""}
+            key = {"dataset": ds, "model": r["size"], **_block_id(ds, r), "variant": v[1:], "budget": ""}
             with open(results.parent / "runs" / f.stem / "probe.csv") as fh:
                 rows += [{**key, "batch": int(e["batch"]), "epoch": int(e["epoch"]), "map50_95": float(e["map50_95"])}
                          for e in csv.DictReader(fh)]
@@ -198,7 +225,7 @@ def budgets(root: Path, results: Path) -> list[dict]:
             for f in block_files(results, ds, f"_b{b}{v}"):
                 r = json.loads(f.read_text())
                 if r.get("mAP50-95") is not None:
-                    rows.append({"dataset": ds, "model": r["size"], **_block_id(r), "variant": v[1:], "budget": b, "batch": "",
+                    rows.append({"dataset": ds, "model": r["size"], **_block_id(ds, r), "variant": v[1:], "budget": b, "batch": "",
                                  "epoch": r["epochs"], "map50_95": r["mAP50-95"]})
     # COCO fine-tuned on all of train2017 (7,393 batches per epoch), matched warmup: variant "wblr_full",
     # budget = epochs x 7,393 (<ds>_<m>_protect6_full_e<E>_wblr/, blocks *_ft_full_e<E>_wblr)
@@ -213,7 +240,7 @@ def budgets(root: Path, results: Path) -> list[dict]:
         for f in sorted(results.glob(f"coco_*_ft_full_e{e}_wblr.json")):
             r = json.loads(f.read_text())
             if r.get("mAP50-95") is not None:
-                rows.append({"dataset": "coco", "model": r["size"], **_block_id(r), "variant": "wblr_full", "budget": b,
+                rows.append({"dataset": "coco", "model": r["size"], **_block_id("coco", r), "variant": "wblr_full", "budget": b,
                              "batch": "", "epoch": e, "map50_95": r["mAP50-95"]})
     return rows
 
@@ -232,6 +259,7 @@ if __name__ == "__main__":
     ap.add_argument("--channel-root", type=Path, required=True, help="PEEK-rvc-pruning/outputs/yolo26_tda")
     ap.add_argument("--block-results", type=Path, required=True, help="topo-prune-shapes/results")
     a = ap.parse_args()
+    RANKS.update(rankings(a.block_results))
     write("channel_runs.csv", CHANNEL_COLS, channel(a.channel_root))
     write("block_runs.csv", BLOCK_COLS, blocks(a.block_results))
     write("block_scratch_runs.csv", BLOCK_COLS, scratch_blocks(a.block_results))
