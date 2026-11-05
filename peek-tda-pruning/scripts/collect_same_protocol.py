@@ -1,4 +1,4 @@
-"""Collect the WSD + COCO + viewsphere same-protocol runs into results/same_protocol/*.csv.
+"""Collect the WSD + COCO + viewsphere (v1 and v2) same-protocol runs into results/same_protocol/*.csv.
 
 Same protocol = 20-epoch fine-tune (AdamW, momentum 0.9, warmup 1, batch 16) after structural
 channel pruning or block cut, train-loader seeds fixed. WSD uses lr 1.25e-3 (the lr its models were
@@ -40,11 +40,15 @@ for m in MODELS:
         f"viewsphere_{m}_protect6_activation_ft20": ("viewsphere", m, "grid", "activation"),
         f"viewsphere_{m}_protect6_seeds_ft20": ("viewsphere", m, "seeds", "peek"),
         f"viewsphere_{m}_protect6_oneshot": ("viewsphere", m, "oneshot", "peek"),
+        # viewsphere v2 (v2_wsd4, 17 satellites; submit_viewsphere2.sh, 2026-11-04): no activation grid
+        f"viewsphere2_{m}_protect6_peek_ft20": ("viewsphere2", m, "grid", "peek"),
+        f"viewsphere2_{m}_protect6_seeds_ft20": ("viewsphere2", m, "seeds", "peek"),
+        f"viewsphere2_{m}_protect6_oneshot": ("viewsphere2", m, "oneshot", "peek"),
     }
     # one-shot BN re-estimation seeds 43-51 (submit_noise_seeds.sh; masks from the seed-42 scores)
     CHANNEL_DIRS |= {f"{ds}_{m}_protect6_oneshot_seeds": (ds, m, "oneshot_seeds", "peek")
-                     for ds in ("wsd", "coco", "viewsphere")}
-DATASETS = ("wsd", "coco", "viewsphere")
+                     for ds in ("wsd", "coco", "viewsphere", "viewsphere2")}
+DATASETS = ("wsd", "coco", "viewsphere", "viewsphere2")
 # YOLOv5u WSD one-shot random masks (YOLO26 WSD's live with the older results, structural_pruning/random_spread)
 CHANNEL_DIRS |= {f"wsd_{m}_protect6_oneshot": ("wsd", m, "oneshot", "peek") for m in ("v5n", "v5s")}
 CHANNEL_DIRS |= {
