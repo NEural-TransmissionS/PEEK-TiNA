@@ -4,16 +4,19 @@ Split is by view (same views for every satellite): valid = views 3, 14; test = v
 train = the other 14. Dark frames (under 10% of the target lit, v1/<sat>/visibility.csv
 obj_lit_frac) are left out of train only; valid and test keep them. Files are symlinks named <sat>_frame_NNNN: images point at v1/<sat>/chaser,
 labels at v1_wsd4/<sat>/chaser_annotations/labels_det_grouped (built by remap_wsd4.py, run that first).
-Usage: python3 make_splits.py
+Usage: python3 make_splits.py [v1|v2] [out root]
 """
 import csv
 import os
+import sys
 import shutil
 from pathlib import Path
 
 ROOT = Path("/shared/projects/nets/viewsphere-dataset")
-SRC, DST = ROOT / "v1", ROOT / "v1_wsd4"
-SATS = ["Clementine", "ICESatB", "Jason-1", "Sentinel-6"]
+# argv: [version (v1 default; v2 = the 17 satellites, added 2026-11-03)] [output root (default ROOT)]
+VERSION = sys.argv[1] if len(sys.argv) > 1 else "v1"
+SRC, DST = ROOT / VERSION, (Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT) / f"{VERSION}_wsd4"
+SATS = sorted(p.parent.name for p in SRC.glob("*/chaser"))
 SPLIT_VIEWS = {"valid": {3, 14}, "test": {6, 11}}
 NAMES = ["antenna", "body", "solar", "thruster"]
 DARK_LIT_FRAC = 0.10

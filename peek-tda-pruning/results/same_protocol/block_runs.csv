@@ -174,6 +174,157 @@ wsd,s,wsd_s_k3_peek_all_null_ft_s44,combined,3,all,null,,44,4 13 16,0.00125,20,9
 wsd,s,wsd_s_k3_peek_ft,combined,3,head,raw,,42,13 19 22,0.00125,20,7941360,19.545,0.3253,0.4868,combined-head-k3 h0-head-k3 h1-head-k3
 wsd,s,wsd_s_k3_peek_ft_s43,combined,3,head,raw,,43,13 19 22,0.00125,20,7941360,19.545,0.3271,0.4933,combined-head-k3 h0-head-k3 h1-head-k3
 wsd,s,wsd_s_k3_peek_ft_s44,combined,3,head,raw,,44,13 19 22,0.00125,20,7941360,19.545,0.3267,0.4987,combined-head-k3 h0-head-k3 h1-head-k3
+wsd,v5n,wsd_v5n_h0_k1_peek_all_null_ft,h0,1,all,null,,42,4,0.00125,20,2484284,6.856,0.3443,0.4868,h0-null-k1
+wsd,v5n,wsd_v5n_h0_k1_peek_all_null_ft_s43,h0,1,all,null,,43,4,0.00125,20,2484284,6.856,0.3526,0.4951,h0-null-k1
+wsd,v5n,wsd_v5n_h0_k1_peek_all_null_ft_s44,h0,1,all,null,,44,4,0.00125,20,2484284,6.856,0.3438,0.4909,h0-null-k1
+wsd,v5n,wsd_v5n_h0_k2_peek_all_null_ft,h0,2,all,null,,42,4 6,0.00125,20,2343996,6.403,0.3274,0.4701,h0-null-k2
+wsd,v5n,wsd_v5n_h0_k2_peek_all_null_ft_s43,h0,2,all,null,,43,4 6,0.00125,20,2343996,6.403,0.3262,0.4638,h0-null-k2
+wsd,v5n,wsd_v5n_h0_k2_peek_all_null_ft_s44,h0,2,all,null,,44,4 6,0.00125,20,2343996,6.403,0.3328,0.4764,h0-null-k2
+wsd,v5n,wsd_v5n_h0_k3_peek_all_grid_ft,h0,3,all,grid,,42,6 8 23,0.00125,20,1908156,6.357,0.3576,0.5063,h0-grid-k3 h1-null-k3
+wsd,v5n,wsd_v5n_h0_k3_peek_all_grid_ft_s43,h0,3,all,grid,,43,6 8 23,0.00125,20,1908156,6.357,0.3482,0.5066,h0-grid-k3 h1-null-k3
+wsd,v5n,wsd_v5n_h0_k3_peek_all_grid_ft_s44,h0,3,all,grid,,44,6 8 23,0.00125,20,1908156,6.357,0.3521,0.5102,h0-grid-k3 h1-null-k3
+wsd,v5n,wsd_v5n_h0_k3_peek_all_null_ft,h0,3,all,null,,42,2 4 6,0.00125,20,2340284,6.207,0.3177,0.4678,h0-null-k3
+wsd,v5n,wsd_v5n_h0_k3_peek_all_null_ft_s43,h0,3,all,null,,43,2 4 6,0.00125,20,2340284,6.207,0.31,0.4528,h0-null-k3
+wsd,v5n,wsd_v5n_h0_k3_peek_all_null_ft_s44,h0,3,all,null,,44,2 4 6,0.00125,20,2340284,6.207,0.307,0.451,h0-null-k3
+wsd,v5n,wsd_v5n_h1_k2_peek_all_grid_ft,h1,2,all,grid,,42,2 23,0.00125,20,2275132,6.798,0.3511,0.5015,h1-grid-k2
+wsd,v5n,wsd_v5n_h1_k2_peek_all_grid_ft_s43,h1,2,all,grid,,43,2 23,0.00125,20,2275132,6.798,0.3576,0.5076,h1-grid-k2
+wsd,v5n,wsd_v5n_h1_k2_peek_all_grid_ft_s44,h1,2,all,grid,,44,2 23,0.00125,20,2275132,6.798,0.3463,0.4913,h1-grid-k2
+wsd,v5n,wsd_v5n_k0_peek_ft,combined,0,head,raw,,42,,0.00125,20,2509244,7.18,0.3633,0.5049,
+wsd,v5n,wsd_v5n_k0_peek_ft_s43,combined,0,head,raw,,43,,0.00125,20,2509244,7.18,0.3682,0.5091,
+wsd,v5n,wsd_v5n_k0_peek_ft_s44,combined,0,head,raw,,44,,0.00125,20,2509244,7.18,0.3661,0.5098,
+wsd,v5n,wsd_v5n_k1_all_rand1_ft,combined,1,all,raw,1,42,17,0.00125,20,2494652,6.99,0.3529,0.495,
+wsd,v5n,wsd_v5n_k1_all_rand2_ft,combined,1,all,raw,2,42,20,0.00125,20,2451388,6.993,0.3564,0.4976,
+wsd,v5n,wsd_v5n_k1_all_rand7_ft,combined,1,all,raw,7,42,2,0.00125,20,2505532,6.983,0.3532,0.5002,
+wsd,v5n,wsd_v5n_k1_peek_all_grid_ft,combined,1,all,grid,,42,8,0.00125,20,2278844,6.995,0.367,0.5163,combined-grid-k1 h0-grid-k1 h1-null-k1
+wsd,v5n,wsd_v5n_k1_peek_all_grid_ft_s43,combined,1,all,grid,,43,8,0.00125,20,2278844,6.995,0.3661,0.5095,combined-grid-k1 h0-grid-k1 h1-null-k1
+wsd,v5n,wsd_v5n_k1_peek_all_grid_ft_s44,combined,1,all,grid,,44,8,0.00125,20,2278844,6.995,0.3656,0.5121,combined-grid-k1 h0-grid-k1 h1-null-k1
+wsd,v5n,wsd_v5n_k1_peek_all_null_ft,combined,1,all,null,,42,6,0.00125,20,2368956,6.728,0.3601,0.5085,combined-null-k1
+wsd,v5n,wsd_v5n_k1_peek_all_null_ft_s43,combined,1,all,null,,43,6,0.00125,20,2368956,6.728,0.3507,0.4924,combined-null-k1
+wsd,v5n,wsd_v5n_k1_peek_all_null_ft_s44,combined,1,all,null,,44,6,0.00125,20,2368956,6.728,0.3571,0.503,combined-null-k1
+wsd,v5n,wsd_v5n_k1_peek_ft,combined,1,head,raw,,42,23,0.00125,20,2278844,6.995,0.3604,0.5114,combined-head-k1 h0-head-k1 h1-head-k1 h1-grid-k1
+wsd,v5n,wsd_v5n_k1_peek_ft_s43,combined,1,head,raw,,43,23,0.00125,20,2278844,6.995,0.3695,0.5129,combined-head-k1 h0-head-k1 h1-head-k1 h1-grid-k1
+wsd,v5n,wsd_v5n_k1_peek_ft_s44,combined,1,head,raw,,44,23,0.00125,20,2278844,6.995,0.3397,0.4928,combined-head-k1 h0-head-k1 h1-head-k1 h1-grid-k1
+wsd,v5n,wsd_v5n_k2_all_rand0_ft,combined,2,all,raw,0,42,6 13,0.00125,20,2311100,6.541,0.3593,0.5043,
+wsd,v5n,wsd_v5n_k2_all_rand11_ft,combined,2,all,raw,11,42,4 8,0.00125,20,2253884,6.67,0.3556,0.505,
+wsd,v5n,wsd_v5n_k2_all_rand12_ft,combined,2,all,raw,12,42,4 20,0.00125,20,2426428,6.669,0.3438,0.4883,
+wsd,v5n,wsd_v5n_k2_all_rand14_ft,combined,2,all,raw,14,42,8 20,0.00125,20,2220988,6.808,0.3588,0.5075,
+wsd,v5n,wsd_v5n_k2_all_rand15_ft,combined,2,all,raw,15,42,2 6,0.00125,20,2365244,6.531,0.3433,0.499,
+wsd,v5n,wsd_v5n_k2_all_rand17_ft,combined,2,all,raw,17,42,2 4,0.00125,20,2480572,6.659,0.3283,0.4801,
+wsd,v5n,wsd_v5n_k2_all_rand18_ft,combined,2,all,raw,18,42,6 20,0.00125,20,2311100,6.541,0.3401,0.4896,
+wsd,v5n,wsd_v5n_k2_all_rand1_ft,combined,2,all,raw,1,42,2 17,0.00125,20,2490940,6.793,0.3542,0.5033,
+wsd,v5n,wsd_v5n_k2_all_rand22_ft,combined,2,all,raw,22,42,4 23,0.00125,20,2253884,6.67,0.3404,0.4873,
+wsd,v5n,wsd_v5n_k2_all_rand2_ft,combined,2,all,raw,2,42,17 20,0.00125,20,2436796,6.803,0.3531,0.4976,
+wsd,v5n,wsd_v5n_k2_all_rand5_ft,combined,2,all,raw,5,42,4 13,0.00125,20,2426428,6.669,0.3425,0.4983,
+wsd,v5n,wsd_v5n_k2_all_rand6_ft,combined,2,all,raw,6,42,6 17,0.00125,20,2354364,6.538,0.3436,0.4874,
+wsd,v5n,wsd_v5n_k2_all_rand7_ft,combined,2,all,raw,7,42,2 20,0.00125,20,2447676,6.797,0.3416,0.488,
+wsd,v5n,wsd_v5n_k2_peek_all_grid_ft,combined,2,all,grid,,42,8 23,0.00125,20,2048444,6.81,0.3642,0.5041,combined-grid-k2 h0-grid-k2
+wsd,v5n,wsd_v5n_k2_peek_all_grid_ft_s43,combined,2,all,grid,,43,8 23,0.00125,20,2048444,6.81,0.3596,0.5051,combined-grid-k2 h0-grid-k2
+wsd,v5n,wsd_v5n_k2_peek_all_grid_ft_s44,combined,2,all,grid,,44,8 23,0.00125,20,2048444,6.81,0.358,0.5027,combined-grid-k2 h0-grid-k2
+wsd,v5n,wsd_v5n_k2_peek_all_null_ft,combined,2,all,null,,42,6 8,0.00125,20,2138556,6.543,0.369,0.5202,combined-null-k2 h1-null-k2
+wsd,v5n,wsd_v5n_k2_peek_all_null_ft_s43,combined,2,all,null,,43,6 8,0.00125,20,2138556,6.543,0.3557,0.497,combined-null-k2 h1-null-k2
+wsd,v5n,wsd_v5n_k2_peek_all_null_ft_s44,combined,2,all,null,,44,6 8,0.00125,20,2138556,6.543,0.3644,0.5109,combined-null-k2 h1-null-k2
+wsd,v5n,wsd_v5n_k2_peek_ft,combined,2,head,raw,,42,20 23,0.00125,20,2220988,6.808,0.3454,0.4963,combined-head-k2 h0-head-k2 h1-head-k2
+wsd,v5n,wsd_v5n_k2_peek_ft_s43,combined,2,head,raw,,43,20 23,0.00125,20,2220988,6.808,0.3483,0.4963,combined-head-k2 h0-head-k2 h1-head-k2
+wsd,v5n,wsd_v5n_k2_peek_ft_s44,combined,2,head,raw,,44,20 23,0.00125,20,2220988,6.808,0.3444,0.4892,combined-head-k2 h0-head-k2 h1-head-k2
+wsd,v5n,wsd_v5n_k3_all_rand0_ft,combined,3,all,raw,0,42,6 8 13,0.00125,20,2080700,6.356,0.3564,0.5109,
+wsd,v5n,wsd_v5n_k3_all_rand11_ft,combined,3,all,raw,11,42,4 8 23,0.00125,20,2023484,6.485,0.3433,0.4825,
+wsd,v5n,wsd_v5n_k3_all_rand12_ft,combined,3,all,raw,12,42,4 8 20,0.00125,20,2196028,6.484,0.3423,0.4868,
+wsd,v5n,wsd_v5n_k3_all_rand14_ft,combined,3,all,raw,14,42,8 13 20,0.00125,20,2163132,6.621,0.3601,0.5058,
+wsd,v5n,wsd_v5n_k3_all_rand15_ft,combined,3,all,raw,15,42,2 6 8,0.00125,20,2134844,6.346,0.356,0.4987,
+wsd,v5n,wsd_v5n_k3_all_rand16_ft,combined,3,all,raw,16,42,2 13 20,0.00125,20,2389820,6.61,0.3448,0.4934,
+wsd,v5n,wsd_v5n_k3_all_rand17_ft,combined,3,all,raw,17,42,2 4 20,0.00125,20,2422716,6.472,0.3257,0.4766,
+wsd,v5n,wsd_v5n_k3_all_rand18_ft,combined,3,all,raw,18,42,2 6 20,0.00125,20,2307388,6.344,0.3174,0.4656,
+wsd,v5n,wsd_v5n_k3_all_rand1_ft,combined,3,all,raw,1,42,2 4 17,0.00125,20,2465980,6.469,0.3208,0.4651,
+wsd,v5n,wsd_v5n_k3_all_rand21_ft,combined,3,all,raw,21,42,2 13 17,0.00125,20,2433084,6.606,0.3416,0.496,
+wsd,v5n,wsd_v5n_k3_all_rand22_ft,combined,3,all,raw,22,42,4 20 23,0.00125,20,2196028,6.484,0.3251,0.4773,
+wsd,v5n,wsd_v5n_k3_all_rand2_ft,combined,3,all,raw,2,42,17 20 23,0.00125,20,2206396,6.618,0.335,0.491,
+wsd,v5n,wsd_v5n_k3_all_rand3_ft,combined,3,all,raw,3,42,6 20 23,0.00125,20,2080700,6.356,0.3278,0.4778,
+wsd,v5n,wsd_v5n_k3_all_rand5_ft,combined,3,all,raw,5,42,4 6 13,0.00125,20,2286140,6.217,0.3175,0.4611,
+wsd,v5n,wsd_v5n_k3_all_rand6_ft,combined,3,all,raw,6,42,6 8 17,0.00125,20,2123964,6.353,0.3549,0.4991,
+wsd,v5n,wsd_v5n_k3_all_rand7_ft,combined,3,all,raw,7,42,2 20 23,0.00125,20,2217276,6.611,0.335,0.4812,
+wsd,v5n,wsd_v5n_k3_all_rand9_ft,combined,3,all,raw,9,42,8 17 23,0.00125,20,2033852,6.62,0.3493,0.4927,
+wsd,v5n,wsd_v5n_k3_peek_all_grid_ft,combined,3,all,grid,,42,2 8 23,0.00125,20,2044732,6.613,0.3523,0.5004,combined-grid-k3 h1-grid-k3
+wsd,v5n,wsd_v5n_k3_peek_all_grid_ft_s43,combined,3,all,grid,,43,2 8 23,0.00125,20,2044732,6.613,0.3576,0.5108,combined-grid-k3 h1-grid-k3
+wsd,v5n,wsd_v5n_k3_peek_all_grid_ft_s44,combined,3,all,grid,,44,2 8 23,0.00125,20,2044732,6.613,0.3561,0.505,combined-grid-k3 h1-grid-k3
+wsd,v5n,wsd_v5n_k3_peek_all_null_ft,combined,3,all,null,,42,4 6 8,0.00125,20,2113596,6.218,0.3277,0.4702,combined-null-k3
+wsd,v5n,wsd_v5n_k3_peek_all_null_ft_s43,combined,3,all,null,,43,4 6 8,0.00125,20,2113596,6.218,0.3236,0.4645,combined-null-k3
+wsd,v5n,wsd_v5n_k3_peek_all_null_ft_s44,combined,3,all,null,,44,4 6 8,0.00125,20,2113596,6.218,0.3298,0.4705,combined-null-k3
+wsd,v5n,wsd_v5n_k3_peek_ft,combined,3,head,raw,,42,13 20 23,0.00125,20,2163132,6.621,0.335,0.4951,combined-head-k3 h0-head-k3 h1-head-k3
+wsd,v5n,wsd_v5n_k3_peek_ft_s43,combined,3,head,raw,,43,13 20 23,0.00125,20,2163132,6.621,0.3461,0.5045,combined-head-k3 h0-head-k3 h1-head-k3
+wsd,v5n,wsd_v5n_k3_peek_ft_s44,combined,3,head,raw,,44,13 20 23,0.00125,20,2163132,6.621,0.3502,0.516,combined-head-k3 h0-head-k3 h1-head-k3
+wsd,v5s,wsd_v5s_h0_k1_peek_all_null_ft,h0,1,all,null,,42,4,0.00125,20,9024668,22.772,0.3656,0.5065,h0-null-k1
+wsd,v5s,wsd_v5s_h0_k1_peek_all_null_ft_s43,h0,1,all,null,,43,4,0.00125,20,9024668,22.772,0.3707,0.5115,h0-null-k1
+wsd,v5s,wsd_v5s_h0_k1_peek_all_null_ft_s44,h0,1,all,null,,44,4,0.00125,20,9024668,22.772,0.3794,0.5163,h0-null-k1
+wsd,v5s,wsd_v5s_h0_k2_peek_all_null_ft,h0,2,all,null,,42,2 4,0.00125,20,9010076,22.011,0.3576,0.5043,h0-null-k2
+wsd,v5s,wsd_v5s_h0_k2_peek_all_null_ft_s43,h0,2,all,null,,43,2 4,0.00125,20,9010076,22.011,0.3509,0.4906,h0-null-k2
+wsd,v5s,wsd_v5s_h0_k2_peek_all_null_ft_s44,h0,2,all,null,,44,2 4,0.00125,20,9010076,22.011,0.356,0.4988,h0-null-k2
+wsd,v5s,wsd_v5s_h0_k3_peek_all_null_ft,h0,3,all,null,,42,2 4 6,0.00125,20,8450972,20.216,0.3344,0.4817,h0-null-k3
+wsd,v5s,wsd_v5s_h0_k3_peek_all_null_ft_s43,h0,3,all,null,,43,2 4 6,0.00125,20,8450972,20.216,0.3303,0.4721,h0-null-k3
+wsd,v5s,wsd_v5s_h0_k3_peek_all_null_ft_s44,h0,3,all,null,,44,2 4 6,0.00125,20,8450972,20.216,0.3308,0.4817,h0-null-k3
+wsd,v5s,wsd_v5s_h1_k3_peek_all_null_ft,h1,3,all,null,,42,6 8 13,0.00125,20,7414684,20.776,0.3873,0.5302,h1-null-k3
+wsd,v5s,wsd_v5s_h1_k3_peek_all_null_ft_s43,h1,3,all,null,,43,6 8 13,0.00125,20,7414684,20.776,0.3917,0.5327,h1-null-k3
+wsd,v5s,wsd_v5s_h1_k3_peek_all_null_ft_s44,h1,3,all,null,,44,6 8 13,0.00125,20,7414684,20.776,0.3901,0.5396,h1-null-k3
+wsd,v5s,wsd_v5s_k0_peek_ft,combined,0,head,raw,,42,,0.00125,20,9123740,24.05,0.3921,0.5319,
+wsd,v5s,wsd_v5s_k0_peek_ft_s43,combined,0,head,raw,,43,,0.00125,20,9123740,24.05,0.3922,0.5332,
+wsd,v5s,wsd_v5s_k0_peek_ft_s44,combined,0,head,raw,,44,,0.00125,20,9123740,24.05,0.383,0.5267,
+wsd,v5s,wsd_v5s_k1_all_rand1_ft,combined,1,all,raw,1,42,17,0.00125,20,9065884,23.302,0.3803,0.5145,
+wsd,v5s,wsd_v5s_k1_all_rand2_ft,combined,1,all,raw,2,42,20,0.00125,20,8893340,23.309,0.3808,0.524,
+wsd,v5s,wsd_v5s_k1_all_rand7_ft,combined,1,all,raw,7,42,2,0.00125,20,9109148,23.289,0.3829,0.5295,
+wsd,v5s,wsd_v5s_k1_peek_all_grid_ft,combined,1,all,grid,,42,8,0.00125,20,8204188,23.312,0.3912,0.5385,combined-grid-k1 h0-grid-k1 h1-grid-k1
+wsd,v5s,wsd_v5s_k1_peek_all_grid_ft_s43,combined,1,all,grid,,43,8,0.00125,20,8204188,23.312,0.3833,0.5261,combined-grid-k1 h0-grid-k1 h1-grid-k1
+wsd,v5s,wsd_v5s_k1_peek_all_grid_ft_s44,combined,1,all,grid,,44,8,0.00125,20,8204188,23.312,0.3799,0.5182,combined-grid-k1 h0-grid-k1 h1-grid-k1
+wsd,v5s,wsd_v5s_k1_peek_all_null_ft,combined,1,all,null,,42,6,0.00125,20,8564636,22.254,0.3808,0.5188,combined-null-k1 h1-null-k1
+wsd,v5s,wsd_v5s_k1_peek_all_null_ft_s43,combined,1,all,null,,43,6,0.00125,20,8564636,22.254,0.3759,0.5162,combined-null-k1 h1-null-k1
+wsd,v5s,wsd_v5s_k1_peek_all_null_ft_s44,combined,1,all,null,,44,6,0.00125,20,8564636,22.254,0.3754,0.5115,combined-null-k1 h1-null-k1
+wsd,v5s,wsd_v5s_k1_peek_ft,combined,1,head,raw,,42,23,0.00125,20,8204188,23.312,0.3734,0.522,combined-head-k1 h0-head-k1 h1-head-k1
+wsd,v5s,wsd_v5s_k1_peek_ft_s43,combined,1,head,raw,,43,23,0.00125,20,8204188,23.312,0.3717,0.5223,combined-head-k1 h0-head-k1 h1-head-k1
+wsd,v5s,wsd_v5s_k1_peek_ft_s44,combined,1,head,raw,,44,23,0.00125,20,8204188,23.312,0.372,0.52,combined-head-k1 h0-head-k1 h1-head-k1
+wsd,v5s,wsd_v5s_k2_all_rand0_ft,combined,2,all,raw,0,42,6 13,0.00125,20,8334236,21.513,0.3861,0.5311,
+wsd,v5s,wsd_v5s_k2_all_rand11_ft,combined,2,all,raw,11,42,4 8,0.00125,20,8105116,22.034,0.3715,0.5196,
+wsd,v5s,wsd_v5s_k2_all_rand12_ft,combined,2,all,raw,12,42,4 20,0.00125,20,8794268,22.031,0.3623,0.5086,
+wsd,v5s,wsd_v5s_k2_all_rand13_ft,combined,2,all,raw,13,42,2 23,0.00125,20,8189596,22.552,0.3682,0.5143,
+wsd,v5s,wsd_v5s_k2_all_rand14_ft,combined,2,all,raw,14,42,8 20,0.00125,20,7973788,22.572,0.3857,0.5333,
+wsd,v5s,wsd_v5s_k2_all_rand15_ft,combined,2,all,raw,15,42,2 6,0.00125,20,8550044,21.494,0.3608,0.5092,
+wsd,v5s,wsd_v5s_k2_all_rand18_ft,combined,2,all,raw,18,42,6 20,0.00125,20,8334236,21.513,0.3574,0.504,
+wsd,v5s,wsd_v5s_k2_all_rand1_ft,combined,2,all,raw,1,42,2 17,0.00125,20,9051292,22.542,0.3667,0.5149,
+wsd,v5s,wsd_v5s_k2_all_rand22_ft,combined,2,all,raw,22,42,4 23,0.00125,20,8105116,22.034,0.3514,0.495,
+wsd,v5s,wsd_v5s_k2_all_rand2_ft,combined,2,all,raw,2,42,17 20,0.00125,20,8835484,22.562,0.3739,0.5155,
+wsd,v5s,wsd_v5s_k2_all_rand4_ft,combined,2,all,raw,4,42,4 6,0.00125,20,8465564,20.976,0.3448,0.4903,
+wsd,v5s,wsd_v5s_k2_all_rand5_ft,combined,2,all,raw,5,42,4 13,0.00125,20,8794268,22.031,0.3655,0.515,
+wsd,v5s,wsd_v5s_k2_all_rand6_ft,combined,2,all,raw,6,42,6 17,0.00125,20,8506780,21.507,0.3634,0.5055,
+wsd,v5s,wsd_v5s_k2_all_rand7_ft,combined,2,all,raw,7,42,2 20,0.00125,20,8878748,22.549,0.3802,0.5245,
+wsd,v5s,wsd_v5s_k2_all_rand8_ft,combined,2,all,raw,8,42,8 23,0.00125,20,7284636,22.575,0.3709,0.5295,
+wsd,v5s,wsd_v5s_k2_peek_all_grid_ft,combined,2,all,grid,,42,6 8,0.00125,20,7645084,21.517,0.388,0.5283,combined-grid-k2 h0-grid-k2 h1-grid-k2 combined-null-k2 h1-null-k2
+wsd,v5s,wsd_v5s_k2_peek_all_grid_ft_s43,combined,2,all,grid,,43,6 8,0.00125,20,7645084,21.517,0.3835,0.5332,combined-grid-k2 h0-grid-k2 h1-grid-k2 combined-null-k2 h1-null-k2
+wsd,v5s,wsd_v5s_k2_peek_all_grid_ft_s44,combined,2,all,grid,,44,6 8,0.00125,20,7645084,21.517,0.3843,0.5307,combined-grid-k2 h0-grid-k2 h1-grid-k2 combined-null-k2 h1-null-k2
+wsd,v5s,wsd_v5s_k2_peek_ft,combined,2,head,raw,,42,20 23,0.00125,20,7973788,22.572,0.3849,0.531,combined-head-k2 h0-head-k2 h1-head-k2
+wsd,v5s,wsd_v5s_k2_peek_ft_s43,combined,2,head,raw,,43,20 23,0.00125,20,7973788,22.572,0.3716,0.5212,combined-head-k2 h0-head-k2 h1-head-k2
+wsd,v5s,wsd_v5s_k2_peek_ft_s44,combined,2,head,raw,,44,20 23,0.00125,20,7973788,22.572,0.3736,0.5204,combined-head-k2 h0-head-k2 h1-head-k2
+wsd,v5s,wsd_v5s_k3_all_rand11_ft,combined,3,all,raw,11,42,4 8 23,0.00125,20,7185564,21.297,0.3602,0.5165,
+wsd,v5s,wsd_v5s_k3_all_rand12_ft,combined,3,all,raw,12,42,4 8 20,0.00125,20,7874716,21.294,0.3643,0.5253,
+wsd,v5s,wsd_v5s_k3_all_rand14_ft,combined,3,all,raw,14,42,8 13 20,0.00125,20,7743388,21.831,0.3837,0.5323,
+wsd,v5s,wsd_v5s_k3_all_rand16_ft,combined,3,all,raw,16,42,2 13 20,0.00125,20,8648348,21.808,0.3752,0.5216,
+wsd,v5s,wsd_v5s_k3_all_rand17_ft,combined,3,all,raw,17,42,2 4 20,0.00125,20,8779676,21.271,0.3488,0.5036,
+wsd,v5s,wsd_v5s_k3_all_rand18_ft,combined,3,all,raw,18,42,2 6 20,0.00125,20,8319644,20.753,0.3501,0.5035,
+wsd,v5s,wsd_v5s_k3_all_rand1_ft,combined,3,all,raw,1,42,2 4 17,0.00125,20,8952220,21.264,0.3445,0.4954,
+wsd,v5s,wsd_v5s_k3_all_rand21_ft,combined,3,all,raw,21,42,2 13 17,0.00125,20,8820892,21.802,0.3718,0.5228,
+wsd,v5s,wsd_v5s_k3_all_rand22_ft,combined,3,all,raw,22,42,4 20 23,0.00125,20,7874716,21.294,0.3531,0.4996,
+wsd,v5s,wsd_v5s_k3_all_rand2_ft,combined,3,all,raw,2,42,17 20 23,0.00125,20,7915932,21.825,0.3663,0.5174,
+wsd,v5s,wsd_v5s_k3_all_rand3_ft,combined,3,all,raw,3,42,6 20 23,0.00125,20,7414684,20.776,0.3536,0.5038,
+wsd,v5s,wsd_v5s_k3_all_rand5_ft,combined,3,all,raw,5,42,4 6 13,0.00125,20,8235164,20.235,0.3646,0.5074,
+wsd,v5s,wsd_v5s_k3_all_rand6_ft,combined,3,all,raw,6,42,6 8 17,0.00125,20,7587228,20.769,0.3888,0.5328,
+wsd,v5s,wsd_v5s_k3_all_rand7_ft,combined,3,all,raw,7,42,2 20 23,0.00125,20,7959196,21.811,0.3599,0.5087,
+wsd,v5s,wsd_v5s_k3_all_rand8_ft,combined,3,all,raw,8,42,2 8 23,0.00125,20,7270044,21.815,0.3691,0.5245,
+wsd,v5s,wsd_v5s_k3_all_rand9_ft,combined,3,all,raw,9,42,8 17 23,0.00125,20,7226780,21.828,0.3715,0.519,
+wsd,v5s,wsd_v5s_k3_peek_all_grid_ft,combined,3,all,grid,,42,2 6 8,0.00125,20,7630492,20.756,0.3831,0.5282,combined-grid-k3 h0-grid-k3 h1-grid-k3
+wsd,v5s,wsd_v5s_k3_peek_all_grid_ft_s43,combined,3,all,grid,,43,2 6 8,0.00125,20,7630492,20.756,0.3798,0.5297,combined-grid-k3 h0-grid-k3 h1-grid-k3
+wsd,v5s,wsd_v5s_k3_peek_all_grid_ft_s44,combined,3,all,grid,,44,2 6 8,0.00125,20,7630492,20.756,0.3816,0.5315,combined-grid-k3 h0-grid-k3 h1-grid-k3
+wsd,v5s,wsd_v5s_k3_peek_all_null_ft,combined,3,all,null,,42,4 6 8,0.00125,20,7546012,20.239,0.3653,0.5013,combined-null-k3
+wsd,v5s,wsd_v5s_k3_peek_all_null_ft_s43,combined,3,all,null,,43,4 6 8,0.00125,20,7546012,20.239,0.3622,0.5011,combined-null-k3
+wsd,v5s,wsd_v5s_k3_peek_all_null_ft_s44,combined,3,all,null,,44,4 6 8,0.00125,20,7546012,20.239,0.3614,0.5093,combined-null-k3
+wsd,v5s,wsd_v5s_k3_peek_ft,combined,3,head,raw,,42,13 20 23,0.00125,20,7743388,21.831,0.3668,0.5304,combined-head-k3 h0-head-k3 h1-head-k3
+wsd,v5s,wsd_v5s_k3_peek_ft_s43,combined,3,head,raw,,43,13 20 23,0.00125,20,7743388,21.831,0.3631,0.5204,combined-head-k3 h0-head-k3 h1-head-k3
+wsd,v5s,wsd_v5s_k3_peek_ft_s44,combined,3,head,raw,,44,13 20 23,0.00125,20,7743388,21.831,0.3711,0.5298,combined-head-k3 h0-head-k3 h1-head-k3
 coco,n,coco_n_h0_k2_peek_all_null_ft_s43,h0,2,all,null,,43,2 16,0.000125,20,2550024,5.652,0.2833,0.423,h0-null-k2
 coco,n,coco_n_h0_k2_peek_all_null_ft_s44,h0,2,all,null,,44,2 16,0.000125,20,2550024,5.652,0.2759,0.4146,h0-null-k2
 coco,n,coco_n_h0_k2_peek_ft_s43,h0,2,head,raw,,43,19 22,0.000125,20,2137592,5.598,0.2389,0.41,h0-head-k2
@@ -351,6 +502,159 @@ coco,s,coco_s_k3_peek_all_null_ft_s44,combined,3,all,null,,44,8 13 16,0.000125,2
 coco,s,coco_s_k3_peek_ft,combined,3,head,raw,,42,13 19 22,0.000125,20,8000184,19.872,0.2693,0.4415,combined-head-k3 h0-head-k3 h1-head-k3
 coco,s,coco_s_k3_peek_ft_s43,combined,3,head,raw,,43,13 19 22,0.000125,20,8000184,19.872,0.2638,0.4351,combined-head-k3 h0-head-k3 h1-head-k3
 coco,s,coco_s_k3_peek_ft_s44,combined,3,head,raw,,44,13 19 22,0.000125,20,8000184,19.872,0.2595,0.4286,combined-head-k3 h0-head-k3 h1-head-k3
+coco,v5n,coco_v5n_h0_k1_peek_all_null_ft,h0,1,all,null,,42,17,0.000125,20,2640224,7.65,0.2866,0.4316,h0-null-k1
+coco,v5n,coco_v5n_h0_k1_peek_all_null_ft_s43,h0,1,all,null,,43,17,0.000125,20,2640224,7.65,0.286,0.435,h0-null-k1
+coco,v5n,coco_v5n_h0_k1_peek_all_null_ft_s44,h0,1,all,null,,44,17,0.000125,20,2640224,7.65,0.2882,0.4353,h0-null-k1
+coco,v5n,coco_v5n_h0_k2_peek_all_grid_ft,h0,2,all,grid,,42,8 23,0.000125,20,2194016,7.47,0.2107,0.3386,h0-grid-k2 h1-null-k2
+coco,v5n,coco_v5n_h0_k2_peek_all_grid_ft_s43,h0,2,all,grid,,43,8 23,0.000125,20,2194016,7.47,0.2099,0.3378,h0-grid-k2 h1-null-k2
+coco,v5n,coco_v5n_h0_k2_peek_all_grid_ft_s44,h0,2,all,grid,,44,8 23,0.000125,20,2194016,7.47,0.2151,0.3468,h0-grid-k2 h1-null-k2
+coco,v5n,coco_v5n_h0_k2_peek_all_null_ft,h0,2,all,null,,42,13 17,0.000125,20,2582368,7.463,0.2572,0.3958,h0-null-k2
+coco,v5n,coco_v5n_h0_k2_peek_all_null_ft_s43,h0,2,all,null,,43,13 17,0.000125,20,2582368,7.463,0.2551,0.3939,h0-null-k2
+coco,v5n,coco_v5n_h0_k2_peek_all_null_ft_s44,h0,2,all,null,,44,13 17,0.000125,20,2582368,7.463,0.2579,0.397,h0-null-k2
+coco,v5n,coco_v5n_h0_k3_peek_all_null_ft,h0,3,all,null,,42,13 17 20,0.000125,20,2524512,7.276,0.2422,0.3833,h0-null-k3
+coco,v5n,coco_v5n_h0_k3_peek_all_null_ft_s43,h0,3,all,null,,43,13 17 20,0.000125,20,2524512,7.276,0.241,0.3828,h0-null-k3
+coco,v5n,coco_v5n_h0_k3_peek_all_null_ft_s44,h0,3,all,null,,44,13 17 20,0.000125,20,2524512,7.276,0.2398,0.3786,h0-null-k3
+coco,v5n,coco_v5n_k0_peek_ft,combined,0,head,raw,,42,,0.000125,20,2654816,7.84,0.3062,0.4549,
+coco,v5n,coco_v5n_k0_peek_ft_s43,combined,0,head,raw,,43,,0.000125,20,2654816,7.84,0.308,0.4579,
+coco,v5n,coco_v5n_k0_peek_ft_s44,combined,0,head,raw,,44,,0.000125,20,2654816,7.84,0.3087,0.4574,
+coco,v5n,coco_v5n_k1_all_rand0_ft,combined,1,all,raw,0,42,6,0.000125,20,2514528,7.388,0.2183,0.339,
+coco,v5n,coco_v5n_k1_all_rand2_ft,combined,1,all,raw,2,42,20,0.000125,20,2596960,7.653,0.2856,0.4389,
+coco,v5n,coco_v5n_k1_all_rand4_ft,combined,1,all,raw,4,42,4,0.000125,20,2629856,7.516,0.2455,0.3752,
+coco,v5n,coco_v5n_k1_all_rand7_ft,combined,1,all,raw,7,42,2,0.000125,20,2651104,7.643,0.2617,0.3969,
+coco,v5n,coco_v5n_k1_all_rand8_ft,combined,1,all,raw,8,42,8,0.000125,20,2424416,7.655,0.2428,0.3702,
+coco,v5n,coco_v5n_k1_peek_all_null_ft,combined,1,all,null,,42,13,0.000125,20,2596960,7.653,0.2727,0.4148,combined-null-k1
+coco,v5n,coco_v5n_k1_peek_all_null_ft_s43,combined,1,all,null,,43,13,0.000125,20,2596960,7.653,0.2746,0.4168,combined-null-k1
+coco,v5n,coco_v5n_k1_peek_all_null_ft_s44,combined,1,all,null,,44,13,0.000125,20,2596960,7.653,0.2741,0.4165,combined-null-k1
+coco,v5n,coco_v5n_k1_peek_ft,combined,1,head,raw,,42,23,0.000125,20,2424416,7.655,0.2782,0.4319,combined-head-k1 h0-head-k1 h1-head-k1 combined-grid-k1 h0-grid-k1 h1-grid-k1 h1-null-k1
+coco,v5n,coco_v5n_k1_peek_ft_s43,combined,1,head,raw,,43,23,0.000125,20,2424416,7.655,0.2765,0.4309,combined-head-k1 h0-head-k1 h1-head-k1 combined-grid-k1 h0-grid-k1 h1-grid-k1 h1-null-k1
+coco,v5n,coco_v5n_k1_peek_ft_s44,combined,1,head,raw,,44,23,0.000125,20,2424416,7.655,0.2801,0.4363,combined-head-k1 h0-head-k1 h1-head-k1 combined-grid-k1 h0-grid-k1 h1-grid-k1 h1-null-k1
+coco,v5n,coco_v5n_k2_all_rand0_ft,combined,2,all,raw,0,42,6 13,0.000125,20,2456672,7.201,0.1752,0.2812,
+coco,v5n,coco_v5n_k2_all_rand11_ft,combined,2,all,raw,11,42,4 8,0.000125,20,2399456,7.331,0.1713,0.2686,
+coco,v5n,coco_v5n_k2_all_rand12_ft,combined,2,all,raw,12,42,4 20,0.000125,20,2572000,7.329,0.2233,0.3521,
+coco,v5n,coco_v5n_k2_all_rand13_ft,combined,2,all,raw,13,42,2 23,0.000125,20,2420704,7.458,0.2319,0.3717,
+coco,v5n,coco_v5n_k2_all_rand14_ft,combined,2,all,raw,14,42,8 20,0.000125,20,2366560,7.468,0.2217,0.3471,
+coco,v5n,coco_v5n_k2_all_rand15_ft,combined,2,all,raw,15,42,2 6,0.000125,20,2510816,7.191,0.1419,0.2299,
+coco,v5n,coco_v5n_k2_all_rand17_ft,combined,2,all,raw,17,42,2 4,0.000125,20,2626144,7.319,0.2057,0.3205,
+coco,v5n,coco_v5n_k2_all_rand18_ft,combined,2,all,raw,18,42,6 20,0.000125,20,2456672,7.201,0.1924,0.3125,
+coco,v5n,coco_v5n_k2_all_rand1_ft,combined,2,all,raw,1,42,2 17,0.000125,20,2636512,7.453,0.2407,0.3731,
+coco,v5n,coco_v5n_k2_all_rand22_ft,combined,2,all,raw,22,42,4 23,0.000125,20,2399456,7.331,0.2195,0.353,
+coco,v5n,coco_v5n_k2_all_rand2_ft,combined,2,all,raw,2,42,17 20,0.000125,20,2582368,7.463,0.2632,0.4087,
+coco,v5n,coco_v5n_k2_all_rand4_ft,combined,2,all,raw,4,42,4 6,0.000125,20,2489568,7.064,0.1485,0.2415,
+coco,v5n,coco_v5n_k2_all_rand5_ft,combined,2,all,raw,5,42,4 13,0.000125,20,2572000,7.329,0.1994,0.314,
+coco,v5n,coco_v5n_k2_all_rand6_ft,combined,2,all,raw,6,42,6 17,0.000125,20,2499936,7.198,0.193,0.3041,
+coco,v5n,coco_v5n_k2_all_rand7_ft,combined,2,all,raw,7,42,2 20,0.000125,20,2593248,7.457,0.2428,0.38,
+coco,v5n,coco_v5n_k2_peek_all_grid_ft,combined,2,all,grid,,42,13 23,0.000125,20,2366560,7.468,0.2333,0.3735,combined-grid-k2 h1-grid-k2 combined-null-k2
+coco,v5n,coco_v5n_k2_peek_all_grid_ft_s43,combined,2,all,grid,,43,13 23,0.000125,20,2366560,7.468,0.2341,0.3762,combined-grid-k2 h1-grid-k2 combined-null-k2
+coco,v5n,coco_v5n_k2_peek_all_grid_ft_s44,combined,2,all,grid,,44,13 23,0.000125,20,2366560,7.468,0.2385,0.3833,combined-grid-k2 h1-grid-k2 combined-null-k2
+coco,v5n,coco_v5n_k2_peek_ft,combined,2,head,raw,,42,20 23,0.000125,20,2366560,7.468,0.2492,0.4081,combined-head-k2 h0-head-k2 h1-head-k2
+coco,v5n,coco_v5n_k2_peek_ft_s43,combined,2,head,raw,,43,20 23,0.000125,20,2366560,7.468,0.2474,0.4075,combined-head-k2 h0-head-k2 h1-head-k2
+coco,v5n,coco_v5n_k2_peek_ft_s44,combined,2,head,raw,,44,20 23,0.000125,20,2366560,7.468,0.2483,0.4088,combined-head-k2 h0-head-k2 h1-head-k2
+coco,v5n,coco_v5n_k3_all_rand0_ft,combined,3,all,raw,0,42,6 8 13,0.000125,20,2226272,7.016,0.1546,0.2523,
+coco,v5n,coco_v5n_k3_all_rand10_ft,combined,3,all,raw,10,42,4 6 8,0.000125,20,2259168,6.878,0.1198,0.1993,
+coco,v5n,coco_v5n_k3_all_rand11_ft,combined,3,all,raw,11,42,4 8 23,0.000125,20,2169056,7.145,0.1434,0.2403,
+coco,v5n,coco_v5n_k3_all_rand12_ft,combined,3,all,raw,12,42,4 8 20,0.000125,20,2341600,7.144,0.1506,0.2471,
+coco,v5n,coco_v5n_k3_all_rand14_ft,combined,3,all,raw,14,42,8 13 20,0.000125,20,2308704,7.281,0.1768,0.2851,
+coco,v5n,coco_v5n_k3_all_rand15_ft,combined,3,all,raw,15,42,2 6 8,0.000125,20,2280416,7.006,0.1094,0.1837,
+coco,v5n,coco_v5n_k3_all_rand16_ft,combined,3,all,raw,16,42,2 13 20,0.000125,20,2535392,7.27,0.1937,0.3138,
+coco,v5n,coco_v5n_k3_all_rand17_ft,combined,3,all,raw,17,42,2 4 20,0.000125,20,2568288,7.132,0.1831,0.3008,
+coco,v5n,coco_v5n_k3_all_rand18_ft,combined,3,all,raw,18,42,2 6 20,0.000125,20,2452960,7.005,0.1237,0.2097,
+coco,v5n,coco_v5n_k3_all_rand1_ft,combined,3,all,raw,1,42,2 4 17,0.000125,20,2611552,7.129,0.1853,0.2982,
+coco,v5n,coco_v5n_k3_all_rand21_ft,combined,3,all,raw,21,42,2 13 17,0.000125,20,2578656,7.267,0.1903,0.3041,
+coco,v5n,coco_v5n_k3_all_rand22_ft,combined,3,all,raw,22,42,4 20 23,0.000125,20,2341600,7.144,0.176,0.301,
+coco,v5n,coco_v5n_k3_all_rand2_ft,combined,3,all,raw,2,42,17 20 23,0.000125,20,2351968,7.278,0.2201,0.37,
+coco,v5n,coco_v5n_k3_all_rand3_ft,combined,3,all,raw,3,42,6 20 23,0.000125,20,2226272,7.016,0.1352,0.2384,
+coco,v5n,coco_v5n_k3_all_rand4_ft,combined,3,all,raw,4,42,2 4 6,0.000125,20,2485856,6.867,0.1127,0.1884,
+coco,v5n,coco_v5n_k3_all_rand5_ft,combined,3,all,raw,5,42,4 6 13,0.000125,20,2431712,6.877,0.1135,0.1894,
+coco,v5n,coco_v5n_k3_all_rand6_ft,combined,3,all,raw,6,42,6 8 17,0.000125,20,2269536,7.013,0.1439,0.2338,
+coco,v5n,coco_v5n_k3_all_rand7_ft,combined,3,all,raw,7,42,2 20 23,0.000125,20,2362848,7.272,0.1947,0.3331,
+coco,v5n,coco_v5n_k3_all_rand8_ft,combined,3,all,raw,8,42,2 8 23,0.000125,20,2190304,7.273,0.1575,0.2609,
+coco,v5n,coco_v5n_k3_all_rand9_ft,combined,3,all,raw,9,42,8 17 23,0.000125,20,2179424,7.28,0.1913,0.3144,
+coco,v5n,coco_v5n_k3_peek_all_grid_ft,combined,3,all,grid,,42,8 13 23,0.000125,20,2136160,7.283,0.1652,0.275,combined-grid-k3 h0-grid-k3 h1-null-k3
+coco,v5n,coco_v5n_k3_peek_all_grid_ft_s43,combined,3,all,grid,,43,8 13 23,0.000125,20,2136160,7.283,0.1648,0.273,combined-grid-k3 h0-grid-k3 h1-null-k3
+coco,v5n,coco_v5n_k3_peek_all_grid_ft_s44,combined,3,all,grid,,44,8 13 23,0.000125,20,2136160,7.283,0.1669,0.2761,combined-grid-k3 h0-grid-k3 h1-null-k3
+coco,v5n,coco_v5n_k3_peek_ft,combined,3,head,raw,,42,13 20 23,0.000125,20,2308704,7.281,0.2102,0.3524,combined-head-k3 h0-head-k3 h1-head-k3 h1-grid-k3 combined-null-k3
+coco,v5n,coco_v5n_k3_peek_ft_s43,combined,3,head,raw,,43,13 20 23,0.000125,20,2308704,7.281,0.2093,0.3516,combined-head-k3 h0-head-k3 h1-head-k3 h1-grid-k3 combined-null-k3
+coco,v5n,coco_v5n_k3_peek_ft_s44,combined,3,head,raw,,44,13 20 23,0.000125,20,2308704,7.281,0.2087,0.3507,combined-head-k3 h0-head-k3 h1-head-k3 h1-grid-k3 combined-null-k3
+coco,v5s,coco_v5s_h0_k1_peek_all_grid_ft,h0,1,all,grid,,42,8,0.000125,20,8233600,23.476,0.3324,0.4821,h0-grid-k1
+coco,v5s,coco_v5s_h0_k1_peek_all_grid_ft_s43,h0,1,all,grid,,43,8,0.000125,20,8233600,23.476,0.3353,0.4879,h0-grid-k1
+coco,v5s,coco_v5s_h0_k1_peek_all_grid_ft_s44,h0,1,all,grid,,44,8,0.000125,20,8233600,23.476,0.3329,0.4833,h0-grid-k1
+coco,v5s,coco_v5s_h0_k2_peek_all_grid_ft,h0,2,all,grid,,42,8 20,0.000125,20,8003200,22.735,0.3177,0.4747,h0-grid-k2
+coco,v5s,coco_v5s_h0_k2_peek_all_grid_ft_s43,h0,2,all,grid,,43,8 20,0.000125,20,8003200,22.735,0.3174,0.4731,h0-grid-k2
+coco,v5s,coco_v5s_h0_k2_peek_all_grid_ft_s44,h0,2,all,grid,,44,8 20,0.000125,20,8003200,22.735,0.315,0.4705,h0-grid-k2
+coco,v5s,coco_v5s_h0_k2_peek_all_null_ft,h0,2,all,null,,42,13 17,0.000125,20,8864896,22.725,0.3261,0.4817,h0-null-k2
+coco,v5s,coco_v5s_h0_k2_peek_all_null_ft_s43,h0,2,all,null,,43,13 17,0.000125,20,8864896,22.725,0.3202,0.477,h0-null-k2
+coco,v5s,coco_v5s_h0_k2_peek_all_null_ft_s44,h0,2,all,null,,44,13 17,0.000125,20,8864896,22.725,0.3236,0.4805,h0-null-k2
+coco,v5s,coco_v5s_h0_k3_peek_all_grid_ft,h0,3,all,grid,,42,8 20 23,0.000125,20,7083648,21.998,0.2829,0.4422,h0-grid-k3
+coco,v5s,coco_v5s_h0_k3_peek_all_grid_ft_s43,h0,3,all,grid,,43,8 20 23,0.000125,20,7083648,21.998,0.2851,0.4452,h0-grid-k3
+coco,v5s,coco_v5s_h0_k3_peek_all_grid_ft_s44,h0,3,all,grid,,44,8 20 23,0.000125,20,7083648,21.998,0.2792,0.4381,h0-grid-k3
+coco,v5s,coco_v5s_h0_k3_peek_all_null_ft,h0,3,all,null,,42,2 13 17,0.000125,20,8850304,21.965,0.2665,0.4054,h0-null-k3
+coco,v5s,coco_v5s_h0_k3_peek_all_null_ft_s43,h0,3,all,null,,43,2 13 17,0.000125,20,8850304,21.965,0.2695,0.4088,h0-null-k3
+coco,v5s,coco_v5s_h0_k3_peek_all_null_ft_s44,h0,3,all,null,,44,2 13 17,0.000125,20,8850304,21.965,0.2719,0.4114,h0-null-k3
+coco,v5s,coco_v5s_h1_k2_peek_all_null_ft,h1,2,all,null,,42,8 23,0.000125,20,7314048,22.738,0.3101,0.4668,h1-null-k2
+coco,v5s,coco_v5s_h1_k2_peek_all_null_ft_s43,h1,2,all,null,,43,8 23,0.000125,20,7314048,22.738,0.3076,0.4647,h1-null-k2
+coco,v5s,coco_v5s_h1_k2_peek_all_null_ft_s44,h1,2,all,null,,44,8 23,0.000125,20,7314048,22.738,0.3115,0.4685,h1-null-k2
+coco,v5s,coco_v5s_k0_peek_ft,combined,0,head,raw,,42,,0.000125,20,9153152,24.213,0.373,0.5357,
+coco,v5s,coco_v5s_k0_peek_ft_s43,combined,0,head,raw,,43,,0.000125,20,9153152,24.213,0.3747,0.5371,
+coco,v5s,coco_v5s_k0_peek_ft_s44,combined,0,head,raw,,44,,0.000125,20,9153152,24.213,0.3741,0.5375,
+coco,v5s,coco_v5s_k1_all_rand0_ft,combined,1,all,raw,0,42,6,0.000125,20,8594048,22.417,0.3082,0.454,
+coco,v5s,coco_v5s_k1_all_rand1_ft,combined,1,all,raw,1,42,17,0.000125,20,9095296,23.466,0.3534,0.5155,
+coco,v5s,coco_v5s_k1_all_rand2_ft,combined,1,all,raw,2,42,20,0.000125,20,8922752,23.472,0.3556,0.5208,
+coco,v5s,coco_v5s_k1_all_rand4_ft,combined,1,all,raw,4,42,4,0.000125,20,9054080,22.935,0.3227,0.473,
+coco,v5s,coco_v5s_k1_all_rand7_ft,combined,1,all,raw,7,42,2,0.000125,20,9138560,23.453,0.3293,0.4802,
+coco,v5s,coco_v5s_k1_peek_all_null_ft,combined,1,all,null,,42,13,0.000125,20,8922752,23.472,0.3421,0.4988,combined-null-k1 h0-null-k1
+coco,v5s,coco_v5s_k1_peek_all_null_ft_s43,combined,1,all,null,,43,13,0.000125,20,8922752,23.472,0.3414,0.5003,combined-null-k1 h0-null-k1
+coco,v5s,coco_v5s_k1_peek_all_null_ft_s44,combined,1,all,null,,44,13,0.000125,20,8922752,23.472,0.342,0.4991,combined-null-k1 h0-null-k1
+coco,v5s,coco_v5s_k1_peek_ft,combined,1,head,raw,,42,23,0.000125,20,8233600,23.476,0.3551,0.5248,combined-head-k1 h0-head-k1 h1-head-k1 combined-grid-k1 h1-grid-k1 h1-null-k1
+coco,v5s,coco_v5s_k1_peek_ft_s43,combined,1,head,raw,,43,23,0.000125,20,8233600,23.476,0.3536,0.5246,combined-head-k1 h0-head-k1 h1-head-k1 combined-grid-k1 h1-grid-k1 h1-null-k1
+coco,v5s,coco_v5s_k1_peek_ft_s44,combined,1,head,raw,,44,23,0.000125,20,8233600,23.476,0.3547,0.5235,combined-head-k1 h0-head-k1 h1-head-k1 combined-grid-k1 h1-grid-k1 h1-null-k1
+coco,v5s,coco_v5s_k2_all_rand0_ft,combined,2,all,raw,0,42,6 13,0.000125,20,8363648,21.677,0.2529,0.3849,
+coco,v5s,coco_v5s_k2_all_rand11_ft,combined,2,all,raw,11,42,4 8,0.000125,20,8134528,22.198,0.2657,0.3965,
+coco,v5s,coco_v5s_k2_all_rand12_ft,combined,2,all,raw,12,42,4 20,0.000125,20,8823680,22.194,0.3072,0.4611,
+coco,v5s,coco_v5s_k2_all_rand13_ft,combined,2,all,raw,13,42,2 23,0.000125,20,8219008,22.715,0.304,0.459,
+coco,v5s,coco_v5s_k2_all_rand15_ft,combined,2,all,raw,15,42,2 6,0.000125,20,8579456,21.657,0.2239,0.3436,
+coco,v5s,coco_v5s_k2_all_rand17_ft,combined,2,all,raw,17,42,2 4,0.000125,20,9039488,22.175,0.2732,0.4109,
+coco,v5s,coco_v5s_k2_all_rand18_ft,combined,2,all,raw,18,42,6 20,0.000125,20,8363648,21.677,0.2908,0.4384,
+coco,v5s,coco_v5s_k2_all_rand1_ft,combined,2,all,raw,1,42,2 17,0.000125,20,9080704,22.706,0.3098,0.4605,
+coco,v5s,coco_v5s_k2_all_rand22_ft,combined,2,all,raw,22,42,4 23,0.000125,20,8134528,22.198,0.3012,0.4566,
+coco,v5s,coco_v5s_k2_all_rand2_ft,combined,2,all,raw,2,42,17 20,0.000125,20,8864896,22.725,0.3352,0.5023,
+coco,v5s,coco_v5s_k2_all_rand4_ft,combined,2,all,raw,4,42,4 6,0.000125,20,8494976,21.139,0.2316,0.3551,
+coco,v5s,coco_v5s_k2_all_rand5_ft,combined,2,all,raw,5,42,4 13,0.000125,20,8823680,22.194,0.2758,0.4117,
+coco,v5s,coco_v5s_k2_all_rand6_ft,combined,2,all,raw,6,42,6 17,0.000125,20,8536192,21.67,0.2825,0.4243,
+coco,v5s,coco_v5s_k2_all_rand7_ft,combined,2,all,raw,7,42,2 20,0.000125,20,8908160,22.712,0.3102,0.4638,
+coco,v5s,coco_v5s_k2_peek_all_grid_ft,combined,2,all,grid,,42,13 23,0.000125,20,8003200,22.735,0.3172,0.4822,h1-head-k2 combined-grid-k2 h1-grid-k2 combined-null-k2
+coco,v5s,coco_v5s_k2_peek_all_grid_ft_s43,combined,2,all,grid,,43,13 23,0.000125,20,8003200,22.735,0.3164,0.4798,h1-head-k2 combined-grid-k2 h1-grid-k2 combined-null-k2
+coco,v5s,coco_v5s_k2_peek_all_grid_ft_s44,combined,2,all,grid,,44,13 23,0.000125,20,8003200,22.735,0.3189,0.4855,h1-head-k2 combined-grid-k2 h1-grid-k2 combined-null-k2
+coco,v5s,coco_v5s_k2_peek_ft,combined,2,head,raw,,42,20 23,0.000125,20,8003200,22.735,0.3255,0.5041,combined-head-k2 h0-head-k2
+coco,v5s,coco_v5s_k2_peek_ft_s43,combined,2,head,raw,,43,20 23,0.000125,20,8003200,22.735,0.3285,0.5067,combined-head-k2 h0-head-k2
+coco,v5s,coco_v5s_k2_peek_ft_s44,combined,2,head,raw,,44,20 23,0.000125,20,8003200,22.735,0.3319,0.5094,combined-head-k2 h0-head-k2
+coco,v5s,coco_v5s_k3_all_rand0_ft,combined,3,all,raw,0,42,6 8 13,0.000125,20,7444096,20.939,0.2293,0.3553,
+coco,v5s,coco_v5s_k3_all_rand10_ft,combined,3,all,raw,10,42,4 6 8,0.000125,20,7575424,20.402,0.1806,0.286,
+coco,v5s,coco_v5s_k3_all_rand11_ft,combined,3,all,raw,11,42,4 8 23,0.000125,20,7214976,21.46,0.24,0.3754,
+coco,v5s,coco_v5s_k3_all_rand12_ft,combined,3,all,raw,12,42,4 8 20,0.000125,20,7904128,21.457,0.2312,0.3579,
+coco,v5s,coco_v5s_k3_all_rand14_ft,combined,3,all,raw,14,42,8 13 20,0.000125,20,7772800,21.995,0.2614,0.3986,
+coco,v5s,coco_v5s_k3_all_rand15_ft,combined,3,all,raw,15,42,2 6 8,0.000125,20,7659904,20.92,0.1807,0.2868,
+coco,v5s,coco_v5s_k3_all_rand16_ft,combined,3,all,raw,16,42,2 13 20,0.000125,20,8677760,21.972,0.2708,0.416,
+coco,v5s,coco_v5s_k3_all_rand17_ft,combined,3,all,raw,17,42,2 4 20,0.000125,20,8809088,21.434,0.2554,0.3953,
+coco,v5s,coco_v5s_k3_all_rand18_ft,combined,3,all,raw,18,42,2 6 20,0.000125,20,8349056,20.916,0.2068,0.3259,
+coco,v5s,coco_v5s_k3_all_rand1_ft,combined,3,all,raw,1,42,2 4 17,0.000125,20,8981632,21.428,0.2475,0.3812,
+coco,v5s,coco_v5s_k3_all_rand22_ft,combined,3,all,raw,22,42,4 20 23,0.000125,20,7904128,21.457,0.2778,0.4391,
+coco,v5s,coco_v5s_k3_all_rand2_ft,combined,3,all,raw,2,42,17 20 23,0.000125,20,7945344,21.988,0.3051,0.4806,
+coco,v5s,coco_v5s_k3_all_rand3_ft,combined,3,all,raw,3,42,6 20 23,0.000125,20,7444096,20.939,0.2527,0.404,
+coco,v5s,coco_v5s_k3_all_rand4_ft,combined,3,all,raw,4,42,2 4 6,0.000125,20,8480384,20.379,0.1594,0.2552,
+coco,v5s,coco_v5s_k3_all_rand5_ft,combined,3,all,raw,5,42,4 6 13,0.000125,20,8264576,20.399,0.1802,0.2863,
+coco,v5s,coco_v5s_k3_all_rand6_ft,combined,3,all,raw,6,42,6 8 17,0.000125,20,7616640,20.933,0.2229,0.3439,
+coco,v5s,coco_v5s_k3_all_rand7_ft,combined,3,all,raw,7,42,2 20 23,0.000125,20,7988608,21.975,0.282,0.445,
+coco,v5s,coco_v5s_k3_all_rand8_ft,combined,3,all,raw,8,42,2 8 23,0.000125,20,7299456,21.978,0.2562,0.3943,
+coco,v5s,coco_v5s_k3_all_rand9_ft,combined,3,all,raw,9,42,8 17 23,0.000125,20,7256192,21.991,0.2823,0.4367,
+coco,v5s,coco_v5s_k3_peek_all_grid_ft,combined,3,all,grid,,42,8 13 23,0.000125,20,7083648,21.998,0.2617,0.4057,combined-grid-k3 h1-grid-k3 h1-null-k3
+coco,v5s,coco_v5s_k3_peek_all_grid_ft_s43,combined,3,all,grid,,43,8 13 23,0.000125,20,7083648,21.998,0.2532,0.3935,combined-grid-k3 h1-grid-k3 h1-null-k3
+coco,v5s,coco_v5s_k3_peek_all_grid_ft_s44,combined,3,all,grid,,44,8 13 23,0.000125,20,7083648,21.998,0.2549,0.3961,combined-grid-k3 h1-grid-k3 h1-null-k3
+coco,v5s,coco_v5s_k3_peek_all_null_ft,combined,3,all,null,,42,13 17 23,0.000125,20,7945344,21.988,0.2935,0.4555,combined-null-k3
+coco,v5s,coco_v5s_k3_peek_all_null_ft_s43,combined,3,all,null,,43,13 17 23,0.000125,20,7945344,21.988,0.2926,0.4542,combined-null-k3
+coco,v5s,coco_v5s_k3_peek_all_null_ft_s44,combined,3,all,null,,44,13 17 23,0.000125,20,7945344,21.988,0.2914,0.4516,combined-null-k3
+coco,v5s,coco_v5s_k3_peek_ft,combined,3,head,raw,,42,13 20 23,0.000125,20,7772800,21.995,0.2924,0.4614,combined-head-k3 h0-head-k3 h1-head-k3
+coco,v5s,coco_v5s_k3_peek_ft_s43,combined,3,head,raw,,43,13 20 23,0.000125,20,7772800,21.995,0.2902,0.4571,combined-head-k3 h0-head-k3 h1-head-k3
+coco,v5s,coco_v5s_k3_peek_ft_s44,combined,3,head,raw,,44,13 20 23,0.000125,20,7772800,21.995,0.2896,0.4552,combined-head-k3 h0-head-k3 h1-head-k3
 viewsphere,n,viewsphere_n_h0_k2_peek_all_grid_ft,h0,2,all,grid,,42,2 13,0.00125,20,2430496,5.316,0.4886,0.7106,h0-grid-k2
 viewsphere,n,viewsphere_n_h0_k2_peek_all_grid_ft_s43,h0,2,all,grid,,43,2 13,0.00125,20,2430496,5.316,0.4804,0.6826,h0-grid-k2
 viewsphere,n,viewsphere_n_h0_k2_peek_all_grid_ft_s44,h0,2,all,grid,,44,2 13,0.00125,20,2430496,5.316,0.4905,0.6997,h0-grid-k2
@@ -518,3 +822,169 @@ viewsphere,s,viewsphere_s_k3_peek_all_null_ft_s44,combined,3,all,null,,44,6 8 16
 viewsphere,s,viewsphere_s_k3_peek_ft,combined,3,head,raw,,42,13 19 22,0.00125,20,7941360,19.545,0.5328,0.783,combined-head-k3 h0-head-k3 h1-head-k3
 viewsphere,s,viewsphere_s_k3_peek_ft_s43,combined,3,head,raw,,43,13 19 22,0.00125,20,7941360,19.545,0.5136,0.7622,combined-head-k3 h0-head-k3 h1-head-k3
 viewsphere,s,viewsphere_s_k3_peek_ft_s44,combined,3,head,raw,,44,13 19 22,0.00125,20,7941360,19.545,0.4969,0.7476,combined-head-k3 h0-head-k3 h1-head-k3
+viewsphere,v5n,viewsphere_v5n_h0_k1_peek_all_null_ft,h0,1,all,null,,42,4,0.00125,20,2484284,6.856,0.506,0.7336,h0-null-k1
+viewsphere,v5n,viewsphere_v5n_h0_k1_peek_all_null_ft_s43,h0,1,all,null,,43,4,0.00125,20,2484284,6.856,0.5111,0.7251,h0-null-k1
+viewsphere,v5n,viewsphere_v5n_h0_k1_peek_all_null_ft_s44,h0,1,all,null,,44,4,0.00125,20,2484284,6.856,0.4402,0.6913,h0-null-k1
+viewsphere,v5n,viewsphere_v5n_h0_k2_peek_all_grid_ft,h0,2,all,grid,,42,2 8,0.00125,20,2275132,6.798,0.4708,0.6793,h0-grid-k2
+viewsphere,v5n,viewsphere_v5n_h0_k2_peek_all_grid_ft_s43,h0,2,all,grid,,43,2 8,0.00125,20,2275132,6.798,0.4776,0.6965,h0-grid-k2
+viewsphere,v5n,viewsphere_v5n_h0_k2_peek_all_grid_ft_s44,h0,2,all,grid,,44,2 8,0.00125,20,2275132,6.798,0.4747,0.6961,h0-grid-k2
+viewsphere,v5n,viewsphere_v5n_h0_k2_peek_ft,h0,2,head,raw,,42,20 23,0.00125,20,2220988,6.808,0.4724,0.7174,h0-head-k2
+viewsphere,v5n,viewsphere_v5n_h0_k2_peek_ft_s43,h0,2,head,raw,,43,20 23,0.00125,20,2220988,6.808,0.4392,0.6805,h0-head-k2
+viewsphere,v5n,viewsphere_v5n_h0_k2_peek_ft_s44,h0,2,head,raw,,44,20 23,0.00125,20,2220988,6.808,0.473,0.7285,h0-head-k2
+viewsphere,v5n,viewsphere_v5n_h0_k3_peek_all_null_ft,h0,3,all,null,,42,2 4 6,0.00125,20,2340284,6.207,0.4051,0.6565,h1-grid-k3 h0-null-k3
+viewsphere,v5n,viewsphere_v5n_h0_k3_peek_all_null_ft_s43,h0,3,all,null,,43,2 4 6,0.00125,20,2340284,6.207,0.3743,0.6168,h1-grid-k3 h0-null-k3
+viewsphere,v5n,viewsphere_v5n_h0_k3_peek_all_null_ft_s44,h0,3,all,null,,44,2 4 6,0.00125,20,2340284,6.207,0.3716,0.6237,h1-grid-k3 h0-null-k3
+viewsphere,v5n,viewsphere_v5n_h1_k1_peek_all_null_ft,h1,1,all,null,,42,8,0.00125,20,2278844,6.995,0.5094,0.7163,h1-null-k1
+viewsphere,v5n,viewsphere_v5n_h1_k1_peek_all_null_ft_s43,h1,1,all,null,,43,8,0.00125,20,2278844,6.995,0.4773,0.6921,h1-null-k1
+viewsphere,v5n,viewsphere_v5n_h1_k1_peek_all_null_ft_s44,h1,1,all,null,,44,8,0.00125,20,2278844,6.995,0.4717,0.6991,h1-null-k1
+viewsphere,v5n,viewsphere_v5n_h1_k2_peek_all_null_ft,h1,2,all,null,,42,8 13,0.00125,20,2220988,6.808,0.4451,0.6808,h1-null-k2
+viewsphere,v5n,viewsphere_v5n_h1_k2_peek_all_null_ft_s43,h1,2,all,null,,43,8 13,0.00125,20,2220988,6.808,0.4038,0.6472,h1-null-k2
+viewsphere,v5n,viewsphere_v5n_h1_k2_peek_all_null_ft_s44,h1,2,all,null,,44,8 13,0.00125,20,2220988,6.808,0.4539,0.6685,h1-null-k2
+viewsphere,v5n,viewsphere_v5n_h1_k3_peek_all_null_ft,h1,3,all,null,,42,6 8 13,0.00125,20,2080700,6.356,0.3673,0.5926,h1-null-k3
+viewsphere,v5n,viewsphere_v5n_h1_k3_peek_all_null_ft_s43,h1,3,all,null,,43,6 8 13,0.00125,20,2080700,6.356,0.3579,0.5578,h1-null-k3
+viewsphere,v5n,viewsphere_v5n_h1_k3_peek_all_null_ft_s44,h1,3,all,null,,44,6 8 13,0.00125,20,2080700,6.356,0.3536,0.5799,h1-null-k3
+viewsphere,v5n,viewsphere_v5n_k0_peek_ft,combined,0,head,raw,,42,,0.00125,20,2509244,7.18,0.5259,0.743,
+viewsphere,v5n,viewsphere_v5n_k0_peek_ft_s43,combined,0,head,raw,,43,,0.00125,20,2509244,7.18,0.5149,0.7363,
+viewsphere,v5n,viewsphere_v5n_k0_peek_ft_s44,combined,0,head,raw,,44,,0.00125,20,2509244,7.18,0.5262,0.7319,
+viewsphere,v5n,viewsphere_v5n_k1_all_rand1_ft,combined,1,all,raw,1,42,17,0.00125,20,2494652,6.99,0.4779,0.701,
+viewsphere,v5n,viewsphere_v5n_k1_all_rand2_ft,combined,1,all,raw,2,42,20,0.00125,20,2451388,6.993,0.5088,0.7296,
+viewsphere,v5n,viewsphere_v5n_k1_peek_all_grid_ft,combined,1,all,grid,,42,2,0.00125,20,2505532,6.983,0.5047,0.727,combined-grid-k1 h0-grid-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_all_grid_ft_s43,combined,1,all,grid,,43,2,0.00125,20,2505532,6.983,0.5072,0.7317,combined-grid-k1 h0-grid-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_all_grid_ft_s44,combined,1,all,grid,,44,2,0.00125,20,2505532,6.983,0.5061,0.7242,combined-grid-k1 h0-grid-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_all_null_ft,combined,1,all,null,,42,6,0.00125,20,2368956,6.728,0.4567,0.6847,h1-grid-k1 combined-null-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_all_null_ft_s43,combined,1,all,null,,43,6,0.00125,20,2368956,6.728,0.4657,0.6984,h1-grid-k1 combined-null-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_all_null_ft_s44,combined,1,all,null,,44,6,0.00125,20,2368956,6.728,0.4401,0.6693,h1-grid-k1 combined-null-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_ft,combined,1,head,raw,,42,23,0.00125,20,2278844,6.995,0.5132,0.7328,combined-head-k1 h0-head-k1 h1-head-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_ft_s43,combined,1,head,raw,,43,23,0.00125,20,2278844,6.995,0.5171,0.7407,combined-head-k1 h0-head-k1 h1-head-k1
+viewsphere,v5n,viewsphere_v5n_k1_peek_ft_s44,combined,1,head,raw,,44,23,0.00125,20,2278844,6.995,0.5225,0.7444,combined-head-k1 h0-head-k1 h1-head-k1
+viewsphere,v5n,viewsphere_v5n_k2_all_rand0_ft,combined,2,all,raw,0,42,6 13,0.00125,20,2311100,6.541,0.4073,0.6514,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand11_ft,combined,2,all,raw,11,42,4 8,0.00125,20,2253884,6.67,0.4594,0.6947,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand12_ft,combined,2,all,raw,12,42,4 20,0.00125,20,2426428,6.669,0.5038,0.7341,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand13_ft,combined,2,all,raw,13,42,2 23,0.00125,20,2275132,6.798,0.4983,0.7176,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand14_ft,combined,2,all,raw,14,42,8 20,0.00125,20,2220988,6.808,0.4651,0.6998,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand17_ft,combined,2,all,raw,17,42,2 4,0.00125,20,2480572,6.659,0.4501,0.6754,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand18_ft,combined,2,all,raw,18,42,6 20,0.00125,20,2311100,6.541,0.4223,0.6668,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand1_ft,combined,2,all,raw,1,42,2 17,0.00125,20,2490940,6.793,0.4644,0.6743,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand22_ft,combined,2,all,raw,22,42,4 23,0.00125,20,2253884,6.67,0.4867,0.7098,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand2_ft,combined,2,all,raw,2,42,17 20,0.00125,20,2436796,6.803,0.471,0.688,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand5_ft,combined,2,all,raw,5,42,4 13,0.00125,20,2426428,6.669,0.4419,0.6738,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand6_ft,combined,2,all,raw,6,42,6 17,0.00125,20,2354364,6.538,0.3914,0.6086,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand7_ft,combined,2,all,raw,7,42,2 20,0.00125,20,2447676,6.797,0.4953,0.717,
+viewsphere,v5n,viewsphere_v5n_k2_all_rand8_ft,combined,2,all,raw,8,42,8 23,0.00125,20,2048444,6.81,0.4915,0.707,
+viewsphere,v5n,viewsphere_v5n_k2_peek_all_grid_ft,combined,2,all,grid,,42,2 6,0.00125,20,2365244,6.531,0.4424,0.6842,combined-grid-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_all_grid_ft_s43,combined,2,all,grid,,43,2 6,0.00125,20,2365244,6.531,0.434,0.6715,combined-grid-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_all_grid_ft_s44,combined,2,all,grid,,44,2 6,0.00125,20,2365244,6.531,0.4154,0.6397,combined-grid-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_all_null_ft,combined,2,all,null,,42,4 6,0.00125,20,2343996,6.403,0.4216,0.6696,h1-grid-k2 combined-null-k2 h0-null-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_all_null_ft_s43,combined,2,all,null,,43,4 6,0.00125,20,2343996,6.403,0.4117,0.6621,h1-grid-k2 combined-null-k2 h0-null-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_all_null_ft_s44,combined,2,all,null,,44,4 6,0.00125,20,2343996,6.403,0.3787,0.6079,h1-grid-k2 combined-null-k2 h0-null-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_ft,combined,2,head,raw,,42,13 23,0.00125,20,2220988,6.808,0.4652,0.7121,combined-head-k2 h1-head-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_ft_s43,combined,2,head,raw,,43,13 23,0.00125,20,2220988,6.808,0.4664,0.6932,combined-head-k2 h1-head-k2
+viewsphere,v5n,viewsphere_v5n_k2_peek_ft_s44,combined,2,head,raw,,44,13 23,0.00125,20,2220988,6.808,0.4423,0.664,combined-head-k2 h1-head-k2
+viewsphere,v5n,viewsphere_v5n_k3_all_rand10_ft,combined,3,all,raw,10,42,4 6 8,0.00125,20,2113596,6.218,0.3395,0.542,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand11_ft,combined,3,all,raw,11,42,4 8 23,0.00125,20,2023484,6.485,0.4317,0.6718,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand12_ft,combined,3,all,raw,12,42,4 8 20,0.00125,20,2196028,6.484,0.4513,0.6765,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand14_ft,combined,3,all,raw,14,42,8 13 20,0.00125,20,2163132,6.621,0.4226,0.6593,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand16_ft,combined,3,all,raw,16,42,2 13 20,0.00125,20,2389820,6.61,0.4661,0.6875,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand17_ft,combined,3,all,raw,17,42,2 4 20,0.00125,20,2422716,6.472,0.4592,0.6969,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand18_ft,combined,3,all,raw,18,42,2 6 20,0.00125,20,2307388,6.344,0.4535,0.694,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand1_ft,combined,3,all,raw,1,42,2 4 17,0.00125,20,2465980,6.469,0.4332,0.6617,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand21_ft,combined,3,all,raw,21,42,2 13 17,0.00125,20,2433084,6.606,0.4223,0.6309,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand22_ft,combined,3,all,raw,22,42,4 20 23,0.00125,20,2196028,6.484,0.4706,0.7117,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand2_ft,combined,3,all,raw,2,42,17 20 23,0.00125,20,2206396,6.618,0.4237,0.6668,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand3_ft,combined,3,all,raw,3,42,6 20 23,0.00125,20,2080700,6.356,0.4039,0.6614,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand5_ft,combined,3,all,raw,5,42,4 6 13,0.00125,20,2286140,6.217,0.3713,0.5931,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand6_ft,combined,3,all,raw,6,42,6 8 17,0.00125,20,2123964,6.353,0.3397,0.5402,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand7_ft,combined,3,all,raw,7,42,2 20 23,0.00125,20,2217276,6.611,0.4694,0.7072,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand8_ft,combined,3,all,raw,8,42,2 8 23,0.00125,20,2044732,6.613,0.4637,0.6927,
+viewsphere,v5n,viewsphere_v5n_k3_all_rand9_ft,combined,3,all,raw,9,42,8 17 23,0.00125,20,2033852,6.62,0.4209,0.6541,
+viewsphere,v5n,viewsphere_v5n_k3_peek_all_grid_ft,combined,3,all,grid,,42,2 6 8,0.00125,20,2134844,6.346,0.3509,0.5644,combined-grid-k3 h0-grid-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_all_grid_ft_s43,combined,3,all,grid,,43,2 6 8,0.00125,20,2134844,6.346,0.3299,0.5362,combined-grid-k3 h0-grid-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_all_grid_ft_s44,combined,3,all,grid,,44,2 6 8,0.00125,20,2134844,6.346,0.4005,0.6115,combined-grid-k3 h0-grid-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_all_null_ft,combined,3,all,null,,42,4 6 17,0.00125,20,2329404,6.213,0.3808,0.6097,combined-null-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_all_null_ft_s43,combined,3,all,null,,43,4 6 17,0.00125,20,2329404,6.213,0.3918,0.6253,combined-null-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_all_null_ft_s44,combined,3,all,null,,44,4 6 17,0.00125,20,2329404,6.213,0.342,0.5649,combined-null-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_ft,combined,3,head,raw,,42,13 20 23,0.00125,20,2163132,6.621,0.4669,0.7033,combined-head-k3 h0-head-k3 h1-head-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_ft_s43,combined,3,head,raw,,43,13 20 23,0.00125,20,2163132,6.621,0.4342,0.6892,combined-head-k3 h0-head-k3 h1-head-k3
+viewsphere,v5n,viewsphere_v5n_k3_peek_ft_s44,combined,3,head,raw,,44,13 20 23,0.00125,20,2163132,6.621,0.4716,0.7136,combined-head-k3 h0-head-k3 h1-head-k3
+viewsphere,v5s,viewsphere_v5s_h0_k1_peek_all_null_ft,h0,1,all,null,,42,4,0.00125,20,9024668,22.772,0.5648,0.7911,h0-null-k1
+viewsphere,v5s,viewsphere_v5s_h0_k1_peek_all_null_ft_s43,h0,1,all,null,,43,4,0.00125,20,9024668,22.772,0.5378,0.7886,h0-null-k1
+viewsphere,v5s,viewsphere_v5s_h0_k1_peek_all_null_ft_s44,h0,1,all,null,,44,4,0.00125,20,9024668,22.772,0.5424,0.7686,h0-null-k1
+viewsphere,v5s,viewsphere_v5s_h0_k2_peek_all_null_ft,h0,2,all,null,,42,4 17,0.00125,20,8966812,22.024,0.5155,0.733,h0-null-k2
+viewsphere,v5s,viewsphere_v5s_h0_k2_peek_all_null_ft_s43,h0,2,all,null,,43,4 17,0.00125,20,8966812,22.024,0.516,0.7375,h0-null-k2
+viewsphere,v5s,viewsphere_v5s_h0_k2_peek_all_null_ft_s44,h0,2,all,null,,44,4 17,0.00125,20,8966812,22.024,0.5072,0.7391,h0-null-k2
+viewsphere,v5s,viewsphere_v5s_h1_k1_peek_all_null_ft,h1,1,all,null,,42,8,0.00125,20,8204188,23.312,0.577,0.7865,h1-null-k1
+viewsphere,v5s,viewsphere_v5s_h1_k1_peek_all_null_ft_s43,h1,1,all,null,,43,8,0.00125,20,8204188,23.312,0.5647,0.7814,h1-null-k1
+viewsphere,v5s,viewsphere_v5s_h1_k1_peek_all_null_ft_s44,h1,1,all,null,,44,8,0.00125,20,8204188,23.312,0.5815,0.7981,h1-null-k1
+viewsphere,v5s,viewsphere_v5s_h1_k2_peek_all_grid_ft,h1,2,all,grid,,42,2 8,0.00125,20,8189596,22.552,0.5553,0.7808,h1-grid-k2
+viewsphere,v5s,viewsphere_v5s_h1_k2_peek_all_grid_ft_s43,h1,2,all,grid,,43,2 8,0.00125,20,8189596,22.552,0.5429,0.7583,h1-grid-k2
+viewsphere,v5s,viewsphere_v5s_h1_k2_peek_all_grid_ft_s44,h1,2,all,grid,,44,2 8,0.00125,20,8189596,22.552,0.5657,0.7841,h1-grid-k2
+viewsphere,v5s,viewsphere_v5s_h1_k2_peek_all_null_ft,h1,2,all,null,,42,8 23,0.00125,20,7284636,22.575,0.5678,0.7889,h1-null-k2
+viewsphere,v5s,viewsphere_v5s_h1_k2_peek_all_null_ft_s43,h1,2,all,null,,43,8 23,0.00125,20,7284636,22.575,0.5747,0.7967,h1-null-k2
+viewsphere,v5s,viewsphere_v5s_h1_k2_peek_all_null_ft_s44,h1,2,all,null,,44,8 23,0.00125,20,7284636,22.575,0.5607,0.7769,h1-null-k2
+viewsphere,v5s,viewsphere_v5s_h1_k3_peek_all_null_ft,h1,3,all,null,,42,6 8 23,0.00125,20,6725532,20.779,0.4882,0.7438,h1-null-k3
+viewsphere,v5s,viewsphere_v5s_h1_k3_peek_all_null_ft_s43,h1,3,all,null,,43,6 8 23,0.00125,20,6725532,20.779,0.4922,0.7401,h1-null-k3
+viewsphere,v5s,viewsphere_v5s_h1_k3_peek_all_null_ft_s44,h1,3,all,null,,44,6 8 23,0.00125,20,6725532,20.779,0.5061,0.7476,h1-null-k3
+viewsphere,v5s,viewsphere_v5s_k0_peek_ft,combined,0,head,raw,,42,,0.00125,20,9123740,24.05,0.5898,0.7939,
+viewsphere,v5s,viewsphere_v5s_k0_peek_ft_s43,combined,0,head,raw,,43,,0.00125,20,9123740,24.05,0.5967,0.7992,
+viewsphere,v5s,viewsphere_v5s_k0_peek_ft_s44,combined,0,head,raw,,44,,0.00125,20,9123740,24.05,0.5799,0.7849,
+viewsphere,v5s,viewsphere_v5s_k1_all_rand0_ft,combined,1,all,raw,0,42,6,0.00125,20,8564636,22.254,0.5469,0.7631,
+viewsphere,v5s,viewsphere_v5s_k1_all_rand2_ft,combined,1,all,raw,2,42,20,0.00125,20,8893340,23.309,0.5911,0.8073,
+viewsphere,v5s,viewsphere_v5s_k1_peek_all_grid_ft,combined,1,all,grid,,42,2,0.00125,20,9109148,23.289,0.5636,0.7775,combined-grid-k1 h0-grid-k1 h1-grid-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_all_grid_ft_s43,combined,1,all,grid,,43,2,0.00125,20,9109148,23.289,0.5704,0.7862,combined-grid-k1 h0-grid-k1 h1-grid-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_all_grid_ft_s44,combined,1,all,grid,,44,2,0.00125,20,9109148,23.289,0.5523,0.7627,combined-grid-k1 h0-grid-k1 h1-grid-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_all_null_ft,combined,1,all,null,,42,17,0.00125,20,9065884,23.302,0.5394,0.7274,combined-null-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_all_null_ft_s43,combined,1,all,null,,43,17,0.00125,20,9065884,23.302,0.5432,0.7352,combined-null-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_all_null_ft_s44,combined,1,all,null,,44,17,0.00125,20,9065884,23.302,0.5557,0.7659,combined-null-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_ft,combined,1,head,raw,,42,23,0.00125,20,8204188,23.312,0.5571,0.7847,combined-head-k1 h0-head-k1 h1-head-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_ft_s43,combined,1,head,raw,,43,23,0.00125,20,8204188,23.312,0.5833,0.7917,combined-head-k1 h0-head-k1 h1-head-k1
+viewsphere,v5s,viewsphere_v5s_k1_peek_ft_s44,combined,1,head,raw,,44,23,0.00125,20,8204188,23.312,0.5747,0.7937,combined-head-k1 h0-head-k1 h1-head-k1
+viewsphere,v5s,viewsphere_v5s_k2_all_rand0_ft,combined,2,all,raw,0,42,6 13,0.00125,20,8334236,21.513,0.5104,0.7536,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand11_ft,combined,2,all,raw,11,42,4 8,0.00125,20,8105116,22.034,0.5038,0.7647,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand12_ft,combined,2,all,raw,12,42,4 20,0.00125,20,8794268,22.031,0.5192,0.7727,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand13_ft,combined,2,all,raw,13,42,2 23,0.00125,20,8189596,22.552,0.5753,0.7936,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand14_ft,combined,2,all,raw,14,42,8 20,0.00125,20,7973788,22.572,0.5717,0.7838,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand17_ft,combined,2,all,raw,17,42,2 4,0.00125,20,9010076,22.011,0.5252,0.7527,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand18_ft,combined,2,all,raw,18,42,6 20,0.00125,20,8334236,21.513,0.5401,0.7593,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand1_ft,combined,2,all,raw,1,42,2 17,0.00125,20,9051292,22.542,0.5414,0.7366,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand22_ft,combined,2,all,raw,22,42,4 23,0.00125,20,8105116,22.034,0.4944,0.7465,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand2_ft,combined,2,all,raw,2,42,17 20,0.00125,20,8835484,22.562,0.5166,0.7469,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand4_ft,combined,2,all,raw,4,42,4 6,0.00125,20,8465564,20.976,0.4978,0.7487,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand5_ft,combined,2,all,raw,5,42,4 13,0.00125,20,8794268,22.031,0.4991,0.756,
+viewsphere,v5s,viewsphere_v5s_k2_all_rand7_ft,combined,2,all,raw,7,42,2 20,0.00125,20,8878748,22.549,0.5659,0.7863,
+viewsphere,v5s,viewsphere_v5s_k2_peek_all_grid_ft,combined,2,all,grid,,42,2 6,0.00125,20,8550044,21.494,0.5452,0.7788,combined-grid-k2 h0-grid-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_all_grid_ft_s43,combined,2,all,grid,,43,2 6,0.00125,20,8550044,21.494,0.5354,0.7686,combined-grid-k2 h0-grid-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_all_grid_ft_s44,combined,2,all,grid,,44,2 6,0.00125,20,8550044,21.494,0.5503,0.7752,combined-grid-k2 h0-grid-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_all_null_ft,combined,2,all,null,,42,6 17,0.00125,20,8506780,21.507,0.4935,0.6907,combined-null-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_all_null_ft_s43,combined,2,all,null,,43,6 17,0.00125,20,8506780,21.507,0.4729,0.6605,combined-null-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_all_null_ft_s44,combined,2,all,null,,44,6 17,0.00125,20,8506780,21.507,0.4779,0.6745,combined-null-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_ft,combined,2,head,raw,,42,20 23,0.00125,20,7973788,22.572,0.5691,0.7903,combined-head-k2 h0-head-k2 h1-head-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_ft_s43,combined,2,head,raw,,43,20 23,0.00125,20,7973788,22.572,0.5517,0.7606,combined-head-k2 h0-head-k2 h1-head-k2
+viewsphere,v5s,viewsphere_v5s_k2_peek_ft_s44,combined,2,head,raw,,44,20 23,0.00125,20,7973788,22.572,0.568,0.7981,combined-head-k2 h0-head-k2 h1-head-k2
+viewsphere,v5s,viewsphere_v5s_k3_all_rand0_ft,combined,3,all,raw,0,42,6 8 13,0.00125,20,7414684,20.776,0.4359,0.6761,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand10_ft,combined,3,all,raw,10,42,4 6 8,0.00125,20,7546012,20.239,0.4218,0.6398,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand11_ft,combined,3,all,raw,11,42,4 8 23,0.00125,20,7185564,21.297,0.5129,0.7505,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand12_ft,combined,3,all,raw,12,42,4 8 20,0.00125,20,7874716,21.294,0.3702,0.565,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand14_ft,combined,3,all,raw,14,42,8 13 20,0.00125,20,7743388,21.831,0.5217,0.7507,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand16_ft,combined,3,all,raw,16,42,2 13 20,0.00125,20,8648348,21.808,0.5328,0.7534,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand17_ft,combined,3,all,raw,17,42,2 4 20,0.00125,20,8779676,21.271,0.5281,0.7519,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand18_ft,combined,3,all,raw,18,42,2 6 20,0.00125,20,8319644,20.753,0.5132,0.7599,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand1_ft,combined,3,all,raw,1,42,2 4 17,0.00125,20,8952220,21.264,0.4994,0.7091,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand21_ft,combined,3,all,raw,21,42,2 13 17,0.00125,20,8820892,21.802,0.5225,0.721,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand22_ft,combined,3,all,raw,22,42,4 20 23,0.00125,20,7874716,21.294,0.462,0.7478,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand2_ft,combined,3,all,raw,2,42,17 20 23,0.00125,20,7915932,21.825,0.5025,0.7273,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand3_ft,combined,3,all,raw,3,42,6 20 23,0.00125,20,7414684,20.776,0.5482,0.7797,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand4_ft,combined,3,all,raw,4,42,2 4 6,0.00125,20,8450972,20.216,0.4462,0.7101,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand5_ft,combined,3,all,raw,5,42,4 6 13,0.00125,20,8235164,20.235,0.4502,0.7058,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand6_ft,combined,3,all,raw,6,42,6 8 17,0.00125,20,7587228,20.769,0.4689,0.6797,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand7_ft,combined,3,all,raw,7,42,2 20 23,0.00125,20,7959196,21.811,0.5648,0.7915,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand8_ft,combined,3,all,raw,8,42,2 8 23,0.00125,20,7270044,21.815,0.534,0.7619,
+viewsphere,v5s,viewsphere_v5s_k3_all_rand9_ft,combined,3,all,raw,9,42,8 17 23,0.00125,20,7226780,21.828,0.5038,0.6955,
+viewsphere,v5s,viewsphere_v5s_k3_peek_all_grid_ft,combined,3,all,grid,,42,2 6 8,0.00125,20,7630492,20.756,0.4378,0.6775,combined-grid-k3 h0-grid-k3 h1-grid-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_all_grid_ft_s43,combined,3,all,grid,,43,2 6 8,0.00125,20,7630492,20.756,0.4693,0.6998,combined-grid-k3 h0-grid-k3 h1-grid-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_all_grid_ft_s44,combined,3,all,grid,,44,2 6 8,0.00125,20,7630492,20.756,0.4659,0.6975,combined-grid-k3 h0-grid-k3 h1-grid-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_all_null_ft,combined,3,all,null,,42,4 6 17,0.00125,20,8407708,20.229,0.4765,0.72,combined-null-k3 h0-null-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_all_null_ft_s43,combined,3,all,null,,43,4 6 17,0.00125,20,8407708,20.229,0.4233,0.6778,combined-null-k3 h0-null-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_all_null_ft_s44,combined,3,all,null,,44,4 6 17,0.00125,20,8407708,20.229,0.4251,0.6739,combined-null-k3 h0-null-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_ft,combined,3,head,raw,,42,13 20 23,0.00125,20,7743388,21.831,0.5144,0.7504,combined-head-k3 h0-head-k3 h1-head-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_ft_s43,combined,3,head,raw,,43,13 20 23,0.00125,20,7743388,21.831,0.5551,0.7929,combined-head-k3 h0-head-k3 h1-head-k3
+viewsphere,v5s,viewsphere_v5s_k3_peek_ft_s44,combined,3,head,raw,,44,13 20 23,0.00125,20,7743388,21.831,0.5183,0.7672,combined-head-k3 h0-head-k3 h1-head-k3

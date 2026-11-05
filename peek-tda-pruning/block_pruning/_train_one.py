@@ -16,7 +16,7 @@ import argparse
 import json
 from pathlib import Path
 
-from topo_prune import CRITERIA, SCOPES, build_pruned_yaml, cut_order, model_stats, ranking_path
+from topo_prune import CRITERIA, SCOPES, SIZES, build_pruned_yaml, cut_order, model_stats, ranking_path, scopes
 
 HERE = Path(__file__).resolve().parent
 
@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dataset", required=True)
-    ap.add_argument("--size", required=True, choices=["n", "s"])
+    ap.add_argument("--size", required=True, choices=SIZES)
     ap.add_argument("--k", type=int, required=True, help="blocks to cut; 0 = full model")
     ap.add_argument("--criterion", default="combined", choices=list(CRITERIA),
                     help="persistence score that orders the cuts")
@@ -76,7 +76,7 @@ def main() -> None:
     if args.random_order is not None:
         import numpy as np
 
-        order = [int(i) for i in np.random.default_rng(args.random_order).permutation(SCOPES[args.scope])]
+        order = [int(i) for i in np.random.default_rng(args.random_order).permutation(scopes(args.size)[args.scope])]
         scores = {}
     else:
         rank_tag = "" if args.norm == "raw" else "norm"

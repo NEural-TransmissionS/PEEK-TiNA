@@ -7,15 +7,18 @@ WSD classes: 0 antenna, 1 body, 2 solar, 3 thruster.
   body box per image); antenna/solar/thruster keep one box per part.
 - Seg labels: one polygon per part, class number remapped.
 Images, masks and per-frame metadata are symlinked to v1, which is never modified.
-Usage: python3 remap_wsd4.py  (run from anywhere; paths are absolute)
+Usage: python3 remap_wsd4.py [v1|v2] [out root]  (run from anywhere; paths are absolute)
 """
 import csv
 import os
+import sys
 from pathlib import Path
 
 ROOT = Path("/shared/projects/nets/viewsphere-dataset")
-SRC, DST = ROOT / "v1", ROOT / "v1_wsd4"
-SATS = ["Clementine", "ICESatB", "Jason-1", "Sentinel-6"]
+# argv: [version (v1 default; v2 = the 17 satellites, added 2026-11-03)] [output root (default ROOT)]
+VERSION = sys.argv[1] if len(sys.argv) > 1 else "v1"
+SRC, DST = ROOT / VERSION, (Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT) / f"{VERSION}_wsd4"
+SATS = sorted(p.parent.name for p in SRC.glob("*/chaser"))
 NAMES = ["antenna", "body", "solar", "thruster"]
 GROUP_TO_NEW = {"antenna": 0, "body": 1, "laser": 1, "radiator": 1, "startracker": 1,
                 "telescope": 1, "instrument": 1, "solar": 2, "thruster": 3}

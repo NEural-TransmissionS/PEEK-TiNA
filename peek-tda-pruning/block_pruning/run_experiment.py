@@ -13,7 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from topo_prune import CRITERIA, SCOPES, rank_layers, ranking_path
+from topo_prune import CRITERIA, SCOPES, SIZES, rank_layers, ranking_path, scopes
 
 HERE = Path(__file__).resolve().parent
 
@@ -21,7 +21,7 @@ HERE = Path(__file__).resolve().parent
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dataset", required=True)
-    ap.add_argument("--size", required=True, choices=["n", "s"])
+    ap.add_argument("--size", required=True, choices=SIZES)
     ap.add_argument("--epochs", type=int, default=60)
     ap.add_argument("--n-rank", type=int, default=40)
     ap.add_argument("--rank-split", default="val", help="images/<split> used for ranking")
@@ -48,7 +48,7 @@ def main() -> None:
             str(HERE / "weights" / f"{args.dataset}_{args.size}.pt"),
             data_dir / "images" / args.rank_split,
             args.n_rank,
-            candidates=SCOPES[args.scope],
+            candidates=scopes(args.size)[args.scope],
             basis=args.basis,
             norms=args.norms,
         )

@@ -26,7 +26,9 @@ from pathlib import Path
 OUT = Path(__file__).resolve().parents[1] / "results" / "same_protocol"
 # output dir -> (dataset, model, set, basis)
 CHANNEL_DIRS = {}
-for m in "ns":
+# model ids: n / s = YOLO26, v5n / v5s = YOLOv5u (submit_yolov5.sh, added 2026-11-04)
+MODELS = ("n", "s", "v5n", "v5s")
+for m in MODELS:
     CHANNEL_DIRS |= {
         f"wsd_{m}_protect6_peek_ft20": ("wsd", m, "grid", "peek"),
         f"wsd_{m}_protect6_seeds_ft20": ("wsd", m, "seeds", "peek"),
@@ -43,6 +45,8 @@ for m in "ns":
     CHANNEL_DIRS |= {f"{ds}_{m}_protect6_oneshot_seeds": (ds, m, "oneshot_seeds", "peek")
                      for ds in ("wsd", "coco", "viewsphere")}
 DATASETS = ("wsd", "coco", "viewsphere")
+# YOLOv5u WSD one-shot random masks (YOLO26 WSD's live with the older results, structural_pruning/random_spread)
+CHANNEL_DIRS |= {f"wsd_{m}_protect6_oneshot": ("wsd", m, "oneshot", "peek") for m in ("v5n", "v5s")}
 CHANNEL_DIRS |= {
     "coco_n_protect6_activation_oneshot": ("coco", "n", "oneshot", "activation"),
     "coco_n_protect6_lrpilot_lr0.000125": ("coco", "n", "lrpilot", "peek"),
@@ -63,7 +67,7 @@ def rankings(results: Path) -> dict:
     labs = {}
     rdir = results.parent / "ranking_peek"
     for ds in DATASETS:
-        for m in "ns":
+        for m in MODELS:
             head = json.loads((rdir / f"{ds}_{m}.json").read_text())
             allr = json.loads((rdir / f"{ds}_{m}_all_norm.json").read_text())
             for lab, r in (("head", head), ("grid", {**allr, **allr["grid"]}), ("null", {**allr, **allr["null"]})):
@@ -194,7 +198,7 @@ def probes(root: Path, results: Path) -> list[dict]:
     rows = []
     for v in ("", "_wblr"):
       for ds in DATASETS:
-        for m in "ns":
+        for m in MODELS:
             for f in sorted((root / f"{ds}_{m}_protect6_probe{v}" / "runs").glob("*/probe.csv")):
                 r = json.loads((f.parent / "result.json").read_text())
                 key = {"dataset": ds, "model": m, **_channel_id(r, "peek"), "variant": v[1:], "budget": ""}
@@ -216,7 +220,7 @@ def budgets(root: Path, results: Path) -> list[dict]:
     rows = []
     for v, b in [(v, b) for v in ("", "_wblr") for b in BUDGETS]:
         for ds in DATASETS:
-            for m in "ns":
+            for m in MODELS:
                 for f in sorted((root / f"{ds}_{m}_protect6_budget{b}{v}" / "runs").glob("*/result.json")):
                     r = json.loads(f.read_text())
                     if "after_finetune" in r:
@@ -231,7 +235,7 @@ def budgets(root: Path, results: Path) -> list[dict]:
     # budget = epochs x 7,393 (<ds>_<m>_protect6_full_e<E>_wblr/, blocks *_ft_full_e<E>_wblr)
     for e in (3, 7):
         b = e * 7393
-        for m in "ns":
+        for m in MODELS:
             for f in sorted((root / f"coco_{m}_protect6_full_e{e}_wblr" / "runs").glob("*/result.json")):
                 r = json.loads(f.read_text())
                 if "after_finetune" in r:
@@ -268,8 +272,8 @@ if __name__ == "__main__":
     write("budget_runs.csv", CURVE_COLS, budgets(a.channel_root, a.block_results))
     bench = a.channel_root.parent / "bench"
     for dev in ("gpu", "cpu"):  # inference timing (scripts/bench_inference.py), copied as is;
-        # bench_<dev>_vs.csv = all three datasets timed together on one node (preferred when present)
-        src = next((f for f in (bench / f"bench_{dev}_vs.csv", bench / f"bench_{dev}.csv") if f.exists()), None)
+        # bench_<dev>_v5.csv (+ YOLOv5u) / _vs.csv = all three datasets timed together on one node (newest preferred)
+        src = next((f for f in (bench / f"bench_{dev}_v5.csv", bench / f"bench_{dev}_vs.csv", bench / f"bench_{dev}.csv") if f.exists()), None)
         if src:
             (OUT / f"inference_{dev}.csv").write_text(src.read_text())
             print(f"inference_{dev}.csv copied from {src.name}")

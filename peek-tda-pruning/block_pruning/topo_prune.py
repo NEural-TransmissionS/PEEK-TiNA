@@ -37,7 +37,6 @@ from xaikit.homology_h1 import h1_pockets
 from xaikit.saliency import local_max_persistence, normalize01
 from xaikit.xai import YoloExplainer
 
-BASE_YAML = HERE / "yolo26.yaml"
 
 # The four head C3k2 blocks: 13 (P4 top-down), 16 (P3/8 out), 19 (P4 out),
 # 22 (P5 out). The up-sample / concat nodes carry no parameters; the stride-2
@@ -45,6 +44,23 @@ BASE_YAML = HERE / "yolo26.yaml"
 CANDIDATES: tuple[int, ...] = (13, 16, 19, 22)
 # "all" adds the four backbone C3k2 blocks: 2 (P2/4), 4 (P3/8), 6 (P4/16), 8 (P5/32).
 SCOPES: dict[str, tuple[int, ...]] = {"head": CANDIDATES, "all": (2, 4, 6, 8, *CANDIDATES)}
+
+# Model ids ("size"): n / s = YOLO26 (yolo26.yaml), v5n / v5s = YOLOv5u (yolov5.yaml, added 2026-11-02).
+# YOLOv5u has C3 blocks where YOLO26 has C3k2: backbone 2, 4, 6, 8 as above, head 13 (P4 top-down),
+# 17 (P3/8 out), 20 (P4 out), 23 (P5 out).
+SIZES = ("n", "s", "v5n", "v5s")
+V5_CANDIDATES: tuple[int, ...] = (13, 17, 20, 23)
+
+
+def arch(size: str) -> tuple[str, str]:
+    """Model id -> (base yaml stem, Ultralytics scale): "v5n" -> ("yolov5", "n"), "n" -> ("yolo26", "n")."""
+    return ("yolov5", size[2:]) if size.startswith("v5") else ("yolo26", size)
+
+
+def scopes(size: str) -> dict[str, tuple[int, ...]]:
+    """SCOPES for that model's architecture."""
+    head = V5_CANDIDATES if size.startswith("v5") else CANDIDATES
+    return {"head": head, "all": (2, 4, 6, 8, *head)}
 
 
 def ranking_path(dataset: str, size: str, basis: str = "peek", scope: str = "head", tag: str = "") -> Path:
@@ -238,10 +254,11 @@ def cut_order(ranking: dict, criterion: str = "combined") -> tuple[list[int], di
 # structural cut: replace block -> 1x1 Conv                                   #
 # --------------------------------------------------------------------------- #
 def build_pruned_yaml(size: str, cut_abs: list[int], out_dir: Path) -> Path:
-    """Write a ``yolo26<size>`` YAML with each ``cut_abs`` block replaced by a
-    1x1 ``Conv`` of the same nominal output width. ``cut_abs=[]`` -> full model."""
-    spec = yaml.safe_load(BASE_YAML.read_text())
-    spec["scale"] = size
+    """Write a ``yolo26<size>`` (or ``yolov5<scale>`` for v5n / v5s) YAML with each ``cut_abs`` block
+    replaced by a 1x1 ``Conv`` of the same nominal output width. ``cut_abs=[]`` -> full model."""
+    base, scale = arch(size)
+    spec = yaml.safe_load((HERE / f"{base}.yaml").read_text())
+    spec["scale"] = scale
     layers = [list(x) for x in spec["backbone"]] + [list(x) for x in spec["head"]]
     for i in cut_abs:
         frm, _repeats, _module, args = layers[i]
@@ -251,7 +268,7 @@ def build_pruned_yaml(size: str, cut_abs: list[int], out_dir: Path) -> Path:
 
     out_dir.mkdir(parents=True, exist_ok=True)
     tag = "full" if not cut_abs else "cut" + "-".join(str(i) for i in cut_abs)
-    path = out_dir / f"yolo26{size}_{tag}.yaml"
+    path = out_dir / f"{base}{scale}_{tag}.yaml"
     path.write_text(yaml.safe_dump(spec, sort_keys=False, default_flow_style=None))
     return path
 

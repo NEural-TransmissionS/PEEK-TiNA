@@ -30,6 +30,7 @@ T = Path("/shared/projects/tina/PEEK-TiNA")
 CHANNEL = T / "PEEK-rvc-pruning/outputs/yolo26_tda"
 BLOCKS = T / "topo-prune-shapes/runs"
 RATIOS = ("0.10", "0.20", "0.30", "0.40", "0.50")
+MODELS = ("n", "s", "v5n", "v5s")  # YOLO26 n / s, YOLOv5u v5n / v5s (added 2026-11-04)
 
 
 def models() -> list[dict]:
@@ -37,7 +38,7 @@ def models() -> list[dict]:
     ratio (field_h1 stands for all), block replacement one model per ranked cut set."""
     out = []
     for ds in ("wsd", "coco", "viewsphere"):
-        for m in "ns":
+        for m in MODELS:
             runs = CHANNEL / f"{ds}_{m}_protect6_peek_ft20/runs"
             out.append({"dataset": ds, "model": m, "method": "unpruned", "setting": "",
                         "weights": runs / "none_r0.00_s42/finetune/weights/best.pt"})

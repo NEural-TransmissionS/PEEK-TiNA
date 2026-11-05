@@ -94,7 +94,9 @@ class YoloExplainer:
         with torch.enable_grad():  # override any ambient no_grad from ultralytics
             out = self.model(tensor)
         aux = out[1] if isinstance(out, (list, tuple)) and len(out) > 1 else out
-        one2many = aux["one2many"] if isinstance(aux, dict) else aux[0]
+        # YOLO26 (end2end) keeps the one2many branch under its own key; a plain Detect head (YOLOv5u)
+        # returns that dict directly
+        one2many = aux.get("one2many", aux) if isinstance(aux, dict) else aux[0]
         scores = one2many["scores"] if isinstance(one2many, dict) else one2many
         return scores[0]
 

@@ -142,6 +142,9 @@ structural_pruning/
                                     submit_recovery.sh = the recovery study (probes, budget sweep, full
                                     train2017); submit_viewsphere_phase{1,2}.sh = every viewsphere run;
                                     submit_noise_seeds.sh = the seed-noise repeats
+                                    submit_h0h1.sh (+ plan_h0h1.py) = H0 / H0+H1 everywhere;
+                                    submit_yolov5.sh (+ plan_yolov5.py) = the whole study on YOLOv5u;
+                                    submit_viewsphere2.sh = viewsphere v2 (17 satellites), both models
 block_pruning/                      block-replacement study (own README)
   finetune_init.py                  cut + fine-tune: copy every surviving tensor from the trained model
   eval_cut_prefinetune.py           mAP of each ranked cut right after the cut, before any training
@@ -1618,6 +1621,15 @@ satellite, Sun phase and lit fraction. Every pruning run: `submit_viewsphere_pha
 grids, seeds, one-shot masks, block rankings), then once the rankings exist
 `submit_viewsphere_phase2.sh` (block cut + fine-tune, scratch cuts, recovery). Timing includes
 the viewsphere models; tables as in step 4 and 5.
+
+**6b. YOLOv5 and viewsphere v2.** Model ids `v5n` / `v5s` are YOLOv5u (Ultralytics'
+anchor-free YOLOv5; `n` / `s` stay YOLO26) in every output name; `block_pruning/topo_prune.py` cuts its
+C3 blocks (2, 4, 6, 8; head 13, 17, 20, 23). WSD bases: `ARCH=yolov5 sbatch scripts/train_wsd_baselines.slurm`.
+`submit_yolov5.sh channel <ds>` runs scoring, the channel grid and seeds, one-shot and block rankings,
+then queues `blocks <ds>` (cut + fine-tune and the recovery tests) itself; `MODELS="n s" TAG=yolo26`
+runs YOLO26 instead. Viewsphere v2: `remap_wsd4.py v2` and `make_splits.py v2` build `v2_wsd4`
+(dataset id `viewsphere2`); `submit_viewsphere2.sh` does that, fine-tunes the four bases and runs
+both architectures through `submit_yolov5.sh`.
 
 **7. Tables:** `python scripts/collect_results.py --structural <outputs/yolo26_tda>
 --block <block_pruning> --wsd-baselines <baselines>`, then
