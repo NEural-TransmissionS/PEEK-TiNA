@@ -18,7 +18,7 @@ from pathlib import Path
 import torch
 from ultralytics import YOLO
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).absolute().parents[1]))
 from profile_cpu_layers import MODELS, RUNS  # noqa: E402  (same six models)
 
 

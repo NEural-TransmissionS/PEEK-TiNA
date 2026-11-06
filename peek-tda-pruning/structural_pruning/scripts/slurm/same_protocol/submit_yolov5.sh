@@ -91,7 +91,7 @@ if [ $PHASE = channel ]; then
     # block rankings on 40 train images: raw head (ranking_peek/<ds>_<m>.json), all 8 C3 with grid / null (_all_norm)
     r=$(cd $S && sbatch --parsable $PW --gres=gpu:1 --cpus-per-task=4 --mem=16G --time=02:00:00 --job-name=${JP}rank-$DS-$m \
       --output=slurm/logs/v5rank_${DS}_$m.out \
-      --wrap=". ../tina_venv/bin/activate; python run_experiment.py --dataset $DS --size $m --ks --basis peek --scope head --rank-split train; python run_experiment.py --dataset $DS --size $m --ks --basis peek --scope all --norms --rank-split train")
+      --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python run_experiment.py --dataset $DS --size $m --ks --basis peek --scope head --rank-split train; python run_experiment.py --dataset $DS --size $m --ks --basis peek --scope all --norms --rank-split train")
     ranks="$ranks:$r"
     echo "$DS $m block rankings: $r" | tee -a $LOG
   done
@@ -100,13 +100,13 @@ fi
 
 if [ $PHASE = blocks ]; then
   cd $S
-  ../tina_venv/bin/python $P/scripts/slurm/plan_yolov5.py $DS $P/outputs $TAG $MODELS | tee -a $P/$LOG
+  /shared/projects/tina/PEEK-TiNA/tina_venv/bin/python $P/scripts/slurm/plan_yolov5.py $DS $P/outputs $TAG $MODELS | tee -a $P/$LOG
   while IFS=$'\t' read -r ds m lab cut args seeds; do
     setds $ds $m
     for s in ${seeds//,/ }; do
       j=$(sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$TL --job-name=${JP}b-$ds-$m-$lab-s$s \
         --output=slurm/logs/v5blocks_${ds}_${m}_${lab}_s$s.out \
-        --wrap=". ../tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
+        --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
       echo "block $ds $m $lab $cut s$s $j" >> $P/$LOG
     done
   done < $P/outputs/${TAG}_${DS}_blocks_ft.tsv

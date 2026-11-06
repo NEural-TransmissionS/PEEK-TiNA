@@ -44,7 +44,7 @@ agg() {  # name deps(:a:b)
   sbatch --parsable --partition=med --export=ALL --job-name=$1 --gres=none --cpus-per-task=2 --mem=8G --time=00:30:00 \
     --dependency=afterany$2 $SB aggregate; }
 
-(cd $S && ../tina_venv/bin/python $P/scripts/slurm/plan_h0h1.py $P/outputs) | tee -a $LOG
+(cd $S && /shared/projects/tina/PEEK-TiNA/tina_venv/bin/python $P/scripts/slurm/plan_h0h1.py $P/outputs) | tee -a $LOG
 
 for ds in wsd coco viewsphere; do for m in n s; do
   setds $ds $m
@@ -69,7 +69,7 @@ if [[ " $STUDIES " == *" blocks "* ]]; then
     for s in ${seeds//,/ }; do
       j=$(sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$TL --job-name=hb-$ds-$m-$lab-s$s \
         --output=slurm/logs/h0h1_blocks_${ds}_${m}_${lab}_s$s.out \
-        --wrap=". ../tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
+        --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
       echo "block $ds $m $lab $cut s$s $j" >> $P/$LOG
     done
   done < $P/outputs/h0h1_blocks_ft.tsv

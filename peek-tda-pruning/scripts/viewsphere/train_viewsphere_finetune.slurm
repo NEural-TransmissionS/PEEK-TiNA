@@ -22,7 +22,8 @@ REPO=/shared/projects/tina/PEEK-TiNA
 DATA=${DATA:-/shared/projects/nets/viewsphere-dataset/v1_wsd4/data.yaml}
 PROJECT=${PROJECT:-$REPO/runs/viewsphere_wsd4_finetune_wsd}
 : "${MODEL:?set MODEL=yolo26n or yolo26s}"
-INIT="$REPO/runs/wsd71_scratch/${MODEL}_scratch_seed42/weights/best.pt"
+# INIT (added 2026-11-06): other starting weights, e.g. COCO yolo26n.pt (submit_coco_pilot.sh)
+INIT="${INIT:-$REPO/runs/wsd71_scratch/${MODEL}_scratch_seed42/weights/best.pt}"
 
 cd "$REPO"
 source "$REPO/tina_venv/bin/activate"

@@ -66,7 +66,7 @@ cd $S
 for m in n s; do
   r=$(sbatch --parsable $PW --gres=gpu:1 --cpus-per-task=4 --time=02:00:00 --mem=16G --job-name=vs-rank-$m \
     --output=slurm/logs/viewsphere_rank_$m.out \
-    --wrap=". ../tina_venv/bin/activate; for sc in head all; do python run_experiment.py --dataset viewsphere --size $m --ks --basis peek --scope \$sc --norms --rank-split train; done; python run_experiment.py --dataset viewsphere --size $m --ks --basis activation --scope head --rank-split train")
+    --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; for sc in head all; do python run_experiment.py --dataset viewsphere --size $m --ks --basis peek --scope \$sc --norms --rank-split train; done; python run_experiment.py --dataset viewsphere --size $m --ks --basis activation --scope head --rank-split train")
   echo "viewsphere_$m block rankings: $r" | tee -a $P/$LOG
 done
 echo "submitted: $(grep -c . $P/$LOG) lines in $LOG"

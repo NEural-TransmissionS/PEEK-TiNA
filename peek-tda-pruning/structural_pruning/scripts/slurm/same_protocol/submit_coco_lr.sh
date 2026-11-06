@@ -48,7 +48,7 @@ cd $S
 for m in n s; do ln -sfn coco_${m}_norm.json ranking_peek/coco_$m.json; done   # raw ranking = top level of the _norm file
 FT="--epochs 20 --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --lr0 0.000125 --momentum 0.9 --warmup-epochs 1 --device 0 --data $P/configs/coco/coco_ft10k.yaml"
 MAP=$P/outputs/coco_random_blocks_map.tsv
-../tina_venv/bin/python - > $MAP <<'PY'
+/shared/projects/tina/PEEK-TiNA/tina_venv/bin/python - > $MAP <<'PY'
 import json, sys, numpy as np
 sys.path.insert(0, ".")
 from topo_prune import SCOPES, cut_order, ranking_path
@@ -73,7 +73,7 @@ grep -P "\ttrain\t" $MAP | while IFS=$'\t' read m what k cut _ args; do
   if [ $m = n ]; then PP=$PN; tl=03:00:00; else PP=$PS; tl=04:00:00; fi
   j=$(sbatch --parsable $PP --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$tl --job-name=cb-$m-$what-k$k \
     --output=slurm/logs/coco_blockft_${m}_${what}_k$k.out \
-    --wrap=". ../tina_venv/bin/activate; python _train_one.py --dataset coco --size $m $args --basis peek --init-weights weights/coco_$m.pt $FT")
+    --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset coco --size $m $args --basis peek --init-weights weights/coco_$m.pt $FT")
   echo "block $m $what k$k $cut $j" >> $P/$LOG
 done
 echo "submitted: $(grep -c . $P/$LOG) lines in $LOG"

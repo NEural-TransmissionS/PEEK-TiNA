@@ -13,7 +13,7 @@ for ds in coco wsd viewsphere; do
   for m in v5n v5s; do
     r=$(cd $S && sbatch --parsable $PW --gres=gpu:1 --cpus-per-task=4 --mem=16G --time=02:00:00 --job-name=v5rank-$ds-$m \
       --output=slurm/logs/v5rank_${ds}_$m.out \
-      --wrap=". ../tina_venv/bin/activate; python run_experiment.py --dataset $ds --size $m --ks --basis peek --scope head --rank-split train; python run_experiment.py --dataset $ds --size $m --ks --basis peek --scope all --norms --rank-split train")
+      --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python run_experiment.py --dataset $ds --size $m --ks --basis peek --scope head --rank-split train; python run_experiment.py --dataset $ds --size $m --ks --basis peek --scope all --norms --rank-split train")
     ranks="$ranks:$r"
   done
   b=$(sbatch --parsable $PW --gres=gpu:1 --cpus-per-task=2 --mem=4G --time=01:00:00 --export=NONE \

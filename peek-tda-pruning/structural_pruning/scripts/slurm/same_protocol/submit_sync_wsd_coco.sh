@@ -66,7 +66,7 @@ echo "coco_s random one-shot: prune=${ro#:} agg=$(agg cg-s-rnd-agg $ro)" | tee -
 cd $S
 r=$(sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=4 --time=04:00:00 --mem=16G --job-name=co-rank-s \
   --output=slurm/logs/coco_rank_norm_s.out \
-  --wrap=". ../tina_venv/bin/activate; for sc in head all; do python run_experiment.py --dataset coco --size s --ks --basis peek --scope \$sc --norms --rank-split train; done")
+  --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; for sc in head all; do python run_experiment.py --dataset coco --size s --ks --basis peek --scope \$sc --norms --rank-split train; done")
 echo "coco_s block ranking: $r" | tee -a $P/$LOG
 
 # WSD block cuts as cut + fine-tune (same recipe), every cut set already studied + full-model reference
@@ -75,7 +75,7 @@ wsd_block() {  # tag args...
   local tag=$1; shift
   sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=01:00:00 --job-name=wb-$tag \
     --output=slurm/logs/wsd_blockft_$tag.out \
-    --wrap=". ../tina_venv/bin/activate; python _train_one.py --dataset wsd $* --basis peek --init-weights weights/wsd_\$WSD_SIZE.pt $ft"
+    --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset wsd $* --basis peek --init-weights weights/wsd_\$WSD_SIZE.pt $ft"
 }
 for m in n s; do
   export WSD_SIZE=$m

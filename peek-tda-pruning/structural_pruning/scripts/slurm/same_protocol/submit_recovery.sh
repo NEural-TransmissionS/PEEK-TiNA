@@ -67,7 +67,7 @@ block() {  # name time args...
   local n=$1 tl=$2; shift 2
   (cd $S && sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$tl --job-name=$n \
     --output=slurm/logs/recovery_$n.out \
-    --wrap=". ../tina_venv/bin/activate; python _train_one.py $* --basis peek --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --momentum 0.9 --device 0 --seed $SEED --skip-existing")
+    --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py $* --basis peek --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --momentum 0.9 --device 0 --seed $SEED --skip-existing")
 }
 cuts() {  # ds m -> one "args" line per cut set (uncut, raw head, grid, null; COCO s null k1 = grid k1)
   if [ -n "${CUTS_FILE:-}" ]; then awk -F'\t' -v d=$1 -v m=$2 '$1 == d && $2 == m {print $3}' $CUTS_FILE; return; fi

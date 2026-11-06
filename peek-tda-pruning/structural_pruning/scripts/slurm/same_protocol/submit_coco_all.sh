@@ -74,6 +74,6 @@ cd $S
 for m in n s; do
   r=$(sbatch --parsable $PN --gres=gpu:1 --cpus-per-task=4 --time=04:00:00 --mem=16G --job-name=ca-rank-$m \
     --output=slurm/logs/coco_rank_norm_$m.out \
-    --wrap=". ../tina_venv/bin/activate; for sc in head all; do python run_experiment.py --dataset coco --size $m --ks --basis peek --scope \$sc --norms --rank-split train; done")
+    --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; for sc in head all; do python run_experiment.py --dataset coco --size $m --ks --basis peek --scope \$sc --norms --rank-split train; done")
   echo "coco_$m block ranking: $r" | tee -a $P/$LOG
 done

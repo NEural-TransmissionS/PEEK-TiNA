@@ -33,11 +33,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-_TP_ROOT = Path(__file__).resolve().parent.parent / "third-party" / "Torch-Pruning"
+_TP_ROOT = Path(__file__).absolute().parent.parent / "third-party" / "Torch-Pruning"
 if _TP_ROOT.exists() and str(_TP_ROOT) not in sys.path:
     sys.path.insert(0, str(_TP_ROOT))
 # topoprun (canonical PEEK adapter + PEEK-map topology) lives in <repo>/src
-_TOPOPRUN_SRC = Path(__file__).resolve().parents[2] / "src"
+_TOPOPRUN_SRC = Path(__file__).absolute().parents[2] / "src"
 if (_TOPOPRUN_SRC / "topoprun").exists() and str(_TOPOPRUN_SRC) not in sys.path:
     sys.path.insert(0, str(_TOPOPRUN_SRC))
 

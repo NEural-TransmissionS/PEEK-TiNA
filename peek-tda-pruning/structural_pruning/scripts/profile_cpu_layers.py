@@ -19,7 +19,7 @@ from pathlib import Path
 import torch
 from ultralytics import YOLO
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).absolute().parents[1]))
 RUNS = Path("/shared/projects/tina/PEEK-TiNA/topo-prune-shapes/runs")
 MODELS = {  # label -> run (uncut first: the reference)
     "uncut (k0)": "coco_s_k0_peek_ft",

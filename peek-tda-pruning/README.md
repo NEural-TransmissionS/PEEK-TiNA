@@ -180,6 +180,10 @@ results/
                                           (the *Seed noise* tables), curves.csv (their
                                           per-epoch val mAP), probe_curves.csv, budget_runs.csv,
                                           inference_{gpu,cpu}.csv, figures/
+reports/pruning/                          the LaTeX report on all of it (YOLO26 + YOLOv5, WSD,
+                                          Viewsphere v1/v2, COCO): pruning_report.tex/.pdf, the
+                                          scripts that build its tables and figures from
+                                          results/same_protocol/ (own README)
 ```
 
 ## Method
@@ -1646,3 +1650,11 @@ PEEK-TiNA. An earlier version of this repository (commit `c3540fb`) reported onl
 activation basis, with a 100-epoch fine-tune and a single random mask; both bases have
 since been rerun on the one setup above, which supersedes those numbers. Pinned: PEEK `f4028e93`, Ultralytics
 8.4.9 (`40eb41ac`), Torch-Pruning v1.6.1, gudhi 3.13.0.
+
+On the AIPanther server this repository is the only copy of the code (since 2026-11-06):
+`PEEK-TiNA/topo-prune-shapes` is a link to `block_pruning/` (its data, runs, rankings, results and
+weights live there, ignored by git), and the study's scripts in `PEEK-TiNA/PEEK-rvc-pruning`
+(`scripts/slurm/*`, the YOLO26 scripts and `peek_rvc_pruning/{yolo_tda,iter_probe}.py`) are links
+into `structural_pruning/`, so edits go here and nothing is copied by hand. Scripts reached through
+those links locate themselves with `Path(__file__).absolute()`, not `.resolve()`, so their outputs
+stay in `PEEK-rvc-pruning`. Old hand-made backups are in `PEEK-TiNA/archive/`.

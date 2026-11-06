@@ -22,7 +22,7 @@ from pathlib import Path
 
 import torch
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).absolute().parent))
 from run_yolo26_tda_pruning import calibration_images, evaluate, load_prunable  # noqa: E402
 
 from peek_rvc_pruning import yolo_tda  # noqa: E402

@@ -18,7 +18,7 @@ cd $S
 for m in n s; do ln -sfn viewsphere_${m}_norm.json ranking_peek/viewsphere_$m.json; done  # raw head = top level of _norm
 
 plan() {  # mode (ft|scratch) -> "m what k cut train|reuse args" lines
-  ../tina_venv/bin/python - "$1" <<'PY'
+  /shared/projects/tina/PEEK-TiNA/tina_venv/bin/python - "$1" <<'PY'
 import json, sys, numpy as np
 sys.path.insert(0, ".")
 from topo_prune import SCOPES, cut_order, ranking_path
@@ -57,7 +57,7 @@ for mode in ft scratch; do
     else extra="$SCR"; part=$PL; tl=12:00:00; fi
     j=$(sbatch --parsable $part --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$tl --job-name=vb$mode-$m-$what-k$k \
       --output=slurm/logs/viewsphere_block${mode}_${m}_${what}_k$k.out \
-      --wrap=". ../tina_venv/bin/activate; python _train_one.py --dataset viewsphere --size $m $args $extra --skip-existing")
+      --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset viewsphere --size $m $args $extra --skip-existing")
     echo "block $mode $m $what k$k $cut $j" >> $LOG
   done
 done

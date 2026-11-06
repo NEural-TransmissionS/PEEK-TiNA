@@ -25,7 +25,7 @@ from pathlib import Path
 import torch
 from ultralytics import YOLO
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # pruned checkpoints pickle peek_rvc_pruning classes
+sys.path.insert(0, str(Path(__file__).absolute().parents[1]))  # pruned checkpoints pickle peek_rvc_pruning classes
 T = Path("/shared/projects/tina/PEEK-TiNA")
 CHANNEL = T / "PEEK-rvc-pruning/outputs/yolo26_tda"
 BLOCKS = T / "topo-prune-shapes/runs"

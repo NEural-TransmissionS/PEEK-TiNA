@@ -66,7 +66,7 @@ done; done
 if [[ " $STUDIES " == *" blocks "* ]]; then
   cd $S
   PLAN=$P/outputs/noise_seeds_blocks.tsv
-  ../tina_venv/bin/python - > $PLAN <<'PY'
+  /shared/projects/tina/PEEK-TiNA/tina_venv/bin/python - > $PLAN <<'PY'
 import json, sys
 sys.path.insert(0, ".")
 from topo_prune import cut_order, ranking_path
@@ -89,7 +89,7 @@ PY
     for s in 43 44; do
       j=$(sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$TL --job-name=nb-$ds-$m-$what-s$s \
         --output=slurm/logs/noise_blocks_${ds}_${m}_${what}_s$s.out \
-        --wrap=". ../tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
+        --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
       echo "block $ds $m $what $cut s$s $j" >> $P/$LOG
     done
   done < $PLAN

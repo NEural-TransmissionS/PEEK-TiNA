@@ -1,0 +1,25 @@
+\begin{tabular}{llrrrrrr}
+\toprule
+ & & \multicolumn{3}{c}{YOLOv5n} & \multicolumn{3}{c}{YOLOv5s} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+Data & Criterion & 10\% & 30\% & 50\% & 10\% & 30\% & 50\% \\
+\midrule
+WSD & Field H1 & \textbf{250} & \textbf{250} & \textbf{1,000} & \textbf{250} & 500 & \textbf{1,000} \\
+ & Field H0 & \textbf{250} & \textbf{250} & \textbf{1,000} & \textbf{250} & 5,000 & \textbf{1,000} \\
+ & Field H0+H1 & \textbf{250} & 500 & \textbf{1,000} & \textbf{250} & 500 & \textbf{1,000} \\
+ & L2 & \textbf{250} & \textbf{250} & \textbf{1,000} & \textbf{250} & \textbf{250} & never \\
+ & Random & \textbf{250} & 1,000 & 2,500 & \textbf{250} & 500 & \textbf{1,000} \\
+\midrule
+Viewsphere & Field H1 & 500 & 5,000 & never & \textbf{250} & 5,000 & never \\
+ & Field H0 & 500 & never & never & \textbf{250} & 5,000 & never \\
+ & Field H0+H1 & 500 & \textbf{1,000} & never & \textbf{250} & \textbf{2,500} & never \\
+ & L2 & \textbf{250} & \textbf{1,000} & never & \textbf{250} & 5,000 & never \\
+ & Random & 1,000 & never & never & 500 & 5,000 & never \\
+\midrule
+COCO & Field H1 & \textbf{7 ep (full)} & never & never & \textbf{3 ep (full)} & never & never \\
+ & Field H0 & never & never & never & \textbf{3 ep (full)} & never & never \\
+ & Field H0+H1 & never & never & never & \textbf{3 ep (full)} & never & never \\
+ & L2 & never & never & never & \textbf{3 ep (full)} & never & never \\
+ & Random & never & never & never & \textbf{3 ep (full)} & never & never \\
+\bottomrule
+\end{tabular}

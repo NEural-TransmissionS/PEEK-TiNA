@@ -1,0 +1,639 @@
+% Pruning results to date on WSD, Viewsphere and COCO: datasets, methods, then results per dataset.
+% Tables are generated into tables/ by make_tables.py from tina's results/same_protocol CSVs; the prose is here.
+\documentclass[10pt]{article}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{graphicx}  % figures/ made by win_chart.py
+\usepackage{float}  % [H]: keep each table with its section
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\captionsetup{font=small,labelfont=bf,textfont=bf,position=top,skip=4pt}  % caption = the table's title, above it
+\newcommand{\tnote}[1]{\par\vspace{3pt}\begin{minipage}{\linewidth}\footnotesize #1\end{minipage}}  % notes under a table
+\setlist{itemsep=1pt,topsep=3pt}
+\setlength{\parskip}{3pt}
+\newcommand{\tbl}[1]{\adjustbox{max width=\linewidth}{\input{tables/#1}}}
+
+\title{\vspace{-1.5em}Pruning YOLO26 and YOLOv5 on WSD, Viewsphere and COCO: results to date\vspace{-0.5em}}
+\author{Blake J.\ Gisclair}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Summary.} On COCO, PEEK field~H1 beats L2 and L2 beats random at every pruning
+ratio, before and after fine-tuning. On WSD and Viewsphere, L2 is as good as or better than field~H1
+right after pruning (both clearly beat random), and after a 20-epoch fine-tune all three end within
+0.01--0.04 mAP50-95 of each other. Scoring channels by H0 or by H0+H1 instead of H1 changes little: on COCO all three persistence
+scores beat L2 after fine-tuning, and elsewhere they trade small leads. For block replacement the
+score matters more, and the best ranking differs by dataset (H1 only on WSD, the H0/H1 blend or H0
+only on COCO). Channel pruning cuts up to 28\% of GFLOPs but only 1--4\% of GPU latency.
+Repeating everything on YOLOv5 (Section~\ref{sec:v5}) keeps the broad picture: persistence scores lead on
+COCO, but by less and with L2 no better than random; criteria converge after fine-tuning on WSD
+and Viewsphere; and the best block ranking per dataset is the same as on YOLO26. On Viewsphere~v2
+(17 satellites, Section~\ref{sec:vs2}), no channel criterion beats the runner-up by more than the
+seed noise after fine-tuning, and the raw head ranking is again the block ranking that beats random choice.
+Figures~\ref{fig:w-wsd}--\ref{fig:wins} count how often each channel criterion comes out best: one
+figure per dataset, then all four together. A setting = model (YOLO26n/s, YOLOv5n/s) $\times$ pruning
+ratio (10--50\%), 20 per dataset; the criterion with the highest mean mAP50-95 over seeds wins it (ties
+count for each). A win is a highest mean, not necessarily a lead beyond the seed noise (the
+$^\dagger$ in the tables).
+
+\begin{figure}[H]
+\centering
+\caption{WSD: which channel-pruning criterion wins most often}
+\label{fig:w-wsd}
+\includegraphics[width=\linewidth]{figures/criterion_wins_wsd.png}
+\tnote{One-shot, L2 wins 17 of 20. After fine-tuning the persistence scores win 17 (field~H0 7,
+field~H1 and H0+H1 5 each), L2 3 and random none.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Viewsphere: which channel-pruning criterion wins most often}
+\includegraphics[width=\linewidth]{figures/criterion_wins_viewsphere.png}
+\tnote{One-shot, field~H1 wins most often (7 of 20); after fine-tuning, L2 does (9 of 20).}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Viewsphere v2: which channel-pruning criterion wins most often}
+\includegraphics[width=\linewidth]{figures/criterion_wins_viewsphere2.png}
+\tnote{After fine-tuning, L2 wins most often (9 of 20), as on Viewsphere. The one-shot counts (field~H1 10
+of 20) are unreliable: BN re-estimation collapses some models on v2 (Section~\ref{sec:vs2}).}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{COCO: which channel-pruning criterion wins most often}
+\includegraphics[width=\linewidth]{figures/criterion_wins_coco.png}
+\tnote{One-shot, field~H1 wins half the settings (10 of 20). After fine-tuning a persistence score wins
+19 of 20 (field~H0+H1 8, field~H1 7, field~H0 4); L2 wins none.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{All datasets: which channel-pruning criterion wins most often}
+\label{fig:wins}
+\includegraphics[width=\linewidth]{figures/criterion_wins.png}
+\tnote{Figures~\ref{fig:w-wsd}--\ref{fig:wins} stacked. One-shot, field~H1 (27 of 80) and L2 (24, 17 of
+them on WSD) win most often. After fine-tuning the four scored criteria win about equally often
+(16--21 each), and random almost never (3).}
+\end{figure}
+
+Win counts say which criterion is best, not by how much. Figure~\ref{fig:gapl2} shows the margin: how
+far each persistence score is from L2 at each pruning ratio.
+
+\begin{figure}[H]
+\centering
+\caption{How close the persistence scores are to L2}
+\label{fig:gapl2}
+\includegraphics[width=\linewidth]{figures/gap_to_l2.png}
+\tnote{Criterion mAP50-95 minus L2's at the same dataset, model and pruning ratio, averaged over
+YOLO26n/s and YOLOv5n/s; 0 = L2, above = better. The three persistence scores move together, mostly
+within 0.01 of each other. One-shot, they trail L2 on WSD (by up to 0.07 at 30--40\%) and lead it
+elsewhere (COCO: about +0.04 at 10--20\%, shrinking to 0 by 50\%). After fine-tuning they are level with L2
+on WSD (within 0.004), slightly behind on Viewsphere (up to $-$0.015), scattered around it on
+Viewsphere~v2 (+0.014 to $-$0.030), and ahead on COCO by a margin that grows with pruning (+0.005 at
+10\% to about +0.04 at 50\%). The averages hide model-to-model variation, and many of the small gaps are
+within seed noise; Viewsphere~v2 one-shot results are unreliable (Section~\ref{sec:vs2}).}
+\end{figure}
+
+%======================================================================
+\section{Datasets}
+
+\begin{table}[H]
+\centering\small
+\caption{Datasets and the starting models that are pruned}
+\adjustbox{max width=\linewidth}{%
+\begin{tabular}{llll}
+\toprule
+Dataset & Content & Train / val images & Starting model \\
+\midrule
+WSD v71 & satellite components: antenna, body, solar, thruster & 1,005 / 186 & YOLO26n/s trained from scratch \\
+Viewsphere & 4 rendered satellites, relabelled to WSD's 4 classes & 925 / 160 & the WSD models fine-tuned on it \\
+Viewsphere v2 & 17 rendered satellites, same classes and split (Section~\ref{sec:vs2}) & 4,079 / 680 & the WSD models fine-tuned on it \\
+COCO 2017 & 80 everyday object classes & 10k subset / 5,000 & Ultralytics pretrained YOLO26n/s \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\textbf{Viewsphere} renders Clementine, ICESatB, Jason-1 and Sentinel-6 from 18 viewing angles,
+4 distances and 5 Sun phases; it is split by viewing angle, and frames with less than 10\% of the
+satellite lit are dropped from train. Training on it from scratch was unstable, hence the WSD
+starting point. On \textbf{COCO}, pruned models are fine-tuned on a fixed 10k-image subset of
+train2017, so the unpruned model given the same fine-tune is the reference.
+
+%======================================================================
+\section{Methods}
+
+\textbf{Channel pruning.} In every convolution from layer 6 on (the stem, the detection head and
+attention layers are left alone), the lowest-scoring 10--50\% of channels are removed physically.
+All criteria remove the same number of channels per layer, so they give equally sized models; at
+50\% that is $-$39\% parameters and $-$28\% GFLOPs. The criteria compared:
+\begin{itemize}
+\item \textbf{PEEK field~H1} --- builds the layer's PEEK map (pseudo-entropy of the activations
+  across channels at each pixel), measures its loops (H1 persistent homology), and removes first the
+  channels whose absence changes that topology least. Scored on 128 training images.
+\item \textbf{PEEK field~H0} and \textbf{field~H0+H1} --- the same, but measuring the map's
+  connected components (H0) or the total persistence of both (H0+H1).
+\item \textbf{L2} --- removes the filters with the smallest weight magnitude.
+\item \textbf{Random} --- removes a random set of channels; the baseline to beat.
+\end{itemize}
+
+\textbf{Block replacement.} Whole C3k2 blocks are swapped for a 1$\times$1 convolution, $k = 1, 2, 3$
+blocks at a time, ranked by the persistence of each block's PEEK map: \emph{head} ranks the four
+head blocks on raw scores; \emph{grid} and \emph{null} rank all eight C3k2 blocks with the scores
+normalised for map size. Each ranking is scored three ways: \emph{C}, the 50/50 blend of
+normalised H0 (secondary-peak prominence) and H1 (pocket persistence) used so far, \emph{H0} only,
+or \emph{H1} only. A cut set picked by several rankings is trained once. The baseline is 23 random
+block orders.
+
+\textbf{Measurements} (mAP50-95 on the validation split):
+\begin{itemize}
+\item \textbf{One-shot} --- right after pruning, with only the BatchNorm statistics re-estimated;
+  10 seeds (random: 10 different masks).
+\item \textbf{After a 20-epoch fine-tune} --- AdamW, batch 16; lr $1.25\times10^{-3}$ (WSD,
+  Viewsphere) or $1.25\times10^{-4}$ (COCO); 5 seeds. Block cuts get the same fine-tune, 3 seeds.
+\item \textbf{Recovery} --- separate fine-tunes stopped after 250 to 5,000 batches; 3 seeds on WSD
+  and Viewsphere, 1 on COCO (which also has runs on all of train2017).
+\end{itemize}
+A difference is treated as real when it exceeds two standard errors across seeds (roughly a 95\%
+test); otherwise it is within seed noise.
+
+%======================================================================
+\section{Results}
+
+Each dataset has a channel-pruning table; recovery (Tables~\ref{tab:rec}--\ref{tab:speed}) and
+block replacement (Tables~\ref{tab:blockgap} and~\ref{tab:blocks}) are collected for all three at
+the end of this section.
+
+\subsection{WSD}
+
+\begin{table}[H]
+\centering\small
+\caption{WSD: channel pruning by criterion}
+\label{tab:wsd}
+\tbl{wsd_channel}
+\tnote{mAP50-95 on the validation split, mean over seeds (one-shot: 10, fine-tuned: 5).
+\textbf{Bold} = best criterion; $^\dagger$ = its lead over the runner-up holds up across
+seeds.}
+\end{table}
+
+\begin{itemize}
+\item \textbf{One-shot:} L2 is best from 20\% on, by 0.02--0.07; field~H1 is second but still well
+  above random (+0.01 to +0.08 at every ratio).
+\item \textbf{After fine-tuning:} the criteria end within 0.013 of each other, and field~H1 and L2
+  within about 0.02 of the unpruned model even at 50\%. The few leads that hold up (L2 at 30\% on n,
+  field~H1 at 30--50\% on s) are under 0.01.
+\item \textbf{H0 and H0+H1:} one-shot, they edge out field~H1 at 10--30\% on n and at 10\% on s,
+  while field~H1 is better at 50\% (and at 30\% on s); after fine-tuning all three persistence scores are within 0.009
+  of each other with no consistent winner.
+\item \textbf{Recovery:} fast; most models are within 0.02--0.03 of unpruned after 1,000 batches
+  (16 epochs). At 50\% a real gap of 0.013--0.016 remains at 5,000 batches, and the three criteria
+  are within noise of each other by then.
+\item \textbf{Blocks:} with the blended score (C), the size-normalised grid ranking gives the best
+  cut in 5 of 6 cases (on n at $k = 2$, 0.365 --- as good as the uncut model). Scored on H1 alone,
+  the null ranking beats random choice at every $k$ on both models (+0.011 to +0.043); the raw head
+  ranking is mostly below the random median whatever the score.
+\end{itemize}
+
+\subsection{Viewsphere}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere: channel pruning by criterion}
+\tbl{viewsphere_channel}
+\tnote{mAP50-95 on the validation split, mean over seeds. Bold and $^\dagger$ as in
+Table~\ref{tab:wsd}.}
+\end{table}
+
+\begin{itemize}
+\item \textbf{One-shot:} field~H1 beats random everywhere (+0.035 to +0.09). L2 leads or ties at
+  10--30\%, field~H1 leads at 50\% (both models). Viewsphere runs are noisier than WSD's (seed sd
+  0.01--0.04).
+\item \textbf{After fine-tuning:} all within 0.04; L2 is slightly ahead at most ratios (by
+  0.006--0.016 where it holds up) and beats random by 0.012--0.038 at 40--50\%.
+\item \textbf{H0 and H0+H1:} one-shot, field~H1 is the best of the three on s; after
+  fine-tuning, field~H0+H1 beats field~H1 at 50\% on both models (0.470 vs 0.456 and 0.530 vs 0.516),
+  roughly level with L2.
+\item \textbf{Recovery:} YOLO26s is back to the unpruned level by 5,000 batches even at 50\%;
+  YOLO26n stays 0.06 behind at 50\%. L2 recovers slightly faster than field~H1 here.
+\item \textbf{Blocks:} only the raw head ranking (the same cut for all three scores) beats the
+  random median (by 0.012--0.021 at $k = 2, 3$). Scoring on H1 alone avoids the null ranking's loss at
+  $k = 1$ ($-$0.030 and $-$0.033 become +0.005 and $-$0.003), but no all-block ranking beats random at
+  $k \ge 2$.
+\end{itemize}
+
+\subsection{COCO}
+
+\begin{table}[H]
+\centering\small
+\caption{COCO: channel pruning by criterion}
+\tbl{coco_channel}
+\tnote{mAP50-95 on val2017, mean over seeds. Bold and $^\dagger$ as in Table~\ref{tab:wsd}.}
+\end{table}
+
+\begin{itemize}
+\item \textbf{One-shot:} far more fragile than WSD (near zero from 30--40\%), but the order is clean:
+  field~H1 $>$ L2 $>$ random at every ratio, and every lead holds up.
+\item \textbf{After fine-tuning:} the same order survives and the gap grows with pruning; at 50\%,
+  field~H1 0.187 vs L2 0.126 vs random 0.104 (n) and 0.276 vs 0.212 vs 0.203 (s).
+\item \textbf{H0 and H0+H1:} also ahead of L2 at every ratio after fine-tuning, and within 0.012
+  of field~H1. One-shot, field~H1 is the best of the three from 30\% on (field~H0 at 10\% on n);
+  after fine-tuning, field~H1's lead at 50\% on n (0.187 vs 0.175 and 0.178) holds up.
+\item \textbf{Recovery:} the 10k subset caps it, and field~H1 recovers fastest. On all of train2017
+  (7 epochs), 10\% pruning reaches 96--97\% of the unpruned model and 50\% reaches 73--83\%, with
+  field~H1 still about 0.02 ahead of L2.
+\item \textbf{Blocks:} the null ranking is best on YOLO26n (at $k = 3$, 0.265 vs a random median of
+  0.144), grid on YOLO26s at $k \le 2$; scored on H0 alone, null beats random at every $k$ on
+  YOLO26s (+0.033 to +0.063), while H1 alone is worse than random at $k = 1$. One cut block already
+  costs 0.025--0.06 mAP.
+\end{itemize}
+
+\subsection{Recovery, all datasets}
+
+\textbf{Which criterion recovers first?} On WSD and Viewsphere the differences are small and mostly
+early: at 250--1,000 batches, field~H1 and L2 lead random by 0.01--0.05 at 50\% on YOLO26n,
+but by 5,000 batches the three are within seed noise on WSD, and L2 is slightly ahead on
+Viewsphere. On COCO, field~H1 leads at every budget at 30--50\% pruning, most of all early (50\%,
+1,000 batches, YOLO26n: 0.077 vs 0.039 vs 0.022), and still after 7 epochs on all of train2017
+(Table~\ref{tab:reclong}). Light pruning (10\%) reaches 95\% of the unpruned model within
+250--500 batches on WSD and Viewsphere, but on COCO only after 3--7 epochs on the full training
+set; 30--50\% never gets there on COCO (Table~\ref{tab:speed}). Field~H0 and field~H0+H1 recover
+like field~H1: on COCO all three stay well ahead of L2 at 50\% (1,000 batches, YOLO26n: 0.072 and
+0.076 vs 0.077 for field~H1), and on WSD and Viewsphere most gaps to field~H1 and L2 are within seed noise; those that hold up
+are small and point both ways on WSD ($\le$0.013), while on Viewsphere L2 is often ahead of them by
+0.01--0.04.
+
+\begin{table}[H]
+\centering\small
+\caption{Recovery after channel pruning, by training budget}
+\label{tab:rec}
+\tbl{recovery}
+\tnote{mAP50-95 after separate fine-tunes of 250 to 5,000 batches (WSD, Viewsphere: mean of 3
+seeds; COCO: 1 seed on the 10k subset). One epoch is 63 / 58 / 625 batches. \textbf{Bold} = best
+criterion at that ratio and budget.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{COCO: recovery with longer fine-tunes}
+\label{tab:reclong}
+\tbl{recovery_coco_long}
+\tnote{mAP50-95 on val2017 (1 seed). 25,000 and 50,000 batches on the 10k subset; \emph{full 3 / 7
+ep} = fine-tuned on all of train2017 (7,393 batches per epoch, so 22k / 52k batches). Bold as in
+Table~\ref{tab:rec}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Training needed to reach 95\% of the unpruned model}
+\label{tab:speed}
+\tbl{recovery_speed}
+\tnote{Smallest training budget tested after which the pruned model reaches 95\% of the unpruned
+model's mAP50-95 at the same budget (WSD, Viewsphere: 3-seed means). \emph{never} = not within
+5,000 batches (COCO: not within 7 epochs on all of train2017). \textbf{Bold} = fastest criterion.
+The budgets are coarse steps (250, 500, 1,000, 2,500, 5,000), so ties are common and a step can
+move with seed noise.}
+\end{table}
+
+Figures~\ref{fig:bw-wsd}--\ref{fig:budgetwins} count, at each training budget, which criterion
+recovers best: one figure per dataset, then all four together. Both architectures are included
+(YOLOv5: Section~\ref{sec:v5}; Viewsphere~v2: Section~\ref{sec:vs2}). A setting = model (YOLO26n/s,
+YOLOv5n/s) $\times$ pruning ratio (10, 30, 50\%), 12 per dataset and budget; the criterion with the highest
+mean mAP50-95 wins it (ties count for each), which is not necessarily a lead beyond the seed noise.
+COCO's longer budgets are left out.
+
+\begin{figure}[H]
+\centering
+\caption{WSD: which criterion wins at each training budget}
+\label{fig:bw-wsd}
+\includegraphics[width=\linewidth]{figures/budget_wins_wsd.png}
+\tnote{The winner changes with the budget: L2 at 250--500 batches, field~H1 at 1,000--2,500, field~H0
+at 5,000, where random also wins 4 of 12; on WSD the criteria end close together.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Viewsphere: which criterion wins at each training budget}
+\includegraphics[width=\linewidth]{figures/budget_wins_viewsphere.png}
+\tnote{L2 wins most often at every budget (4--8 of 12).}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{Viewsphere v2: which criterion wins at each training budget}
+\includegraphics[width=\linewidth]{figures/budget_wins_viewsphere2.png}
+\tnote{No consistent winner: field~H0+H1 at 250 and 1,000 batches, field~H1 at 500, field~H0 at 5,000;
+the short budgets are affected by the BN problem (Section~\ref{sec:vs2}).}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{COCO: which criterion wins at each training budget}
+\includegraphics[width=\linewidth]{figures/budget_wins_coco.png}
+\tnote{A persistence score wins every COCO setting at every budget; L2 and random never do.
+Field~H1 leads at 500 and 2,500 batches, field~H0+H1 at 250 and 5,000.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\caption{All datasets: which criterion wins at each training budget}
+\label{fig:budgetwins}
+\includegraphics[width=\linewidth]{figures/budget_wins.png}
+\tnote{Figures~\ref{fig:bw-wsd}--\ref{fig:budgetwins} stacked. No criterion leads at every budget:
+field~H0+H1 wins most often at 250 batches (17 of 48), field~H0 and field~H1 at 500, field~H1 at 2,500
+and field~H0 at 5,000. 42 of L2's 54 wins are on Viewsphere; random wins 1--5 of 48.}
+\end{figure}
+
+\subsection{Block replacement, all datasets}
+
+\textbf{Does the block criterion matter?} Table~\ref{tab:blockgap} compares each TDA ranking with
+cutting the same number of blocks at random. Random choices already spread widely (sd 0.01--0.04
+mAP50-95), so \emph{which} blocks are cut matters. On every dataset at least one TDA ranking beats
+random choice by a margin that holds up across seeds: grid on WSD (+0.012 to +0.036), head on
+Viewsphere at $k = 2, 3$ (+0.013 to +0.018), null on COCO (up to +0.118 at $k = 3$ on YOLO26n). But
+the winning ranking differs by dataset, and the others can be clearly worse than random (null on
+Viewsphere YOLO26s: $-$0.072 at $k = 3$). The criterion matters; no single ranking is safe to pick
+in advance. Scoring blocks on H0 or H1 alone, instead of the blend, often changes the cut set and
+with it the result: H1 alone gives the most reliable ranking on WSD (null beats random in all six
+model/$k$ cases), H0 alone on COCO YOLO26s; on Viewsphere neither rescues grid or null.
+
+\begin{table}[H]
+\centering\small
+\caption{Block pruning: TDA-chosen blocks vs randomly chosen blocks}
+\label{tab:blockgap}
+\tbl{block_gap}
+\tnote{First row of each group: mAP50-95 after cutting $k$ random blocks (23 orders, seed 42) and
+fine-tuning 20 epochs. Other rows: each TDA ranking's cut (mean of 3 seeds) minus that random mean.
+\textbf{Bold} = the gap exceeds two standard errors, i.e.\ the TDA choice is reliably better (+) or
+worse ($-$) than a random one. Scores: C = blend of H0 and H1, H0 = H0 only, H1 = H1 only; equal
+entries mean the scores pick the same blocks.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Block pruning: accuracy of each ranking's cut}
+\label{tab:blocks}
+\tbl{blocks}
+\tnote{mAP50-95 after cutting $k$ blocks and fine-tuning 20 epochs. Each ranking's cut is the mean of
+3 seeds; the baseline is the spread of 23 random block orders (seed 42); uncut mAP in brackets.
+Scores as in Table~\ref{tab:blockgap}. \textbf{Bold} = best ranking and score at that $k$;
+$^\dagger$ = above every random order. Rankings that pick the same blocks share one trained model.}
+\end{table}
+
+\subsection{Inference cost}
+
+\begin{table}[H]
+\centering\small
+\caption{Size and inference time of channel-pruned models}
+\label{tab:cost}
+\tbl{cost}
+\tnote{The same for every criterion at a given ratio. GPU: NVIDIA A100, FP16, batch-1 latency (ms)
+and batch-32 throughput (images/s); CPU: Intel Xeon, FP32, 8 threads, batch-1 latency (ms). All
+three datasets were timed in one run. \textbf{Bold} = best value for that dataset and model (lowest
+GFLOPs and latency, highest throughput).}
+\end{table}
+
+Pruning 50\% of channels removes 26--28\% of GFLOPs but changes GPU batch-1 latency by only 1--4\%:
+at this model size the GPU is limited by kernel launches, not arithmetic. Batch-32 throughput even
+drops at 10--20\% before rising 9--15\% at 50\%. CPU latency improves mainly at 50\% (12--18\%
+on WSD and COCO; the Viewsphere CPU timings are noisier). Replacing a block, by contrast, saves
+7--14\% GPU latency for one block and 18--28\% for three.
+
+%======================================================================
+\section{YOLOv5}
+\label{sec:v5}
+
+The whole study was repeated on YOLOv5n/s, in Ultralytics' anchor-free version (YOLOv5u): the
+same datasets, criteria, seeds, fine-tunes and recovery budgets as for YOLO26. Starting models:
+COCO = Ultralytics' pretrained weights; WSD = trained from scratch like the YOLO26 models (best
+mAP50-95 0.370 / 0.405 for n / s); Viewsphere = those fine-tuned on it (0.539 / 0.614). YOLOv5 has
+no attention layers, so the same channel pruning removes more: at 50\%, 57--61\% of parameters and
+35--41\% of GFLOPs (YOLO26: 39\% and 26--28\%). Its replaceable blocks are the eight C3 blocks
+(2, 4, 6, 8 in the backbone; 13, 17, 20, 23 in the head). Tables~\ref{tab:wsd5}--\ref{tab:cost5}
+match Tables~\ref{tab:wsd}--\ref{tab:cost}.
+
+\subsection{Channel pruning}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5, WSD: channel pruning by criterion}
+\label{tab:wsd5}
+\tbl{wsd_channel_v5}
+\tnote{As Table~\ref{tab:wsd}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5, Viewsphere: channel pruning by criterion}
+\tbl{viewsphere_channel_v5}
+\tnote{As Table~\ref{tab:wsd}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5, COCO: channel pruning by criterion}
+\tbl{coco_channel_v5}
+\tnote{As Table~\ref{tab:wsd}.}
+\end{table}
+
+\begin{itemize}
+\item \textbf{WSD:} as on YOLO26, L2 is the best criterion one-shot (by 0.01--0.04 on n; on s from 30\%), and
+  after fine-tuning everything ends within about 0.01 of the unpruned model; only random at 50\%
+  on n falls behind (0.342 vs 0.354--0.360). On s even random catches up.
+\item \textbf{Viewsphere:} one-shot, the best persistence score beats L2 from 30\% on (on s at every
+  ratio: field~H1 0.501 vs L2 0.415 at 10\%), unlike YOLO26. After fine-tuning L2 leads on n at
+  30\% (0.448 vs 0.386--0.426); at 50\% every scored criterion is ahead of random (0.35--0.36 vs
+  0.319 on n, 0.47--0.48 vs 0.446 on s).
+\item \textbf{COCO:} the persistence scores are best again, but by less than on YOLO26 and with L2
+  no better than random: one-shot at 10\%, 0.141--0.148 vs 0.105 (L2) and 0.110 (random) on n;
+  after fine-tuning at 50\%, 0.108 vs 0.095 and 0.099 (n) and 0.208--0.212 vs 0.188 and 0.196 (s).
+  The three persistence scores give almost the same models after fine-tuning.
+\end{itemize}
+
+\subsection{Recovery}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5: recovery after channel pruning, by training budget}
+\tbl{recovery_v5}
+\tnote{As Table~\ref{tab:rec}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5, COCO: recovery with longer fine-tunes}
+\tbl{recovery_coco_long_v5}
+\tnote{As Table~\ref{tab:reclong}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5: training needed to reach 95\% of the unpruned model}
+\tbl{recovery_speed_v5}
+\tnote{As Table~\ref{tab:speed}.}
+\end{table}
+
+On COCO the best persistence score recovers fastest at 50\% at every budget, but the margins are
+small (0.001--0.02; after 7 epochs on all of train2017, 0.190--0.192 vs 0.186 on n). YOLOv5 recovers more
+slowly than YOLO26 on COCO: even 10\% pruning reaches 95\% of the unpruned model only on s after 3
+full epochs (and on n only with field~H1, after 7). On WSD, 50\% pruning is back to 95\% within
+1,000 batches with every persistence score (random: 2,500 on n; L2: never on s); on Viewsphere
+50\% never gets there within 5,000 batches.
+
+\subsection{Block replacement}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5 block pruning: TDA-chosen blocks vs randomly chosen blocks}
+\tbl{block_gap_v5}
+\tnote{As Table~\ref{tab:blockgap}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5 block pruning: accuracy of each ranking's cut}
+\tbl{blocks_v5}
+\tnote{As Table~\ref{tab:blocks}.}
+\end{table}
+
+The pattern by dataset is the same as on YOLO26, which suggests it comes from the data rather than
+the network: the size-normalised grid ranking beats random choice on WSD (+0.011 to +0.018 where it holds up), the raw
+head ranking does on Viewsphere (+0.027 and +0.038 at $k = 2, 3$ on s; +0.022 and +0.036 at $k = 1, 3$ on n) while
+grid and null are mostly worse than random there, and on COCO most rankings beat random by a margin
+that holds up (up to +0.083: null scored on H0 alone, $k = 3$ on n). Scoring on H0 alone hurts
+the null ranking on WSD ($-$0.008 to $-$0.032), as it did on YOLO26.
+
+\subsection{Inference cost}
+
+\begin{table}[H]
+\centering\small
+\caption{YOLOv5: size and inference time of channel-pruned models}
+\label{tab:cost5}
+\IfFileExists{tables/cost_v5.tex}{\tbl{cost_v5}}{\emph{(The YOLOv5 timing run is still in the queue.)}}
+\tnote{As Table~\ref{tab:cost}; timed in the same run as the YOLO26 models.}
+\end{table}
+
+YOLOv5 runs about a third faster than YOLO26 at batch 1 on the GPU (5.9 vs 9.1~ms unpruned), despite
+having more GFLOPs. As on YOLO26, channel pruning barely moves GPU batch-1 latency: removing 35--41\%
+of GFLOPs at 50\% leaves it at 5.9~ms, and 10--40\% pruning is slightly slower than none. Batch-32
+throughput rises 17--24\% at 50\% and CPU latency falls 18--26\%, more than on YOLO26 because more of
+the network is pruned. Replacing blocks saves 5--11\% GPU latency for one block and 15--23\% for three.
+
+%======================================================================
+\section{Viewsphere v2}
+\label{sec:vs2}
+
+Viewsphere~v2 renders 17 satellites (the 4 of v1 plus AcrimSAT, CALIPSO, CloudSat~B and~C, a 2U
+CubeSat, EO-1, GRACE, ICESat-2, Landsat~5 and~8, Jason-2, QuikSCAT and TDRS-D), relabelled to WSD's
+4 classes and split by viewing angle exactly as v1 (4,079 / 680 / 680 train / val / test images).
+The whole study was run on it for both architectures, with v1's settings (lr $1.25\times10^{-3}$,
+matched warmup bias lr; budgets 250--5,000 batches, here 1--20 epochs) but without the
+activation-basis grid. Starting models = the WSD models fine-tuned on v2, best mAP50-95 0.445 /
+0.515 (YOLO26n/s) and 0.409 / 0.489 (YOLOv5n/s), lower than on v1 (0.54--0.61).
+
+\textbf{BN re-estimation is unreliable on v2.} Re-estimating the batch-norm statistics on the
+\emph{unpruned} model, the step every one-shot number includes, collapses mAP50-95 for some
+calibration seeds: YOLO26n gives 0.09 for seeds 42 and 46 but 0.42--0.45 for 43--45; YOLOv5n
+0.06--0.22 for three of five seeds; YOLOv5s 0.27--0.36 for three. On v1 the same step costs at most
+about 0.09. The one-shot columns below (seed 42 for the unpruned row) are therefore mostly
+calibration luck, and only the fine-tuned columns compare the criteria. Fine-tuning repairs it: every
+unpruned seed ends at 0.45--0.47 (YOLO26n).
+
+\subsection{Channel pruning}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2, YOLO26: channel pruning by criterion}
+\label{tab:vs2}
+\tbl{viewsphere2_channel_vs2}
+\tnote{As Table~\ref{tab:wsd}. One-shot numbers include the unreliable BN re-estimation (see above).}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2, YOLOv5: channel pruning by criterion}
+\tbl{viewsphere2_channel_v5_vs2}
+\tnote{As Table~\ref{tab:vs2}.}
+\end{table}
+
+\begin{itemize}
+\item \textbf{YOLO26:} after fine-tuning, all criteria end within 0.02 of each other at 50\%
+  (0.376--0.390 on n, 0.427--0.434 on s). L2 has the highest (or tied) mean at 50\% on both models and at
+  30\% on s, but no lead exceeds two standard errors (no $^\dagger$ anywhere in the table). Random
+  is the worst on n at every ratio (0.370--0.431).
+\item \textbf{YOLOv5:} at 50\% the fine-tunes are unstable: single seeds collapse (field~H1 on n:
+  0.03--0.31 across seeds; L2 on s: 0.17--0.40), so means differ by up to 0.16 without any of them
+  holding up. On s, the persistence scores are ahead of random at 50\% (0.330--0.385 vs 0.317); on n,
+  field~H0 and L2 are the only criteria that stay near 0.31.
+\end{itemize}
+
+\subsection{Recovery}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2, YOLO26: recovery after channel pruning, by training budget}
+\tbl{recovery_vs2}
+\tnote{As Table~\ref{tab:rec}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2, YOLOv5: recovery after channel pruning, by training budget}
+\tbl{recovery_v5_vs2}
+\tnote{As Table~\ref{tab:rec}.}
+\end{table}
+
+The short budgets inherit the BN problem: the unpruned YOLO26n scores 0.057 after 250 batches and
+0.44 after 500, and YOLOv5 does not improve steadily with budget (YOLOv5n unpruned: 0.272 at 500,
+0.260 at 1,000). A ``batches to 95\% of unpruned'' table like Table~\ref{tab:speed} would mostly
+measure that, so it is left out. By 5,000 batches (20 epochs), YOLO26 at 50\% is 0.07--0.14 behind
+the unpruned model on n and 0.05--0.06 on s, with field~H0+H1 the highest on both (0.390 and
+0.438); YOLOv5 at 50\% is 0.12--0.16 behind on n and 0.06--0.13 on s.
+
+\subsection{Block replacement}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2 block pruning: TDA-chosen blocks vs randomly chosen blocks, YOLO26}
+\tbl{block_gap_vs2}
+\tnote{As Table~\ref{tab:blockgap}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2 block pruning: TDA-chosen blocks vs randomly chosen blocks, YOLOv5}
+\tbl{block_gap_v5_vs2}
+\tnote{As Table~\ref{tab:blockgap}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2 block pruning: accuracy of each ranking's cut, YOLO26}
+\tbl{blocks_vs2}
+\tnote{As Table~\ref{tab:blocks}.}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption{Viewsphere v2 block pruning: accuracy of each ranking's cut, YOLOv5}
+\tbl{blocks_v5_vs2}
+\tnote{As Table~\ref{tab:blocks}.}
+\end{table}
+
+As on v1, the raw head ranking is the one that beats random choice: YOLO26n +0.033 at $k = 3$,
+YOLOv5s +0.025 at $k = 2$ (both holding up), and it is never significantly worse than random. The
+all-block rankings mostly do not: the null ranking is significantly worse than random in 9 of its 36
+cells across the four models (down to $-$0.089 on YOLOv5s, $k = 3$), and significantly better in two
+(YOLO26n $k = 3$ with the blend, +0.047; YOLO26s $k = 1$ with H1, +0.008). Scoring on H1 alone again softens the null ranking's losses (YOLO26s $k = 1$:
++0.008 instead of $-$0.018 and $-$0.031; YOLOv5s $k = 3$: +0.005 instead of $-$0.089). On YOLOv5n no
+ranking beats random by a margin that holds up.
+
+\end{document}
