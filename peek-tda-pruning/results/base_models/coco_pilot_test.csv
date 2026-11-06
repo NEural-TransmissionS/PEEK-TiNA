@@ -1,0 +1,17 @@
+dataset,start,model,test_map50_95,test_map50,weights
+wsd,scratch,yolo26n,0.2785,0.4255,/shared/projects/tina/PEEK-TiNA/runs/wsd71_scratch/yolo26n_scratch_seed42/weights/best.pt
+wsd,scratch,yolo26s,0.3148,0.4569,/shared/projects/tina/PEEK-TiNA/runs/wsd71_scratch/yolo26s_scratch_seed42/weights/best.pt
+wsd,scratch,yolov5n,0.2937,0.4312,/shared/projects/tina/PEEK-TiNA/runs/wsd71_scratch/yolov5n_scratch_seed42/weights/best.pt
+wsd,scratch,yolov5s,0.3308,0.4581,/shared/projects/tina/PEEK-TiNA/runs/wsd71_scratch/yolov5s_scratch_seed42/weights/best.pt
+wsd,coco,yolo26n,0.3553,0.4959,/shared/projects/tina/PEEK-TiNA/runs/wsd71_coco_ft/yolo26n_ft_seed42/weights/best.pt
+wsd,coco,yolo26s,0.3345,0.4607,/shared/projects/tina/PEEK-TiNA/runs/wsd71_coco_ft/yolo26s_ft_seed42/weights/best.pt
+wsd,coco,yolov5n,0.3168,0.4646,/shared/projects/tina/PEEK-TiNA/runs/wsd71_coco_ft/yolov5n_ft_seed42/weights/best.pt
+wsd,coco,yolov5s,0.3556,0.4854,/shared/projects/tina/PEEK-TiNA/runs/wsd71_coco_ft/yolov5s_ft_seed42/weights/best.pt
+viewsphere2,wsd,yolo26n,0.44,0.6054,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_finetune_wsd/yolo26n_ft_seed42/weights/best.pt
+viewsphere2,wsd,yolo26s,0.4892,0.6435,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_finetune_wsd/yolo26s_ft_seed42/weights/best.pt
+viewsphere2,wsd,yolov5n,0.4034,0.5824,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_finetune_wsd/yolov5n_ft_seed42/weights/best.pt
+viewsphere2,wsd,yolov5s,0.4671,0.6288,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_finetune_wsd/yolov5s_ft_seed42/weights/best.pt
+viewsphere2,coco,yolo26n,0.4788,0.6296,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_coco_ft/yolo26n_ft_seed42/weights/best.pt
+viewsphere2,coco,yolo26s,0.5087,0.6596,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_coco_ft/yolo26s_ft_seed42/weights/best.pt
+viewsphere2,coco,yolov5n,0.0598,0.122,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_coco_ft/yolov5n_ft_seed42/weights/best.pt
+viewsphere2,coco,yolov5s,0.4981,0.652,/shared/projects/tina/PEEK-TiNA/runs/viewsphere2_wsd4_coco_ft/yolov5s_ft_seed42/weights/best.pt
