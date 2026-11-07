@@ -13,7 +13,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from topo_prune import CRITERIA, SCOPES, SIZES, rank_layers, ranking_path, scopes
+from topo_prune import CRITERIA, SCOPES, SIZES, l2_scores, rank_layers, ranking_path, scopes
 
 HERE = Path(__file__).resolve().parent
 
@@ -44,14 +44,17 @@ def main() -> None:
     rank_path = ranking_path(args.dataset, args.size, args.basis, args.scope, "norm" if args.norms else "")
     rank_path.parent.mkdir(exist_ok=True)
     if not rank_path.is_file():
+        weights = HERE / "weights" / f"{args.dataset}_{args.size}.pt"
+        candidates = scopes(args.size)[args.scope]
         ranking = rank_layers(
-            str(HERE / "weights" / f"{args.dataset}_{args.size}.pt"),
+            str(weights),
             data_dir / "images" / args.rank_split,
             args.n_rank,
-            candidates=scopes(args.size)[args.scope],
+            candidates=candidates,
             basis=args.basis,
             norms=args.norms,
         )
+        ranking["l2"] = l2_scores(weights, candidates)  # magnitude baseline, same file
         rank_path.write_text(json.dumps(ranking, indent=2))
         print(f"[{args.dataset}_{args.size}] cut order (low persistence first): "
               f"{ranking['cut_order_ascending']}  combined={ranking['combined']}")

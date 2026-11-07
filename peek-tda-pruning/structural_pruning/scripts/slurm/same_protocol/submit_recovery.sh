@@ -29,17 +29,17 @@
 #   STUDIES="probe budget"  DATASETS="wsd coco"  BUDGETS="250 500 1000 2500 5000"  WBLR=0
 # e.g. WBLR=1 STUDIES=probe bash submit_recovery.sh;  STUDIES=budget DATASETS=coco BUDGETS="25000 50000" bash ...
 set -euo pipefail
-T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=$P/outputs/yolo26_tda
+T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=${O_ROOT:-$P/outputs/yolo26_tda}
 STUDIES=${STUDIES:-probe budget}; DATASETS=${DATASETS:-wsd coco}; BUDGETS=${BUDGETS:-250 500 1000 2500 5000}; WBLR=${WBLR:-0}
 cd $P
-export REPO_ROOT=$P PROTECT_LAYERS=6 WORKERS=16 BATCH=16 SEED=${SEED:-42} OPTIMIZER=AdamW MOMENTUM=0.9
+export REPO_ROOT=$P PROTECT_LAYERS=6 WORKERS=8 BATCH=16 SEED=${SEED:-42} OPTIMIZER=AdamW MOMENTUM=0.9
 export RATIOS="0.1 0.3 0.5" CRITERIA=${CRITERIA:-field_h1 l2 random}   # array 0 none, then 3 per criterion
 ARRAY=${ARRAY:-0-9}   # default: 0 none, 1-3 field_h1, 4-6 l2, 7-9 random
 SB=scripts/slurm/yolo26_tda.sbatch; X="--exclude=gpu06"
 PW="--partition=gpu1,gpu2,h200,h200_mig,vdi-med,vdi-long $X"   # wide
 PL="--partition=gpu1,gpu2,h200,h200_mig,vdi-long $X"           # wide, > 8 h
 PS="--partition=gpu1,gpu2,h200,h200_mig $X"                    # COCO s fine-tunes: no 12 GB vdi
-LOG=outputs/recovery_jobs.txt
+LOG=${RECLOG:-outputs/recovery_jobs.txt}   # O_ROOT / RECLOG: dry runs (submit_rerun_coco.sh, 2026-11-06)
 # B -> "epochs fraction"
 declare -A WSD_B=([250]="4 1" [500]="8 1" [1000]="16 1" [2500]="40 1" [5000]="79 1")
 declare -A VS_B=([250]="4 1" [500]="9 1" [1000]="17 1" [2500]="43 1" [5000]="86 1")
@@ -48,7 +48,9 @@ declare -A COCO_B=([250]="1 0.4" [500]="1 0.8" [1000]="2 0.8" [2500]="4 1" [5000
 
 setup() {  # ds m -> exports for that model
   if [ $1 = wsd ]; then
-    export WEIGHTS=$T/runs/wsd71_scratch/yolo26${2}_scratch_seed42/weights/best.pt DATA=$T/data/data.yaml LR0=0.00125
+    # weights/wsd_<m>.pt (was runs/wsd71_scratch/... directly until 2026-11-06: same file, but the link follows
+    # the COCO-start bases of submit_rerun_coco.sh)
+    export WEIGHTS=$S/weights/wsd_$2.pt DATA=$T/data/data.yaml LR0=0.00125
     unset FT_DATA; BW=weights/wsd_$2.pt; BLR=0.00125; BDATA=""; PART=$PW
   elif [ $1 = viewsphere2 ]; then
     export WEIGHTS=$S/weights/viewsphere2_$2.pt DATA=/shared/projects/nets/viewsphere-dataset/v2_wsd4/data.yaml LR0=0.00125
@@ -65,7 +67,7 @@ setup() {  # ds m -> exports for that model
 }
 block() {  # name time args...
   local n=$1 tl=$2; shift 2
-  (cd $S && sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$tl --job-name=$n \
+  (cd $S && sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=32G --time=$tl --job-name=$n \
     --output=slurm/logs/recovery_$n.out \
     --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py $* --basis peek --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --momentum 0.9 --device 0 --seed $SEED --skip-existing")
 }

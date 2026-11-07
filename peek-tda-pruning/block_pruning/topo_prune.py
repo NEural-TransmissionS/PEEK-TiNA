@@ -240,12 +240,27 @@ def _rank_with_norms(weights, val_img_dir, n_images, candidates, basis) -> dict:
     }
 
 
-# Which per-block score orders the cuts: the 50/50 blend, or H0 / H1 alone.
-CRITERIA = {"combined": "combined", "h0": "h0_secondary_sum", "h1": "h1_sum"}
+def l2_scores(weights: str, candidates) -> dict[str, float]:
+    """Magnitude baseline (added 2026-11-06): RMS of each block's conv weights, sqrt(sum w^2 / #weights),
+    so big and small blocks compare per weight. No images; lowest is cut first, like the persistence scores."""
+    import torch
+    from ultralytics import YOLO
+
+    layers = YOLO(str(weights)).model.float().model
+    out = {}
+    for i in candidates:
+        ws = [m.weight.detach() for m in layers[i].modules() if isinstance(m, torch.nn.Conv2d)]
+        out[str(i)] = round(float(torch.sqrt(sum((w ** 2).sum() for w in ws) / sum(w.numel() for w in ws))), 6)
+    return out
+
+
+# Which per-block score orders the cuts: the 50/50 blend, H0 / H1 alone, or the L2 weight-magnitude
+# baseline (rankings written since 2026-11-06 carry "l2"; raw scores only, no grid / null variant).
+CRITERIA = {"combined": "combined", "h0": "h0_secondary_sum", "h1": "h1_sum", "l2": "l2"}
 
 
 def cut_order(ranking: dict, criterion: str = "combined") -> tuple[list[int], dict[str, float]]:
-    """Ascending cut order (lowest persistence first) + the scores it sorts by."""
+    """Ascending cut order (lowest score first) + the scores it sorts by."""
     scores = ranking[CRITERIA[criterion]]
     return sorted(ranking["candidates"], key=lambda i: scores[str(i)]), scores
 

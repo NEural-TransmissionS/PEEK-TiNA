@@ -40,7 +40,7 @@ from ultralytics.data.augment import LetterBox  # noqa: E402
 from ultralytics.data.utils import IMG_FORMATS, check_det_dataset  # noqa: E402
 from ultralytics.models.yolo.detect import DetectionTrainer  # noqa: E402
 
-from peek_rvc_pruning import iter_probe, yolo_tda  # noqa: E402
+from peek_rvc_pruning import iter_probe, pixel_noise, yolo_tda  # noqa: E402
 
 CRITERIA = (*yolo_tda.TDA_CRITERIA, *yolo_tda.BASELINE_CRITERIA)  # default grid (keeps old indices)
 ALL_CRITERIA = (*CRITERIA, *yolo_tda.FIELD_CRITERIA)
@@ -75,6 +75,14 @@ def calibration_images(data: str, n: int, imgsz: int, seed: int) -> torch.Tensor
     return torch.from_numpy(np.ascontiguousarray(np.stack(batch))).float() / 255.0
 
 
+def bn_calibration_images(data: str, n: int, imgsz: int, seed: int) -> torch.Tensor:
+    """calibration_images for BN re-estimation, with the training pixel noise (seeded) when PIXEL_NOISE is set:
+    noise-trained models re-estimated on clean renders lost 0.04-0.10 val mAP (v2 stability check, 2026-11-06)."""
+    images = calibration_images(data, n, imgsz, seed)
+    noise = pixel_noise.level()
+    return pixel_noise.add(images, noise, torch.Generator().manual_seed(seed)) if noise > 0 else images
+
+
 def model_cost(net: torch.nn.Module, imgsz: int) -> dict[str, float]:
     net = copy.deepcopy(net).cpu().train()
     macs, params = yolo_tda.tp.utils.count_ops_and_params(net, torch.zeros(1, 3, imgsz, imgsz))
@@ -106,7 +114,7 @@ def make_trainer(net: torch.nn.Module, seed: int = 42):
                 loader.reset()
             return loader
 
-    return PrunedTrainer
+    return pixel_noise.with_noise(PrunedTrainer, pixel_noise.level())  # PIXEL_NOISE: rendered sets (viewsphere)
 
 
 # ---------------------------------------------------------------------------
@@ -203,7 +211,7 @@ def cmd_prune(args) -> None:
     result["before_finetune"] = evaluate(args.weights, net, args, run_dir, "val_before_finetune")
     # all runs (incl. "none") get the same BN recalibration, and fine-tuning starts from it
     device = torch.device("cuda" if torch.cuda.is_available() and args.device != "cpu" else "cpu")
-    images = calibration_images(args.data, args.calib_images, args.imgsz, args.seed + 1)
+    images = bn_calibration_images(args.data, args.calib_images, args.imgsz, args.seed + 1)
     yolo_tda.recalibrate_bn(net.to(device), images).cpu()
     result["after_bn_recal"] = evaluate(args.weights, net, args, run_dir, "val_after_bn_recal")
     print(json.dumps(result, indent=2))

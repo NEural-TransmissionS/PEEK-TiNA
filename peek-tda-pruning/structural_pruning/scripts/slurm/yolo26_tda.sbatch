@@ -7,12 +7,15 @@
 #
 # Partition/account/QOS: pass them to sbatch or export SBATCH_PARTITION,
 # SBATCH_ACCOUNT, SBATCH_QOS before submitting (sbatch reads those env vars).
+# 8 CPUs / 48G (was 16 / 64G until 2026-11-07): prune jobs peak at ~22G (recovery full fine-tunes ~36G with
+# 16 workers), and 16 CPUs / 64G left GPUs idle on gpu2 (48 CPUs, 251G for 4 GPUs), the L40S vdi nodes
+# (64 CPUs / 8) and h200_mig (128 CPUs / 24 slices).
 #SBATCH --job-name=yolo26-tda
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --mem=64G
+#SBATCH --mem=48G
 #SBATCH --time=24:00:00
 #SBATCH --output=slurm_logs/%x-%A_%a.out
 

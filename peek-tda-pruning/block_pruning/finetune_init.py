@@ -3,7 +3,8 @@
 Builds the cut model for a dataset, copies every pretrained weight whose name and shape still
 match (the replacement 1x1 convs start fresh), and hands that model to the trainer. A plain
 ``YOLO(yaml).load(weights).train()`` would rebuild the model with random weights. The trainer
-also seeds the train loader from the run seed (Ultralytics fixes it otherwise).
+also seeds the train loader from the run seed (Ultralytics fixes it otherwise), and adds
+training-only pixel noise when PIXEL_NOISE is set (peek_rvc_pruning/pixel_noise.py; rendered sets).
 
 The from-scratch protocol and the run bookkeeping live in ``_train_one.py``.
 """
@@ -12,6 +13,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+HERE = Path(__file__).absolute().parent  # absolute, not resolve: block_pruning is reached through a symlink
 
 def init_from_pretrained(cfg: Path, weights: str, data: Path):
     """Cut model with the dataset's class count + every matching pretrained tensor.
@@ -42,4 +44,9 @@ def trainer_for(net, seed: int = 42):
                 loader.reset()
             return loader
 
-    return InitializedTrainer
+    import sys
+    for d in (HERE.parent / "PEEK-rvc-pruning", HERE.parent / "structural_pruning"):  # server / tina layout
+        sys.path.insert(0, str(d))
+    from peek_rvc_pruning import pixel_noise
+
+    return pixel_noise.with_noise(InitializedTrainer, pixel_noise.level())  # PIXEL_NOISE: rendered sets

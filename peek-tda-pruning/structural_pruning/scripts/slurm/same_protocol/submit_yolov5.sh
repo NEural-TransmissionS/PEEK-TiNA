@@ -17,32 +17,39 @@
 # DEP=<afterok:ids> holds the "channel" stage until the base models exist. Log: outputs/<TAG>_jobs.txt
 # MODELS / TAG (default v5n v5s / yolov5; MODELS="n s" TAG=yolo26 runs YOLO26) and dataset viewsphere2
 # (viewsphere v2: 17 satellites, v2_wsd4; protocol as viewsphere) added 2026-11-03 for submit_viewsphere2.sh.
+# Added 2026-11-06 for submit_rerun_coco.sh: NOISE_VS = training-only pixel noise (gray levels, PIXEL_NOISE in
+# the fine-tunes) on viewsphere / viewsphere2; base-weight links are only created when missing (the re-run sets
+# them); O_ROOT / JOBLOG move the channel outputs and the job log (dry runs).
 set -euo pipefail
 PHASE=$1; DS=$2
-T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=$P/outputs/yolo26_tda
+T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=${O_ROOT:-$P/outputs/yolo26_tda}
+NOISE_VS=${NOISE_VS:-}
 V=/shared/projects/nets/viewsphere-dataset/v1_wsd4; V2=/shared/projects/nets/viewsphere-dataset/v2_wsd4
 MODELS=${MODELS:-v5n v5s}; TAG=${TAG:-yolov5}; CR="field_h1 field_h0 field_total l2 random"   # grid: 0 none, then 5 ratios per criterion
 JP=$([ $TAG = yolov5 ] && echo v5 || echo y26)   # job-name prefix
 cd $P
-export REPO_ROOT=$P PROTECT_LAYERS=6 WORKERS=16 BATCH=16 RATIOS="0.1 0.2 0.3 0.4 0.5"
+export REPO_ROOT=$P PROTECT_LAYERS=6 WORKERS=8 BATCH=16 RATIOS="0.1 0.2 0.3 0.4 0.5"
 export OPTIMIZER=AdamW MOMENTUM=0.9 WARMUP_EPOCHS=1
 SB=scripts/slurm/yolo26_tda.sbatch; X="--exclude=gpu06"
 PW="--partition=gpu1,gpu2,h200,h200_mig,vdi-med,vdi-long $X"
 PS="--partition=gpu1,gpu2,h200,h200_mig $X"   # COCO s: no 12 GB vdi GPUs
-LOG=outputs/${TAG}_jobs.txt
+LOG=${JOBLOG:-$P/outputs/${TAG}_jobs.txt}; PLAN=${PLAN_DIR:-$P/outputs}   # PLAN_DIR: block plans (dry runs)
 BCOMMON="--epochs 20 --batch 16 --patience 100 --deterministic --amp --optimizer AdamW --momentum 0.9 --warmup-epochs 1 --device 0"
 
-# base weights, once: weights/<ds>_<m>.pt (WSD / viewsphere ones exist once their training finishes)
+# base weights, once: weights/<ds>_<m>.pt (WSD / viewsphere ones exist once their training finishes);
+# an existing link is kept, so the COCO-start bases that submit_rerun_coco.sh links stay in place
+link() { [ -L "$2" ] || [ -e "$2" ] || ln -sn "$1" "$2"; }
 for m in n s; do
-  ln -sfn $T/yolov5${m}u.pt $S/weights/coco_v5$m.pt
-  ln -sfn $T/runs/wsd71_scratch/yolov5${m}_scratch_seed42/weights/best.pt $S/weights/wsd_v5$m.pt
-  ln -sfn $T/runs/viewsphere_wsd4_finetune_wsd/yolov5${m}_ft_seed42/weights/best.pt $S/weights/viewsphere_v5$m.pt
-  ln -sfn $T/runs/viewsphere2_wsd4_finetune_wsd/yolov5${m}_ft_seed42/weights/best.pt $S/weights/viewsphere2_v5$m.pt
-  ln -sfn $T/runs/viewsphere2_wsd4_finetune_wsd/yolo26${m}_ft_seed42/weights/best.pt $S/weights/viewsphere2_$m.pt
+  link $T/yolov5${m}u.pt $S/weights/coco_v5$m.pt
+  link $T/runs/wsd71_scratch/yolov5${m}_scratch_seed42/weights/best.pt $S/weights/wsd_v5$m.pt
+  link $T/runs/viewsphere_wsd4_finetune_wsd/yolov5${m}_ft_seed42/weights/best.pt $S/weights/viewsphere_v5$m.pt
+  link $T/runs/viewsphere2_wsd4_finetune_wsd/yolov5${m}_ft_seed42/weights/best.pt $S/weights/viewsphere2_v5$m.pt
+  link $T/runs/viewsphere2_wsd4_finetune_wsd/yolo26${m}_ft_seed42/weights/best.pt $S/weights/viewsphere2_$m.pt
 done
 
 setds() {  # ds m -> exports + PART, TL, BINIT, BFT (each dataset's protocol, as submit_noise_seeds.sh)
-  unset FT_DATA WARMUP_BIAS_LR
+  unset FT_DATA WARMUP_BIAS_LR PIXEL_NOISE
+  [[ $1 == viewsphere* ]] && [ -n "$NOISE_VS" ] && export PIXEL_NOISE=$NOISE_VS
   export WEIGHTS=$S/weights/${1}_$2.pt
   case $1 in
     wsd) export DATA=$T/data/data.yaml LR0=0.00125; BFT="--lr0 0.00125"; PART=$PW; TL=01:30:00 ;;
@@ -59,13 +66,13 @@ setds() {  # ds m -> exports + PART, TL, BINIT, BFT (each dataset's protocol, as
 prune() {  # name array seed time dep -> job id
   sbatch --parsable $PART --export=ALL,SEED=$3 --job-name=$1 --array=$2 --time=$4 ${5:+--dependency=$5} $SB prune; }
 agg() {  # name deps(:a:b)
-  sbatch --parsable --partition=med --export=ALL --job-name=$1 --gres=none --cpus-per-task=2 --mem=8G --time=00:30:00 \
+  sbatch --parsable --partition=short,med --export=ALL --job-name=$1 --gres=none --cpus-per-task=2 --mem=8G --time=00:30:00 \
     --dependency=afterany$2 $SB aggregate; }
 later() {  # dep phase -> job id of a small job that runs "submit_yolov5.sh <phase> $DS" once dep is met
   # on the GPU partitions (1 GPU, minutes): med is often full for hours; sbatch works inside jobs here
   sbatch --parsable $PW --gres=gpu:1 --cpus-per-task=2 --mem=4G --time=01:00:00 --export=NONE \
     --dependency=$1 --job-name=$JP-$2-$DS --output=$P/slurm_logs/$JP-submit-$2-$DS-%j.out \
-    --wrap="bash -lc 'cd $P && MODELS=\"$MODELS\" TAG=$TAG bash scripts/slurm/submit_yolov5.sh $2 $DS'"; }
+    --wrap="bash -lc 'cd $P && MODELS=\"$MODELS\" TAG=$TAG NOISE_VS=$NOISE_VS bash scripts/slurm/submit_yolov5.sh $2 $DS'"; }
 
 if [ $PHASE = channel ]; then
   if [ -n "${DEP:-}" ]; then echo "$DS: channel stage waits for $DEP: $(later $DEP channel)" | tee -a $LOG; exit 0; fi
@@ -100,20 +107,20 @@ fi
 
 if [ $PHASE = blocks ]; then
   cd $S
-  /shared/projects/tina/PEEK-TiNA/tina_venv/bin/python $P/scripts/slurm/plan_yolov5.py $DS $P/outputs $TAG $MODELS | tee -a $P/$LOG
+  /shared/projects/tina/PEEK-TiNA/tina_venv/bin/python $P/scripts/slurm/plan_yolov5.py $DS $PLAN $TAG $MODELS | tee -a $LOG
   while IFS=$'\t' read -r ds m lab cut args seeds; do
     setds $ds $m
     for s in ${seeds//,/ }; do
-      j=$(sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=64G --time=$TL --job-name=${JP}b-$ds-$m-$lab-s$s \
+      j=$(sbatch --parsable $PART --gres=gpu:1 --cpus-per-task=8 --mem=32G --time=$TL --job-name=${JP}b-$ds-$m-$lab-s$s \
         --output=slurm/logs/v5blocks_${ds}_${m}_${lab}_s$s.out \
         --wrap=". /shared/projects/tina/PEEK-TiNA/tina_venv/bin/activate; python _train_one.py --dataset $ds --size $m $args --basis peek --init-weights $BINIT $BCOMMON $BFT --seed $s --skip-existing")
-      echo "block $ds $m $lab $cut s$s $j" >> $P/$LOG
+      echo "block $ds $m $lab $cut s$s $j" >> $LOG
     done
-  done < $P/outputs/${TAG}_${DS}_blocks_ft.tsv
-  echo "$DS block cut + fine-tune: $(grep -c "^block $DS " $P/$LOG) jobs" | tee -a $P/$LOG
+  done < $PLAN/${TAG}_${DS}_blocks_ft.tsv
+  echo "$DS block cut + fine-tune: $(grep -c "^block $DS " $LOG) jobs" | tee -a $LOG
   cd $P
   rec() { env -u FT_DATA -u WARMUP_BIAS_LR -u OUT -u EPOCHS -u CRITERIA MODELS="$MODELS" CRITERIA="$CR" ARRAY=0-15 \
-            CUTS_FILE=$P/outputs/${TAG}_${DS}_blocks_rec.tsv CUTS_FULL_FILE=$P/outputs/${TAG}_${DS}_blocks_full.tsv \
+            CUTS_FILE=$PLAN/${TAG}_${DS}_blocks_rec.tsv CUTS_FULL_FILE=$PLAN/${TAG}_${DS}_blocks_full.tsv \
             DATASETS=$DS "$@" bash scripts/slurm/submit_recovery.sh; }
   case $DS in
     wsd) rec STUDIES=probe WBLR=0; rec STUDIES=probe WBLR=1

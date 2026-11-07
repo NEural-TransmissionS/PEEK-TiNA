@@ -5,6 +5,7 @@
 # momentum 0.9, matched warmup bias lr (= lr0).
 # Usage: sbatch --job-name=26n-vs4ft --export=ALL,MODEL=yolo26n slurm/train_viewsphere_finetune.slurm
 # DATA / PROJECT (added 2026-11-03) train on another split, e.g. v2_wsd4 into runs/viewsphere2_wsd4_finetune_wsd.
+# NOISE (added 2026-11-06): max sigma in gray levels of the training-only pixel noise (see below).
 #SBATCH --partition=gpu1,gpu2
 #SBATCH --exclude=gpu06
 #SBATCH --nodes=1
@@ -36,7 +37,12 @@ echo "Init: $INIT ($(md5sum "$INIT" | cut -d' ' -f1))"
 echo "Started: $(date)"
 nvidia-smi
 
-srun yolo detect train \
+# NOISE (added 2026-11-06): train with pixel-noise augmentation (train_noise_aug.py; v2 renders are ~96%
+# exactly-black pixels and models trained on them are hypersensitive to background noise)
+if [ -n "${NOISE:-}" ]; then TRAIN=(python "$REPO/tina/scripts/viewsphere/train_noise_aug.py" "$NOISE"); else TRAIN=(yolo detect train); fi
+echo "Train: ${TRAIN[*]}"
+
+srun "${TRAIN[@]}" \
     model="$INIT" \
     data="$DATA" \
     epochs=1000 \

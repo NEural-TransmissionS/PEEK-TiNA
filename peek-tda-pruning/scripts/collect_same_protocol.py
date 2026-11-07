@@ -49,8 +49,9 @@ for m in MODELS:
     CHANNEL_DIRS |= {f"{ds}_{m}_protect6_oneshot_seeds": (ds, m, "oneshot_seeds", "peek")
                      for ds in ("wsd", "coco", "viewsphere", "viewsphere2")}
 DATASETS = ("wsd", "coco", "viewsphere", "viewsphere2")
-# YOLOv5u WSD one-shot random masks (YOLO26 WSD's live with the older results, structural_pruning/random_spread)
-CHANNEL_DIRS |= {f"wsd_{m}_protect6_oneshot": ("wsd", m, "oneshot", "peek") for m in ("v5n", "v5s")}
+# WSD one-shot random masks: YOLOv5u's from submit_yolov5.sh; YOLO26's lived with the older results
+# (structural_pruning/random_spread) until the COCO-start re-run (submit_rerun_coco.sh) wrote them here too
+CHANNEL_DIRS |= {f"wsd_{m}_protect6_oneshot": ("wsd", m, "oneshot", "peek") for m in MODELS}
 CHANNEL_DIRS |= {
     "coco_n_protect6_activation_oneshot": ("coco", "n", "oneshot", "activation"),
     "coco_n_protect6_lrpilot_lr0.000125": ("coco", "n", "lrpilot", "peek"),

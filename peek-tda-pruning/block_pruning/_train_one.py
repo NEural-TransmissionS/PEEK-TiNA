@@ -80,7 +80,10 @@ def main() -> None:
         scores = {}
     else:
         rank_tag = "" if args.norm == "raw" else "norm"
-        ranking = json.loads(ranking_path(args.dataset, args.size, args.basis, args.scope, rank_tag).read_text())
+        path = ranking_path(args.dataset, args.size, args.basis, args.scope, rank_tag)
+        if not path.is_file() and rank_tag == "":  # a --norms file carries the raw scores too (l2 --scope all)
+            path = ranking_path(args.dataset, args.size, args.basis, args.scope, "norm")
+        ranking = json.loads(path.read_text())
         if args.norm != "raw":
             ranking = {**ranking, **ranking[args.norm]}  # that variant's scores, same candidates
         order, scores = cut_order(ranking, args.criterion)

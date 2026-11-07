@@ -9,6 +9,7 @@ ranking (or random order) that picks it. Writes into <out dir>:
                                                                 k = 1 and 3, all three scores (as YOLO26)
     python plan_yolov5.py <ds> <out dir> [tag (default yolov5)] [models (default v5n v5s)]
 With tag yolo26 and models n s it plans YOLO26 (added 2026-11-03 for viewsphere2); files are <tag>_<ds>_*.
+Since 2026-11-06 the L2 block baseline (labels l2-head-k<k>, l2-all-k<k>) is planned with the ranked sets.
 """
 import json
 import sys
@@ -17,7 +18,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, ".")
-from topo_prune import cut_order, ranking_path, scopes
+from topo_prune import cut_order, l2_scores, ranking_path, scopes
 
 ds, out = sys.argv[1], Path(sys.argv[2])
 tag = sys.argv[3] if len(sys.argv) > 3 else "yolov5"
@@ -37,6 +38,14 @@ for m in models:
                 seen.setdefault(key, (f"{crit}-{lab}-k{k}", args, True))
                 if ds == "coco" and lab == ("null" if m.endswith("n") else "grid") and k in (1, 3):
                     full_cuts.setdefault(key, args)
+    # L2 weight-magnitude baseline (added 2026-11-06): head and all-block scopes, raw scores only. Rankings
+    # written since then carry "l2"; older ones get it from the base weights here.
+    for lab, r, scope in (("head", head, "--scope head"), ("all", allr, "--scope all")):
+        if "l2" not in r:
+            r = {**r, "l2": l2_scores(f"weights/{ds}_{m}.pt", r["candidates"])}
+        order = cut_order(r, "l2")[0]
+        for k in (1, 2, 3):
+            seen.setdefault(frozenset(order[:k]), (f"l2-{lab}-k{k}", f"--criterion l2 --k {k} {scope}", True))
     for s in range(23):  # random block orders, as _train_one.py --random-order
         order = [int(i) for i in np.random.default_rng(s).permutation(scopes(m)["all"])]
         for k in (1, 2, 3):
