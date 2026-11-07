@@ -21,6 +21,7 @@
 # the fine-tunes) on viewsphere / viewsphere2; base-weight links are only created when missing (the re-run sets
 # them); O_ROOT / JOBLOG move the channel outputs and the job log (dry runs).
 set -euo pipefail
+. "$(dirname "$(readlink -f "$0")")/sbatch_retry.sh"   # retries when the controller is busy
 PHASE=$1; DS=$2
 T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=${O_ROOT:-$P/outputs/yolo26_tda}
 NOISE_VS=${NOISE_VS:-}

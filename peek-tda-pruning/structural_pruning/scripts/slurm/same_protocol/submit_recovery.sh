@@ -29,6 +29,7 @@
 #   STUDIES="probe budget"  DATASETS="wsd coco"  BUDGETS="250 500 1000 2500 5000"  WBLR=0
 # e.g. WBLR=1 STUDIES=probe bash submit_recovery.sh;  STUDIES=budget DATASETS=coco BUDGETS="25000 50000" bash ...
 set -euo pipefail
+. "$(dirname "$(readlink -f "$0")")/sbatch_retry.sh"   # retries when the controller is busy
 T=/shared/projects/tina/PEEK-TiNA; P=$T/PEEK-rvc-pruning; S=$T/topo-prune-shapes; O=${O_ROOT:-$P/outputs/yolo26_tda}
 STUDIES=${STUDIES:-probe budget}; DATASETS=${DATASETS:-wsd coco}; BUDGETS=${BUDGETS:-250 500 1000 2500 5000}; WBLR=${WBLR:-0}
 cd $P
