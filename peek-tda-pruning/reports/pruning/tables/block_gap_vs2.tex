@@ -1,17 +1,19 @@
-\begin{tabular}{llrrrrrrrrr}
+\begin{tabular}{llrrrrrrrrrrrr}
 \toprule
-Data, model & Ranking & \multicolumn{3}{c}{$k=1$} & \multicolumn{3}{c}{$k=2$} & \multicolumn{3}{c}{$k=3$} \\
-\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}
- & & C & H0 & H1 & C & H0 & H1 & C & H0 & H1 \\
+Data, model & Ranking & \multicolumn{4}{c}{$k=1$} & \multicolumn{4}{c}{$k=2$} & \multicolumn{4}{c}{$k=3$} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-10}\cmidrule(lr){11-14}
+ & & C & H0 & H1 & L2 & C & H0 & H1 & L2 & C & H0 & H1 & L2 \\
 \midrule
-Viewsphere v2 YOLO26n & Random (mean $\pm$ sd) & \multicolumn{3}{c}{0.443 $\pm$ 0.006} & \multicolumn{3}{c}{0.380 $\pm$ 0.098} & \multicolumn{3}{c}{0.364 $\pm$ 0.056} \\
- & Head (raw) & +0.001 & +0.001 & +0.001 & +0.031 & +0.031 & +0.031 & \textbf{+0.033} & \textbf{+0.033} & \textbf{+0.033} \\
- & All, grid & $-$0.002 & $-$0.002 & $-$0.002 & $-$0.095 & $-$0.095 & +0.028 & +0.018 & $-$0.025 & +0.018 \\
- & All, null & $-$0.003 & $-$0.003 & $-$0.009 & +0.038 & +0.026 & +0.036 & \textbf{+0.047} & +0.023 & +0.003 \\
+Viewsphere v2 YOLO26n & Random (mean $\pm$ sd) & \multicolumn{4}{c}{0.472 $\pm$ 0.005} & \multicolumn{4}{c}{0.452 $\pm$ 0.008} & \multicolumn{4}{c}{0.419 $\pm$ 0.016} \\
+ & Head (raw) & +0.005 & +0.005 & +0.005 & +0.005 & \textbf{+0.004} & \textbf{+0.004} & \textbf{+0.004} & \textbf{$-$0.017} & \textbf{$-$0.010} & \textbf{$-$0.010} & \textbf{$-$0.010} & \textbf{$-$0.009} \\
+ & All, grid & \textbf{+0.006} & \textbf{+0.006} & \textbf{$-$0.009} & -- & \textbf{$-$0.007} & \textbf{$-$0.007} & \textbf{$-$0.007} & -- & +0.000 & +0.000 & +0.000 & -- \\
+ & All, null & \textbf{$-$0.005} & \textbf{$-$0.005} & \textbf{+0.006} & -- & +0.003 & +0.003 & +0.003 & -- & +0.007 & +0.001 & \textbf{+0.010} & -- \\
+ & All, raw & -- & -- & -- & +0.005 & -- & -- & -- & \textbf{$-$0.017} & -- & -- & -- & +0.003 \\
 \midrule
-Viewsphere v2 YOLO26s & Random (mean $\pm$ sd) & \multicolumn{3}{c}{0.477 $\pm$ 0.009} & \multicolumn{3}{c}{0.455 $\pm$ 0.016} & \multicolumn{3}{c}{0.421 $\pm$ 0.025} \\
- & Head (raw) & +0.007 & +0.007 & +0.007 & +0.004 & +0.004 & +0.000 & +0.008 & +0.008 & +0.008 \\
- & All, grid & $-$0.036 & $-$0.036 & $-$0.036 & $-$0.022 & $-$0.022 & $-$0.000 & $-$0.017 & $-$0.017 & $-$0.017 \\
- & All, null & \textbf{$-$0.018} & \textbf{$-$0.031} & \textbf{+0.008} & \textbf{$-$0.021} & \textbf{$-$0.021} & $-$0.002 & $-$0.019 & $-$0.064 & \textbf{$-$0.028} \\
+Viewsphere v2 YOLO26s & Random (mean $\pm$ sd) & \multicolumn{4}{c}{0.511 $\pm$ 0.005} & \multicolumn{4}{c}{0.493 $\pm$ 0.008} & \multicolumn{4}{c}{0.469 $\pm$ 0.012} \\
+ & Head (raw) & +0.002 & +0.002 & +0.002 & +0.002 & \textbf{+0.006} & \textbf{+0.006} & \textbf{+0.006} & \textbf{$-$0.008} & $-$0.004 & $-$0.004 & $-$0.004 & \textbf{$-$0.009} \\
+ & All, grid & \textbf{$-$0.006} & \textbf{$-$0.006} & \textbf{$-$0.006} & -- & $-$0.003 & $-$0.003 & $-$0.003 & -- & \textbf{$-$0.015} & \textbf{$-$0.015} & \textbf{$-$0.015} & -- \\
+ & All, null & \textbf{+0.005} & \textbf{$-$0.006} & \textbf{+0.004} & -- & +0.003 & $-$0.003 & $-$0.000 & -- & \textbf{+0.006} & \textbf{$-$0.008} & \textbf{+0.006} & -- \\
+ & All, raw & -- & -- & -- & +0.002 & -- & -- & -- & \textbf{+0.014} & -- & -- & -- & \textbf{+0.010} \\
 \bottomrule
 \end{tabular}

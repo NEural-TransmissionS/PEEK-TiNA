@@ -1,17 +1,19 @@
-\begin{tabular}{llrrrrrrrrr}
+\begin{tabular}{llrrrrrrrrrrrr}
 \toprule
-Data, model (uncut) & Ranking & \multicolumn{3}{c}{$k=1$} & \multicolumn{3}{c}{$k=2$} & \multicolumn{3}{c}{$k=3$} \\
-\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}
- & & C & H0 & H1 & C & H0 & H1 & C & H0 & H1 \\
+Data, model (uncut) & Ranking & \multicolumn{4}{c}{$k=1$} & \multicolumn{4}{c}{$k=2$} & \multicolumn{4}{c}{$k=3$} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-10}\cmidrule(lr){11-14}
+ & & C & H0 & H1 & L2 & C & H0 & H1 & L2 & C & H0 & H1 & L2 \\
 \midrule
-Viewsphere v2 YOLOv5n (0.393) & Random: median (range) & \multicolumn{3}{c}{0.396 (0.384--0.407)} & \multicolumn{3}{c}{0.390 (0.088--0.419)} & \multicolumn{3}{c}{0.353 (0.150--0.411)} \\
- & Head (raw) & 0.399 & 0.399 & 0.399 & 0.271 & 0.271 & 0.271 & 0.345 & 0.345 & 0.345 \\
- & All, grid & \textbf{0.400} & \textbf{0.400} & \textbf{0.400} & \textbf{0.378} & \textbf{0.378} & 0.199 & 0.345 & 0.308 & 0.345 \\
- & All, null & 0.349 & 0.397 & 0.393 & 0.301 & 0.297 & 0.340 & 0.292 & \textbf{0.364} & 0.324 \\
+Viewsphere v2 YOLOv5n (0.474) & Random: median (range) & \multicolumn{4}{c}{0.460 (0.446--0.463)} & \multicolumn{4}{c}{0.447 (0.419--0.456)} & \multicolumn{4}{c}{0.425 (0.371--0.446)} \\
+ & Head (raw) & \textbf{0.465$^\dagger$} & \textbf{0.465$^\dagger$} & \textbf{0.465$^\dagger$} & 0.461 & \textbf{0.450} & \textbf{0.450} & \textbf{0.450} & \textbf{0.450} & 0.430 & 0.430 & 0.430 & 0.438 \\
+ & All, grid & 0.453 & 0.453 & 0.453 & -- & 0.419 & 0.419 & 0.431 & -- & 0.370 & 0.370 & 0.370 & -- \\
+ & All, null & 0.447 & 0.458 & 0.447 & -- & 0.434 & 0.431 & 0.426 & -- & 0.403 & 0.410 & 0.401 & -- \\
+ & All, raw & -- & -- & -- & 0.461 & -- & -- & -- & \textbf{0.450} & -- & -- & -- & \textbf{0.444} \\
 \midrule
-Viewsphere v2 YOLOv5s (0.411) & Random: median (range) & \multicolumn{3}{c}{0.445 (0.425--0.475)} & \multicolumn{3}{c}{0.436 (0.379--0.465)} & \multicolumn{3}{c}{0.408 (0.290--0.447)} \\
- & Head (raw) & 0.459 & 0.459 & 0.459 & \textbf{0.462} & \textbf{0.462} & 0.419 & \textbf{0.417} & \textbf{0.417} & \textbf{0.417} \\
- & All, grid & \textbf{0.460} & \textbf{0.460} & \textbf{0.460} & 0.433 & 0.433 & 0.433 & 0.372 & 0.342 & 0.372 \\
- & All, null & 0.372 & 0.391 & 0.432 & 0.375 & 0.397 & 0.434 & 0.312 & 0.312 & 0.406 \\
+Viewsphere v2 YOLOv5s (0.511) & Random: median (range) & \multicolumn{4}{c}{0.501 (0.489--0.507)} & \multicolumn{4}{c}{0.483 (0.447--0.499)} & \multicolumn{4}{c}{0.461 (0.401--0.482)} \\
+ & Head (raw) & \textbf{0.504} & \textbf{0.504} & \textbf{0.504} & \textbf{0.504} & 0.496 & 0.496 & 0.485 & 0.496 & 0.470 & 0.470 & 0.470 & 0.476 \\
+ & All, grid & 0.491 & 0.491 & 0.497 & -- & 0.452 & 0.461 & 0.462 & -- & 0.400 & 0.400 & 0.400 & -- \\
+ & All, null & 0.497 & 0.497 & 0.494 & -- & 0.479 & 0.462 & 0.486 & -- & 0.436 & 0.448 & 0.455 & -- \\
+ & All, raw & -- & -- & -- & \textbf{0.504} & -- & -- & -- & \textbf{0.499} & -- & -- & -- & \textbf{0.485$^\dagger$} \\
 \bottomrule
 \end{tabular}

@@ -1,8 +1,8 @@
 """Builds the LaTeX tables for pruning_report.tex from the tina results CSVs (results/same_protocol/).
 
 Writes tables/ once per architecture (YOLO26: no suffix; YOLOv5u: _v5; Viewsphere v2 versions add _vs2):<ds>_channel (one-shot and fine-tuned mAP of field H1 / H0 / H0+H1 / L2 / random, one per
-dataset), recovery (pruning over training budgets, all datasets), block_gap (each TDA block ranking -
-combined, H0, H1 scores - minus random block choice), blocks (block rankings vs random orders, all datasets) and cost (GFLOPs and inference time of the channel-pruned models). The prose lives in pruning_report.tex; this file only turns numbers into tabulars.
+dataset), recovery (pruning over training budgets, all datasets), block_gap (each block ranking -
+TDA combined, H0, H1 scores and the L2 weight-norm baseline - minus random block choice), blocks (block rankings vs random orders, all datasets) and cost (GFLOPs and inference time of the channel-pruned models). The prose lives in pruning_report.tex; this file only turns numbers into tabulars.
 
     python make_tables.py [path to results/same_protocol; default: this repo's]
 """
@@ -73,12 +73,6 @@ def channel_runs(ch, ds, models, name):
             t[("ft", r["model"], c, x)].append(float(r["map_ft"]))
         if r["set"] == "grid" and r["seed"] == "42" and c == "none":
             t[("os", r["model"], c, x)].append(float(r["map_bn"]))
-    if ds == "wsd" and name == "YOLO26":  # YOLO26 WSD's 10 one-shot random masks live with the older results
-        for m in models:
-            with open(SRC.parent / "structural_pruning" / "random_spread" / f"wsd_{m}_oneshot.csv") as fh:
-                for r in csv.DictReader(fh):
-                    if r["criterion"] == "random":
-                        t[("os", m, "random", ratio(r))].append(float(r["map50_95_after_bn_recal"]))
     return t
 
 
@@ -221,8 +215,17 @@ def random_orders(k):
     return [frozenset(int(i) for i in np.random.default_rng(s).permutation(BLOCKS_ALL)[:k]) for s in range(N_RANDOM)]
 
 
-LABS = {"head": "Head (raw)", "grid": "All, grid", "null": "All, null"}
-SCORES = {"combined": "C", "h0": "H0", "h1": "H1"}  # block ranking scores: H0/H1 blend, H0 only, H1 only
+LABS = {"head": "Head (raw)", "grid": "All, grid", "null": "All, null", "all": "All, raw"}
+# block ranking scores: H0/H1 blend, H0 only, H1 only, L2 (conv-weight RMS baseline, added with the COCO-base
+# re-run 2026-11-07; not run on COCO). L2 has rankings head and all (raw); the TDA scores head, grid and null.
+SCORES = {"combined": "C", "h0": "H0", "h1": "H1", "l2": "L2"}
+NA = "--"  # ranking not run (L2 on grid / null, TDA on all-raw, L2 on COCO)
+
+
+def cut_runs(runs, ranked, ds, m, k, c, lab):
+    """Seed -> mAPs of the cut that ranking picks, or None if that ranking was not run."""
+    key = (ds, m, k, c, lab)
+    return runs[(ds, m, ranked[key])] if key in ranked else None
 
 
 def block_data(bl):
@@ -239,9 +242,10 @@ def block_data(bl):
 
 
 def block_header(first):
-    return [r"\begin{tabular}{ll" + "r" * 9 + "}", r"\toprule",
-            rf"{first} & Ranking & " + " & ".join(rf"\multicolumn{{3}}{{c}}{{$k={k}$}}" for k in (1, 2, 3)) + r" \\",
-            r"\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}",
+    n = len(SCORES)
+    return [r"\begin{tabular}{ll" + "r" * 3 * n + "}", r"\toprule",
+            rf"{first} & Ranking & " + " & ".join(rf"\multicolumn{{{n}}}{{c}}{{$k={k}$}}" for k in (1, 2, 3)) + r" \\",
+            "".join(rf"\cmidrule(lr){{{3 + i * n}-{2 + (i + 1) * n}}}" for i in range(3)),
             " & & " +" & ".join(v for _ in (1, 2, 3) for v in SCORES.values()) + r" \\"]
 
 
@@ -254,12 +258,16 @@ def block_gap(runs, ranked):
             lines.append(r"\midrule")
             rnd = {k: [st.mean(runs[(ds, m, c)]["42"]) for c in random_orders(k)] for k in (1, 2, 3)}
             lines.append(f"{name} {NAME}{m[-1]} & Random (mean $\\pm$ sd) & "
-                         + " & ".join(rf"\multicolumn{{3}}{{c}}{{{st.mean(rnd[k]):.3f} $\pm$ {sd(rnd[k]):.3f}}}" for k in (1, 2, 3)) + r" \\")
+                         + " & ".join(rf"\multicolumn{{{len(SCORES)}}}{{c}}{{{st.mean(rnd[k]):.3f} $\pm$ {sd(rnd[k]):.3f}}}" for k in (1, 2, 3)) + r" \\")
             for lab, title in LABS.items():
                 cells = []
                 for k in (1, 2, 3):
                     for c in SCORES:
-                        v = [st.mean(x) for x in runs[(ds, m, ranked[(ds, m, k, c, lab)])].values()]
+                        cr = cut_runs(runs, ranked, ds, m, k, c, lab)
+                        if cr is None:
+                            cells.append(NA)
+                            continue
+                        v = [st.mean(x) for x in cr.values()]
                         d = st.mean(v) - st.mean(rnd[k])
                         s = f"{d:+.3f}".replace("-", "$-$")
                         cells.append(rf"\textbf{{{s}}}" if holds(v, rnd[k]) or holds(rnd[k], v) else s)
@@ -275,15 +283,19 @@ def blocks(runs, ranked):
         for m in MODELS:
             lines.append(r"\midrule")
             rv = {k: [st.mean(runs[(ds, m, c)]["42"]) for c in random_orders(k)] for k in (1, 2, 3)}
-            v = {(k, c, lab): mean((ds, m, ranked[(ds, m, k, c, lab)])) for k in (1, 2, 3) for c in SCORES for lab in LABS}
+            v = {(k, c, lab): mean((ds, m, ranked[(ds, m, k, c, lab)])) for k in (1, 2, 3) for c in SCORES for lab in LABS
+                 if (ds, m, k, c, lab) in ranked}
             top = {k: max(x for (kk, _, _), x in v.items() if kk == k) for k in (1, 2, 3)}
             lines.append(f"{name} {NAME}{m[-1]} ({mean((ds, m, frozenset())):.3f}) & Random: median (range) & "
-                         + " & ".join(rf"\multicolumn{{3}}{{c}}{{{st.median(rv[k]):.3f} ({min(rv[k]):.3f}--{max(rv[k]):.3f})}}"
+                         + " & ".join(rf"\multicolumn{{{len(SCORES)}}}{{c}}{{{st.median(rv[k]):.3f} ({min(rv[k]):.3f}--{max(rv[k]):.3f})}}"
                                       for k in (1, 2, 3)) + r" \\")
             for lab, title in LABS.items():
                 cells = []
                 for k in (1, 2, 3):
                     for c in SCORES:
+                        if (k, c, lab) not in v:
+                            cells.append(NA)
+                            continue
                         x = v[(k, c, lab)]
                         s = f"{x:.3f}" + (r"$^\dagger$" if x > max(rv[k]) else "")
                         cells.append(rf"\textbf{{{s}}}" if x == top[k] else s)

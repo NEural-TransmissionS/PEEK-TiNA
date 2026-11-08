@@ -4,18 +4,18 @@
 \cmidrule(lr){3-5}\cmidrule(lr){6-8}
 Model & Criterion & 10\% & 30\% & 50\% & 10\% & 30\% & 50\% \\
 \midrule
-YOLOv5n & Unpruned & \multicolumn{3}{c}{0.074} & \multicolumn{3}{c}{0.404} \\
- & Field H1 & 0.171 & 0.049 & 0.003 & 0.373 & 0.344 & 0.153 \\
- & Field H0 & \textbf{0.204} & \textbf{0.067} & 0.004 & 0.370 & 0.338 & 0.307 \\
- & Field H0+H1 & 0.196 & 0.067 & \textbf{0.004} & \textbf{0.395} & 0.336 & 0.227 \\
- & L2 & 0.191 & 0.015 & 0.002 & 0.348 & \textbf{0.373} & \textbf{0.313} \\
- & Random & 0.155 & 0.011 & 0.001 & 0.346 & 0.362 & 0.244 \\
+YOLOv5n & Unpruned & \multicolumn{3}{c}{0.477} & \multicolumn{3}{c}{0.473} \\
+ & Field H1 & 0.385 & 0.160 & 0.011 & \textbf{0.465} & 0.441 & 0.406 \\
+ & Field H0 & \textbf{0.410}$^\dagger$ & \textbf{0.172}$^\dagger$ & 0.004 & 0.462 & \textbf{0.446} & \textbf{0.407} \\
+ & Field H0+H1 & 0.406 & 0.170 & \textbf{0.012}$^\dagger$ & 0.464 & 0.445 & 0.403 \\
+ & L2 & 0.283 & 0.016 & 0.000 & 0.461 & 0.434 & 0.343 \\
+ & Random & 0.334 & 0.012 & 0.000 & 0.459 & 0.434 & 0.372 \\
 \midrule
-YOLOv5s & Unpruned & \multicolumn{3}{c}{0.294} & \multicolumn{3}{c}{0.453} \\
- & Field H1 & 0.304 & 0.125 & 0.010 & 0.404 & 0.374 & \textbf{0.385} \\
- & Field H0 & 0.317 & 0.114 & 0.009 & 0.419 & \textbf{0.433} & 0.330 \\
- & Field H0+H1 & 0.306 & \textbf{0.142} & \textbf{0.010} & \textbf{0.436} & 0.389 & 0.366 \\
- & L2 & \textbf{0.323} & 0.053 & 0.002 & 0.418 & 0.348 & 0.331 \\
- & Random & 0.222 & 0.038 & 0.001 & 0.429 & 0.402 & 0.317 \\
+YOLOv5s & Unpruned & \multicolumn{3}{c}{0.515} & \multicolumn{3}{c}{0.512} \\
+ & Field H1 & 0.462 & 0.250 & 0.018 & 0.503 & \textbf{0.485} & 0.452 \\
+ & Field H0 & \textbf{0.462} & 0.226 & \textbf{0.040}$^\dagger$ & \textbf{0.504} & 0.481 & 0.449 \\
+ & Field H0+H1 & 0.459 & \textbf{0.262}$^\dagger$ & 0.026 & 0.503 & 0.483 & \textbf{0.453} \\
+ & L2 & 0.293 & 0.025 & 0.001 & 0.501 & 0.471 & 0.401 \\
+ & Random & 0.413 & 0.072 & 0.000 & 0.501 & 0.475 & 0.434 \\
 \bottomrule
 \end{tabular}

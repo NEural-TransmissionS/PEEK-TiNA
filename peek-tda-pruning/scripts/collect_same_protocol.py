@@ -81,6 +81,13 @@ def rankings(results: Path) -> dict:
                     for k in (1, 2, 3):
                         cut = " ".join(map(str, sorted(order[:k])))
                         labs.setdefault((ds, m, cut), []).append(f"{crit}-{lab}-k{k}")
+            # L2 block baseline (conv-weight RMS, lowest cut first; COCO-base re-run 2026-11-07, not on COCO):
+            # head = the 4 head blocks, all = all 8 C3k2 / C3 blocks (no normalisation)
+            for lab, r in (("head", head), ("all", allr)):
+                if "l2" in r:
+                    order = sorted(r["candidates"], key=lambda i: r["l2"][str(i)])
+                    for k in (1, 2, 3):
+                        labs.setdefault((ds, m, " ".join(map(str, sorted(order[:k])))), []).append(f"l2-{lab}-k{k}")
     return {key: " ".join(v) for key, v in labs.items()}
 
 
