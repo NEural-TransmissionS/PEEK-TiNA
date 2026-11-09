@@ -1,0 +1,27 @@
+\begin{tabular}{llrrrrrrrrr}
+\toprule
+Data, model (uncut) & Ranking & \multicolumn{3}{c}{$k=1$} & \multicolumn{3}{c}{$k=2$} & \multicolumn{3}{c}{$k=3$} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}
+ & & C & H0 & H1 & C & H0 & H1 & C & H0 & H1 \\
+\midrule
+WSD YOLOv5n (0.366) & Random: median (range) & \multicolumn{3}{c}{0.356 (0.344--0.367)} & \multicolumn{3}{c}{0.344 (0.327--0.364)} & \multicolumn{3}{c}{0.342 (0.317--0.360)} \\
+ & Head (raw) & 0.357 & 0.357 & 0.357 & 0.346 & 0.346 & 0.346 & 0.344 & 0.344 & 0.344 \\
+ & All, grid & \textbf{0.366} & \textbf{0.366} & 0.357 & 0.361 & 0.361 & 0.352 & \textbf{0.355} & 0.353 & \textbf{0.355} \\
+ & All, null & 0.356 & 0.347 & \textbf{0.366} & \textbf{0.363} & 0.329 & \textbf{0.363} & 0.327 & 0.312 & 0.353 \\
+\midrule
+WSD YOLOv5s (0.389) & Random: median (range) & \multicolumn{3}{c}{0.381 (0.366--0.391)} & \multicolumn{3}{c}{0.367 (0.345--0.386)} & \multicolumn{3}{c}{0.365 (0.334--0.389)} \\
+ & Head (raw) & 0.372 & 0.372 & 0.372 & 0.377 & 0.377 & 0.377 & 0.367 & 0.367 & 0.367 \\
+ & All, grid & \textbf{0.385} & \textbf{0.385} & \textbf{0.385} & \textbf{0.385} & \textbf{0.385} & \textbf{0.385} & 0.382 & 0.382 & 0.382 \\
+ & All, null & 0.377 & 0.372 & 0.377 & \textbf{0.385} & 0.355 & \textbf{0.385} & 0.363 & 0.332 & \textbf{0.390$^\dagger$} \\
+\midrule
+Viewsphere YOLOv5n (0.522) & Random: median (range) & \multicolumn{3}{c}{0.506 (0.457--0.509)} & \multicolumn{3}{c}{0.464 (0.391--0.504)} & \multicolumn{3}{c}{0.424 (0.340--0.471)} \\
+ & Head (raw) & \textbf{0.518$^\dagger$} & \textbf{0.518$^\dagger$} & \textbf{0.518$^\dagger$} & 0.458 & 0.462 & 0.458 & \textbf{0.458} & \textbf{0.458} & \textbf{0.458} \\
+ & All, grid & 0.506 & 0.506 & 0.454 & 0.431 & \textbf{0.474} & 0.404 & 0.360 & 0.360 & 0.384 \\
+ & All, null & 0.454 & 0.486 & 0.486 & 0.404 & 0.404 & 0.434 & 0.372 & 0.384 & 0.360 \\
+\midrule
+Viewsphere YOLOv5s (0.589) & Random: median (range) & \multicolumn{3}{c}{0.565 (0.539--0.591)} & \multicolumn{3}{c}{0.541 (0.493--0.575)} & \multicolumn{3}{c}{0.504 (0.370--0.565)} \\
+ & Head (raw) & 0.572 & 0.572 & 0.572 & 0.563 & 0.563 & 0.563 & \textbf{0.529} & \textbf{0.529} & \textbf{0.529} \\
+ & All, grid & 0.562 & 0.562 & 0.562 & 0.544 & 0.544 & 0.555 & 0.458 & 0.458 & 0.458 \\
+ & All, null & 0.546 & 0.548 & \textbf{0.574} & 0.481 & 0.513 & \textbf{0.568} & 0.442 & 0.442 & 0.495 \\
+\bottomrule
+\end{tabular}

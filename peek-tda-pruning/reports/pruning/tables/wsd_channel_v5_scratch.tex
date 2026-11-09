@@ -1,0 +1,21 @@
+\begin{tabular}{llrrrrrr}
+\toprule
+ & & \multicolumn{3}{c}{One-shot} & \multicolumn{3}{c}{After 20-epoch fine-tune} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+Model & Criterion & 10\% & 30\% & 50\% & 10\% & 30\% & 50\% \\
+\midrule
+YOLOv5n & Unpruned & \multicolumn{3}{c}{0.362} & \multicolumn{3}{c}{0.365} \\
+ & Field H1 & 0.303 & 0.122 & 0.009 & 0.361 & 0.359 & 0.359 \\
+ & Field H0 & 0.290 & 0.104 & 0.007 & 0.361 & \textbf{0.360} & 0.354 \\
+ & Field H0+H1 & 0.311 & 0.102 & 0.009 & \textbf{0.365} & 0.359 & 0.357 \\
+ & L2 & \textbf{0.319}$^\dagger$ & \textbf{0.164}$^\dagger$ & \textbf{0.031}$^\dagger$ & 0.363 & 0.358 & \textbf{0.360} \\
+ & Random & 0.258 & 0.037 & 0.002 & 0.360 & 0.354 & 0.342 \\
+\midrule
+YOLOv5s & Unpruned & \multicolumn{3}{c}{0.399} & \multicolumn{3}{c}{0.393} \\
+ & Field H1 & 0.334 & 0.123 & 0.011 & 0.388 & 0.378 & 0.377 \\
+ & Field H0 & \textbf{0.348}$^\dagger$ & 0.130 & 0.015 & 0.387 & 0.375 & 0.381 \\
+ & Field H0+H1 & 0.345 & 0.123 & 0.012 & \textbf{0.389} & \textbf{0.382} & \textbf{0.385} \\
+ & L2 & 0.343 & \textbf{0.205}$^\dagger$ & \textbf{0.052}$^\dagger$ & 0.385 & 0.373 & 0.368 \\
+ & Random & 0.306 & 0.066 & 0.003 & 0.383 & 0.380 & 0.385 \\
+\bottomrule
+\end{tabular}

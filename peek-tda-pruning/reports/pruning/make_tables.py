@@ -5,6 +5,8 @@ dataset), recovery (pruning over training budgets, all datasets), block_gap (eac
 TDA combined, H0, H1 scores and the L2 weight-norm baseline - minus random block choice), blocks (block rankings vs random orders, all datasets) and cost (GFLOPs and inference time of the channel-pruned models). The prose lives in pruning_report.tex; this file only turns numbers into tabulars.
 
     python make_tables.py [path to results/same_protocol; default: this repo's]
+    python make_tables.py --scratch   # from-scratch starting models (results/same_protocol_scratch, the results
+                                      # before the COCO-base re-run): same tables with suffix _scratch, no COCO, no cost
 """
 
 import csv
@@ -16,9 +18,15 @@ from pathlib import Path
 import numpy as np
 
 # collected CSVs: tina/results/same_protocol (scripts/collect_same_protocol.py), or another copy as argv[1]
-SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parents[2] / "results" / "same_protocol"
+SCRATCH = "--scratch" in sys.argv
+ARGS = [a for a in sys.argv[1:] if a != "--scratch"]
+RESULTS = Path(__file__).resolve().parents[2] / "results"
+SRC = Path(ARGS[0]) if ARGS else RESULTS / ("same_protocol_scratch" if SCRATCH else "same_protocol")
+TAG = "_scratch" if SCRATCH else ""  # appended to every table name
 OUT = Path(__file__).resolve().parent / "tables"
 DATA = {"wsd": "WSD", "viewsphere": "Viewsphere", "coco": "COCO"}
+if SCRATCH:  # COCO's bases were the COCO weights in both runs: its results did not change
+    del DATA["coco"]
 V2 = {"viewsphere2": "Viewsphere v2"}  # v2_wsd4, 17 satellites: written separately, with suffix _vs2
 SHOW = ("0.1", "0.3", "0.5")  # ratios shown
 CRIT = {"field_h1": "Field H1", "field_h0": "Field H0", "field_total": "Field H0+H1", "l2": "L2", "random": "Random"}
@@ -51,7 +59,7 @@ def holds(a, b):
 
 def write(name, lines):
     OUT.mkdir(exist_ok=True)
-    (OUT / f"{name}{SFX}.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (OUT / f"{name}{SFX}{TAG}.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def pct(x):
@@ -73,6 +81,14 @@ def channel_runs(ch, ds, models, name):
             t[("ft", r["model"], c, x)].append(float(r["map_ft"]))
         if r["set"] == "grid" and r["seed"] == "42" and c == "none":
             t[("os", r["model"], c, x)].append(float(r["map_bn"]))
+    # from-scratch YOLO26 WSD: its 10 one-shot random masks live with the older results
+    spread = RESULTS / "structural_pruning" / "random_spread"
+    for m in models:
+        if ds == "wsd" and not any(k[:3] == ("os", m, "random") for k in t) and (spread / f"wsd_{m}_oneshot.csv").exists():
+            with open(spread / f"wsd_{m}_oneshot.csv") as fh:
+                for r in csv.DictReader(fh):
+                    if r["criterion"] == "random":
+                        t[("os", m, "random", ratio(r))].append(float(r["map50_95_after_bn_recal"]))
     return t
 
 
@@ -220,6 +236,8 @@ LABS = {"head": "Head (raw)", "grid": "All, grid", "null": "All, null", "all": "
 # re-run 2026-11-07; not run on COCO). L2 has rankings head and all (raw); the TDA scores head, grid and null.
 SCORES = {"combined": "C", "h0": "H0", "h1": "H1", "l2": "L2"}
 NA = "--"  # ranking not run (L2 on grid / null, TDA on all-raw, L2 on COCO)
+if SCRATCH:  # the from-scratch run had no L2 block baseline
+    del SCORES["l2"], LABS["all"]
 
 
 def cut_runs(runs, ranked, ds, m, k, c, lab):
@@ -305,7 +323,7 @@ def blocks(runs, ranked):
 
 if __name__ == "__main__":
     ch, bud, bl = load("channel_runs.csv"), load("budget_runs.csv"), load("block_runs.csv")
-    gpu, cpu = load("inference_gpu.csv"), load("inference_cpu.csv")
+    gpu, cpu = ([], []) if SCRATCH else (load("inference_gpu.csv"), load("inference_cpu.csv"))
     for arch in ARCHS:
         MODELS, NAME, SFX, BLOCKS_ALL = ARCHS[arch]
         for ds in DATA:
@@ -314,7 +332,9 @@ if __name__ == "__main__":
         runs, ranked = block_data(bl)
         block_gap(runs, ranked)
         blocks(runs, ranked)
-        if any(r["model"] in MODELS for r in gpu) and any(r["model"] in MODELS for r in cpu):
+        if SCRATCH:
+            pass  # pruned shapes do not depend on the starting weights: the cost tables cover both
+        elif any(r["model"] in MODELS for r in gpu) and any(r["model"] in MODELS for r in cpu):
             cost(ch, gpu, cpu)
         else:
             print(f"no {NAME} inference timings yet: cost{SFX} not written")

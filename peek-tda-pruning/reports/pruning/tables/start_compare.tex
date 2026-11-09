@@ -1,0 +1,18 @@
+\begin{tabular}{llrrrrrr}
+\toprule
+ & & \multicolumn{3}{c}{One-shot} & \multicolumn{3}{c}{After 20-epoch fine-tune} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+Dataset & Starting model & Wins & vs L2, 30\% & vs L2, 50\% & Wins & vs L2, 30\% & vs L2, 50\% \\
+\midrule
+WSD & From scratch & 3/20 & $-$0.066 & $-$0.045 & 17/20 & +0.002 & +0.003 \\
+ & COCO-pretrained & 20/20 & +0.077 & +0.043 & 17/20 & +0.001 & +0.008 \\
+\midrule
+Viewsphere & From scratch & 15/20 & +0.016 & +0.016 & 10/20 & $-$0.007 & $-$0.007 \\
+ & COCO-pretrained & 20/20 & +0.153 & +0.067 & 19/20 & +0.019 & +0.042 \\
+\midrule
+Viewsphere v2 & From scratch & 18/20 & +0.063 & +0.018 & 10/20 & +0.002 & $-$0.017 \\
+ & COCO-pretrained & 20/20 & +0.195 & +0.041 & 20/20 & +0.012 & +0.045 \\
+\midrule
+COCO & COCO weights (both runs) & 18/20 & +0.015 & +0.001 & 19/20 & +0.017 & +0.038 \\
+\bottomrule
+\end{tabular}
